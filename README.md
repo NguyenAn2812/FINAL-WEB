@@ -4,7 +4,7 @@
 This is a YouTube Music-style web application built with PHP + Bootstrap using the MVC architecture. Below is the task allocation by functional groups.
 ---
 
-## ✅ Combo 1 – Backend & Core Logic
+## ✅ Combo 1 – Backend & Core Logic(Nhat An)
 
 ### 1. Project Structure & Initialization
 - Set up folder and file structure based on MVC pattern
@@ -30,7 +30,7 @@ This is a YouTube Music-style web application built with PHP + Bootstrap using t
 
 ---
 
-## ✅ Combo 2 – Frontend & UI/UX
+## ✅ Combo 2 – Frontend & UI/UX (Thanh Hai)
 
 ### 1. Layout & Structure
 - Build main layout files: `header.php`, `footer.php`
@@ -51,7 +51,7 @@ This is a YouTube Music-style web application built with PHP + Bootstrap using t
 
 ---
 
-## ✅ Combo 3 – Testing & Sample Data
+## ✅ Combo 3 – Testing & Sample Data (Quang Vu)
 
 ### 1. Sample Data Setup
 - Upload a few demo songs into `public/uploads/`
