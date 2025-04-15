@@ -82,14 +82,3 @@ This is a YouTube Music-style web application built with PHP + Bootstrap using t
 
 ---
 
-## ✅ Suggested Timeline
-
-| Day     | Tasks                                           |
-|---------|-------------------------------------------------|
-| Day 1   | Set up MVC structure, create login/register form, upload demo songs |
-| Day 2   | Backend logic & rendering music list interface  |
-| Day 3   | Music player, playlist logic, like feature      |
-| Day 4   | Testing, debugging, and writing final documentation |
-
----
-
