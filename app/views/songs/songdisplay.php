@@ -17,7 +17,7 @@
         <!-- LIST -->
         <div class="flex-1 overflow-y-auto">
             <h3 class="text-lg font-semibold mb-4">🎵 Danh sách phát</h3>
-            <?php $this->insert('songs/listsongs', ['songs' => $songs]); ?>
+            <?php $this->insert('songs/listsongs', ['songs' => $relatedSongs]); ?>
         </div>
     </div>
 </div>
