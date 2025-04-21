@@ -1,3 +1,5 @@
+console.log("BASE:", BASE);
+
 function loadComponent(name) {
     fetch(`${BASE}/component/${name}`)
         .then(response => {
