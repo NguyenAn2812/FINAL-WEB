@@ -71,13 +71,14 @@ class SongController
             return;
         }
     
-        Song::create([
+        $this->songModel->create([
             'title' => $title,
             'description' => $description,
             'filename' => $musicName,
             'thumbnail' => $thumbName,
             'user_id' => $_SESSION['user']['id'] ?? null
         ]);
+        
     
         file_put_contents(__DIR__ . '/../../upload_debug.log', "Upload OK\n", FILE_APPEND);
         header("Location: " . BASE_URL);
