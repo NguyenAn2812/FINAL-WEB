@@ -10,7 +10,7 @@ class Database {
     private $pdo;
 
     private function __construct() {
-        $config = require __DIR__ . '/../config.php';
+        $config = require __DIR__ . '/config.php';
         $dbConfig = $config['db'];
 
         try {
