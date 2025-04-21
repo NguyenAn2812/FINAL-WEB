@@ -1,0 +1,83 @@
+.box{
+    background-color: aqua;
+}
+.playlist-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+.playlist-info {
+    color: #aaa;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+body {
+background-color: #000;
+color: white;
+}
+
+.playlist-container {
+position: relative;
+}
+
+.playlist-wrapper {
+overflow-x: auto;
+scroll-behavior: smooth;
+}
+
+.playlist-row {
+display: flex;
+flex-wrap: nowrap;
+gap: 20px;
+padding-bottom: 10px;
+}
+
+.playlist-card {
+flex: 0 0 auto;
+width: 300px;
+border-radius: 10px;
+overflow: hidden;
+cursor: pointer;
+}
+
+.playlist-card img {
+width: 100%;
+height: 300px;
+object-fit: cover;
+transition: filter 0.3s ease;
+}
+
+.playlist-card:hover img {
+filter: brightness(0.7);
+}
+
+.playlist-card-body {
+padding: 10px;
+}
+
+/* Hide scroll bar */
+.playlist-wrapper::-webkit-scrollbar {
+display: none;
+}
+
+.playlist-wrapper {
+-ms-overflow-style: none;
+scrollbar-width: none;
+}
+
+.scroll-btn {
+width: 45px; /* Điều chỉnh kích thước nút */
+height: 45px; /* Đảm bảo chiều cao bằng chiều rộng để tạo hình tròn */
+border-radius: 50%; /* Tạo hình tròn */
+background-color: transparent; /* Nền trong suốt */
+color: white; /* Chữ trong suốt ban đầu */
+font-size: 30px; /* Kích thước chữ */
+line-height: 0px;
+}
+
+.profile-avatar {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}
