@@ -211,20 +211,19 @@ function setCurrentPlaylist(songArray) {
     currentPlaylist = songArray;
 }
 function playNext() {
-    console.log("Next clicked");
-    if (!currentPlaylist || currentPlaylist.length === 0) {
-        console.warn("currentPlaylist is empty");
-        return;
+    if ((!currentPlaylist || currentPlaylist.length === 0) && document.querySelectorAll('[data-songcard]').length > 0) {
+        regeneratePlaylistFromDOM();
     }
 
-    const index = currentPlaylist.findIndex(song => song.id === currentSongId);
-    console.log("Current song index in playlist:", index);
-
-    if (index !== -1 && index < currentPlaylist.length - 1) {
-        playSongFromObject(currentPlaylist[index + 1]);
-    } else {
-        playRandomFromListsongs();
+    if (currentPlaylist && currentPlaylist.length > 0 && currentSongId !== null) {
+        const index = currentPlaylist.findIndex(song => song.id === currentSongId);
+        if (index !== -1 && index < currentPlaylist.length - 1) {
+            playSongFromObject(currentPlaylist[index + 1]);
+            return;
+        }
     }
+
+    playRandomFromListsongs();
 }
 
 function playPrevious() {
