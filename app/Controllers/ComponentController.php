@@ -78,6 +78,7 @@ class ComponentController
                 break;
 
             case 'home':
+                die('🛑 Đã vào case HOME');
                 $songModel = new Song();
                 $songs = $songModel->getAllWithArtist(); 
 
