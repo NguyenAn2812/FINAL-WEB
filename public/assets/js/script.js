@@ -107,7 +107,8 @@ function playSong(file, title, artist, thumb, songId = null, showDisplay = true)
     if (showDisplay && songId !== null) {
         loadSongDisplay(songId);
     }
-    highlightNowPlaying();
+    loadSongDisplay(songId);
+
 
 }
 function togglePlay() {
@@ -178,6 +179,7 @@ function loadSongDisplay(songId) {
         const app = document.getElementById('app');
         if (app) {
           app.innerHTML = html;
+          highlightNowPlaying();
         }
       })
       .catch(err => {
