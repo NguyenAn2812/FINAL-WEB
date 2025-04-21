@@ -1,11 +1,12 @@
 <div 
-onclick='playSong(
-    "<?= $this->asset("/uploads/songs/{$song['filename']}") ?>",
-    "<?= htmlspecialchars($song['title'], ENT_QUOTES) ?>",
-    "<?= htmlspecialchars($song['artist'] ?? 'Unknown', ENT_QUOTES) ?>",
-    "<?= $this->asset("/uploads/songs/{$song['thumbnail']}") ?>"
-); loadSongDisplay(<?= $song['id'] ?>);'
-class="cursor-pointer bg-[#1e1e1e] rounded p-4 w-60 shadow mx-2 my-2 hover:bg-[#2a2a2a] transition">
+    onclick='playSong(
+            "<?= $this->asset("/uploads/songs/{$song['filename']}") ?>",
+            "<?= addslashes($song['title']) ?>",
+            "<?= addslashes($song['artist'] ?? 'Unknown') ?>",
+            "<?= $this->asset("/uploads/songs/{$song['thumbnail']}") ?>",
+            <?= $song['id'] ?>
+        )'
+    class="cursor-pointer bg-[#1e1e1e] rounded p-4 w-60 shadow mx-2 my-2 hover:bg-[#2a2a2a] transition">
 
     <img src="<?= $this->asset("/uploads/songs/{$song['thumbnail']}") ?>"
          class="w-full h-32 object-cover rounded mb-2"

@@ -83,8 +83,8 @@ function closeRegisterModal() {
 const audio = document.getElementById('global-audio');
 const playIcon = document.getElementById('play-icon');
 const controllerBar = document.getElementById('controller-bar');
-
-function playSong(file, title, artist, thumb) {
+let currentSongId = null;
+function playSong(file, title, artist, thumb, songId = null, showDisplay = true) {
     const audio = document.getElementById('global-audio');
     const playIcon = document.getElementById('play-icon');
     const controllerBar = document.getElementById('controller-bar');
@@ -97,13 +97,17 @@ function playSong(file, title, artist, thumb) {
     document.getElementById('now-playing-artist').innerText = artist;
     document.getElementById('now-playing-thumb').src = thumb;
     controllerBar.classList.remove('hidden');
-
+    currentSongId = songId;
     setTimeout(() => {
         audio.play().catch(err => {
             console.warn("Unable to play audio:", err.message);
         });
         playIcon.classList.replace('mdi-play', 'mdi-pause');
     }, 200); 
+    if (showDisplay && songId !== null) {
+        loadSongDisplay(songId);
+    }
+
 }
 function togglePlay() {
     if (audio.paused) {
@@ -180,3 +184,7 @@ function loadSongDisplay(songId) {
       });
   }
   
+function openSongDisplayFromController() {
+    if (!currentSongId) return;
+    loadSongDisplay(currentSongId);
+}
