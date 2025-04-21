@@ -30,11 +30,12 @@ class SongController
         $description = $_POST['description'] ?? '';
         $musicFile = $_FILES['file'] ?? null;
         $thumbFile = $_FILES['thumbnail'] ?? null;
-        echo "<pre>";
-        var_dump($_FILES);
-        echo "</pre>";
-        exit;
+    
+        // DEBUG
+        file_put_contents(__DIR__ . '/../../upload_debug.log', print_r($_FILES, true));
+    
         if (!$musicFile || $musicFile['error'] !== UPLOAD_ERR_OK || !$thumbFile || $thumbFile['error'] !== UPLOAD_ERR_OK) {
+            file_put_contents(__DIR__ . '/../../upload_debug.log', "Upload failed due to file error\n", FILE_APPEND);
             echo "Upload failed. Please check the file.";
             return;
         }
@@ -42,23 +43,35 @@ class SongController
         $musicName = time() . '_' . basename($musicFile['name']);
         $thumbName = time() . '_' . basename($thumbFile['name']);
     
-        if (!is_dir('uploads/songs')) {
-            mkdir('uploads/songs', 0777, true);
-        }
-        if (!is_writable('uploads/songs')) {
-            echo "Folder is not writable.";
-        }
+        // Use full path (correct!)
+        $musicDir = __DIR__ . '/../../public/uploads/songs';
+        $thumbDir = __DIR__ . '/../../public/uploads/thumbnails';
     
-        $musicPath = 'uploads/songs/' . $musicName;
-        $thumbPath = 'uploads/songs/' . $thumbName;
+        if (!is_dir($musicDir)) mkdir($musicDir, 0777, true);
+        if (!is_dir($thumbDir)) mkdir($thumbDir, 0777, true);
     
-        if (!move_uploaded_file($musicFile['tmp_name'], $musicPath) ||
-            !move_uploaded_file($thumbFile['tmp_name'], $thumbPath)) {
-            echo "Upload failed. Cannot move files.";
+        if (!is_writable($musicDir) || !is_writable($thumbDir)) {
+            file_put_contents(__DIR__ . '/../../upload_debug.log', "Folder not writable\n", FILE_APPEND);
+            echo "Upload failed. Folder not writable.";
             return;
         }
     
-        \App\Models\Song::create([
+        $musicPath = $musicDir . '/' . $musicName;
+        $thumbPath = $thumbDir . '/' . $thumbName;
+    
+        if (!move_uploaded_file($musicFile['tmp_name'], $musicPath)) {
+            file_put_contents(__DIR__ . '/../../upload_debug.log', "Failed to move MP3 file\n", FILE_APPEND);
+            echo "Upload failed: cannot move mp3.";
+            return;
+        }
+    
+        if (!move_uploaded_file($thumbFile['tmp_name'], $thumbPath)) {
+            file_put_contents(__DIR__ . '/../../upload_debug.log', "Failed to move thumbnail\n", FILE_APPEND);
+            echo "Upload failed: cannot move thumbnail.";
+            return;
+        }
+    
+        Song::create([
             'title' => $title,
             'description' => $description,
             'filename' => $musicName,
@@ -66,7 +79,9 @@ class SongController
             'user_id' => $_SESSION['user']['id'] ?? null
         ]);
     
+        file_put_contents(__DIR__ . '/../../upload_debug.log', "Upload OK\n", FILE_APPEND);
         header("Location: " . BASE_URL);
     }
+    
     
 }
