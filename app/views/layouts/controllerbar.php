@@ -11,7 +11,9 @@
     <div class="flex flex-col items-center w-full max-w-lg">
         <input id="progress-bar" type="range" min="0" max="100" value="0" class="w-full accent-red-500">
         <div class="flex items-center space-x-4 mt-1">
+            <button onclick="playPrevious()"><i class="mdi mdi-skip-previous text-2xl"></i></button>
             <button onclick="togglePlay()"><i id="play-icon" class="mdi mdi-play text-2xl"></i></button>
+            <button onclick="playNext()"><i class="mdi mdi-skip-next text-2xl"></i></button>
             <span id="current-time" class="text-xs">0:00</span>
             <span>/</span>
             <span id="duration" class="text-xs">0:00</span>

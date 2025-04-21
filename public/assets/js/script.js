@@ -188,3 +188,35 @@ function openSongDisplayFromController() {
     if (!currentSongId) return;
     loadSongDisplay(currentSongId);
 }
+let currentPlaylist = []
+function setCurrentPlaylist(songArray) {
+    currentPlaylist = songArray;
+}
+function playNext() {
+    if (!currentPlaylist.length || currentSongId === null) return;
+
+    const currentIndex = currentPlaylist.findIndex(song => song.id === currentSongId);
+    if (currentIndex >= 0 && currentIndex < currentPlaylist.length - 1) {
+        const nextSong = currentPlaylist[currentIndex + 1];
+        playSongFromObject(nextSong);
+    }
+}
+
+function playPrevious() {
+    if (!currentPlaylist.length || currentSongId === null) return;
+
+    const currentIndex = currentPlaylist.findIndex(song => song.id === currentSongId);
+    if (currentIndex > 0) {
+        const prevSong = currentPlaylist[currentIndex - 1];
+        playSongFromObject(prevSong);
+    }
+}
+function playSongFromObject(song) {
+    playSong(
+        song.file,
+        song.title,
+        song.artist,
+        song.thumbnail,
+        song.id
+    );
+}
