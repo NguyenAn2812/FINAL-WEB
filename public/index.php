@@ -7,8 +7,7 @@ error_reporting(E_ALL);
 
 // Autoload
 require_once __DIR__ . '/../vendor/autoload.php';
-var_dump(class_exists(\App\Models\Song::class)); // <- thêm dòng này
-die();
+
 use Dotenv\Dotenv;
 use League\Plates\Engine;
 use Bramus\Router\Router;
