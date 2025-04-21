@@ -220,3 +220,10 @@ function playSongFromObject(song) {
         song.id
     );
 }
+function playRandomFromListsongs() {
+    const items = document.querySelectorAll('[data-song]');
+    if (!items.length) return;
+
+    const randomItem = items[Math.floor(Math.random() * items.length)];
+    randomItem.click(); // giả lập click lại chính bài đó
+}

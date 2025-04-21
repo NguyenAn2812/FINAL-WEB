@@ -15,7 +15,7 @@ $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="flex flex-col gap-3">
   <?php foreach ($songs as $song): ?>
-    <div
+    <div data-song
       onclick="playSong(
         '<?= BASE_URL ?>/uploads/songs/<?= $song['filename'] ?>',
         '<?= htmlspecialchars($song['title']) ?>',
@@ -36,3 +36,12 @@ $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
   <?php endforeach; ?>
 </div>
+<script>
+setCurrentPlaylist(<?= json_encode(array_map(fn($s) => [
+    'id' => $s['id'],
+    'title' => addslashes($s['title']),
+    'artist' => addslashes($s['artist']),
+    'thumbnail' => BASE_URL . '/uploads/songs/' . $s['thumbnail'],
+    'file' => BASE_URL . '/uploads/songs/' . $s['filename']
+], $songs)) ?>);
+</script>
