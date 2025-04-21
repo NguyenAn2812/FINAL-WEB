@@ -30,7 +30,7 @@
             </div>
         <?php else: ?>
             <a href="#" onclick="openLoginModal()" class="text-xl border border-[#3ea6ff] text-[#3ea6ff] px-4 py-1 rounded-full hover:bg-[#3ea6ff]/10 transition">
-                Loginn
+                Login
             </a>
         <?php endif; ?>
     </div>
