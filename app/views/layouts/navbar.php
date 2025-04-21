@@ -36,18 +36,3 @@
     </div>
     
 </header>
-
-<!-- <script>
-function toggleDropdown() {
-    document.getElementById('dropdownMenu').classList.toggle('hidden');
-}
-
-document.addEventListener('click', function (e) {
-    const menu = document.getElementById('dropdownMenu');
-    const btn = document.getElementById('avatar-toggle');
-    if (!menu || !btn) return;
-    if (!btn.contains(e.target) && !menu.contains(e.target)) {
-        menu.classList.add('hidden');
-    }
-});
-</script> -->

@@ -7,7 +7,7 @@ function loadComponent(name) {
         .then(html => {
             const container = document.getElementById('app');
             if (!container) {
-                console.error("❌ Không tìm thấy phần tử #app trong DOM.");
+                console.error("Element #app not found in DOM.");
                 return;
             }
             container.innerHTML = html;
@@ -17,7 +17,7 @@ function loadComponent(name) {
             if (container) {
                 container.innerHTML = `<p class="text-red-500">Error: ${err.message}</p>`;
             } else {
-                console.error(`❌ Component load failed: ${err.message}`);
+                console.error(`Component load failed: ${err.message}`);
             }
         });
 }
@@ -72,7 +72,7 @@ function openRegisterModal() {
             content.innerHTML = html;
         })
         .catch(err => {
-            content.innerHTML = `<p class="text-red-500">Không thể tải form đăng ký.</p>`;
+            content.innerHTML = `<p class="text-red-500">Unable to load registration form.</p>`;
         });
 }
 
@@ -100,7 +100,7 @@ function playSong(file, title, artist, thumb) {
 
     setTimeout(() => {
         audio.play().catch(err => {
-            console.warn("⚠️ Không thể play audio:", err.message);
+            console.warn("Unable to play audio:", err.message);
         });
         playIcon.classList.replace('mdi-play', 'mdi-pause');
     }, 200); 
@@ -142,7 +142,7 @@ function openUploadModal() {
     const content = document.getElementById('uploadFormContent');
 
     if (!modal || !content) {
-        console.error("Không tìm thấy phần tử modal hoặc nội dung upload.");
+        console.error("No modal element or upload content found.");
         return;
     }
 
@@ -150,7 +150,7 @@ function openUploadModal() {
 
     fetch(`${BASE}/component/upload`)
         .then(res => {
-            if (!res.ok) throw new Error("Không thể tải view upload.");
+            if (!res.ok) throw new Error("Unable to load view upload.");
             return res.text();
         })
         .then(html => {
@@ -176,7 +176,7 @@ function loadSongDisplay(songId) {
         }
       })
       .catch(err => {
-        console.error("❌ Không thể tải giao diện song display", err);
+        console.error("Unable to load song display interface", err);
       });
   }
   
