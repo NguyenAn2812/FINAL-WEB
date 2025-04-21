@@ -73,7 +73,7 @@ class ComponentController
                 $view = $this->makeView();
                 echo $view->render('songs/songdisplay', [
                     'song' => $song,
-                    'songs' => $relatedSongs // ✅ fix lỗi ở đây
+                    'songs' => $relatedSongs 
                 ]);
                 break;
 
@@ -81,11 +81,7 @@ class ComponentController
                 $songModel = new Song();
                 $songs = $songModel->getAllWithArtist(); 
 
-                $view = $this->makeView();
-                
-                echo $view->render('layouts/songcontainer', [
-                    'songs' => $songs 
-                ]);
+                require __DIR__ . '/../views/layouts/songcontainer.php';
                 break;
 
             default:
