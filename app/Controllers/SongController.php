@@ -19,46 +19,48 @@ class SongController
         $this->songModel = new Song();
     }
 
-    public function upload()
-    {
+    public function upload() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             http_response_code(405);
             echo "Invalid method.";
             return;
         }
-
+    
         $title = $_POST['title'] ?? '';
         $description = $_POST['description'] ?? '';
         $musicFile = $_FILES['file'] ?? null;
         $thumbFile = $_FILES['thumbnail'] ?? null;
-
-        // Validate file
+    
         if (!$musicFile || $musicFile['error'] !== UPLOAD_ERR_OK || !$thumbFile || $thumbFile['error'] !== UPLOAD_ERR_OK) {
             echo "Upload failed. Please check the file.";
             return;
         }
-
-        // Create safe file name
+    
         $musicName = time() . '_' . basename($musicFile['name']);
         $thumbName = time() . '_' . basename($thumbFile['name']);
-
+    
+        if (!is_dir('uploads/songs')) {
+            mkdir('uploads/songs', 0777, true);
+        }
+    
         $musicPath = 'uploads/songs/' . $musicName;
         $thumbPath = 'uploads/songs/' . $thumbName;
-
-        // Move files
-        move_uploaded_file($musicFile['tmp_name'], $musicPath);
-        move_uploaded_file($thumbFile['tmp_name'], $thumbPath);
-
-        // Save to database via model
-        $this->songModel->create([
+    
+        if (!move_uploaded_file($musicFile['tmp_name'], $musicPath) ||
+            !move_uploaded_file($thumbFile['tmp_name'], $thumbPath)) {
+            echo "Upload failed. Cannot move files.";
+            return;
+        }
+    
+        \App\Models\Song::create([
             'title' => $title,
             'description' => $description,
             'filename' => $musicName,
             'thumbnail' => $thumbName,
             'user_id' => $_SESSION['user']['id'] ?? null
         ]);
-
+    
         header("Location: " . BASE_URL);
-        exit;
     }
+    
 }
