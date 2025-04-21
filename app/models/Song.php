@@ -43,4 +43,19 @@ class Song
         $stmt->execute([$playlistId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function create($data)
+    {
+        $stmt = $this->db->prepare("
+            INSERT INTO songs (title, description, filename, thumbnail, user_id) 
+            VALUES (?, ?, ?, ?, ?)
+        ");
+        return $stmt->execute([
+            $data['title'],
+            $data['description'],
+            $data['filename'],
+            $data['thumbnail'],
+            $data['user_id']
+        ]);
+    }
 }
