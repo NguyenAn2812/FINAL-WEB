@@ -30,7 +30,10 @@ class SongController
         $description = $_POST['description'] ?? '';
         $musicFile = $_FILES['file'] ?? null;
         $thumbFile = $_FILES['thumbnail'] ?? null;
-    
+        echo "<pre>";
+        var_dump($_FILES);
+        echo "</pre>";
+        exit;
         if (!$musicFile || $musicFile['error'] !== UPLOAD_ERR_OK || !$thumbFile || $thumbFile['error'] !== UPLOAD_ERR_OK) {
             echo "Upload failed. Please check the file.";
             return;
