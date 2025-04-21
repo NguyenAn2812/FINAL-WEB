@@ -92,7 +92,6 @@ function playSong(file, title, artist, thumb, songId = null, showDisplay = true)
     audio.pause();
     audio.currentTime = 0;
     audio.src = file;
-
     document.getElementById('now-playing-title').innerText = title;
     document.getElementById('now-playing-artist').innerText = artist;
     document.getElementById('now-playing-thumb').src = thumb;
@@ -212,19 +211,20 @@ function setCurrentPlaylist(songArray) {
     currentPlaylist = songArray;
 }
 function playNext() {
-    if ((!currentPlaylist || currentPlaylist.length === 0) && document.querySelectorAll('[data-songcard]').length > 0) {
-        regeneratePlaylistFromDOM();
+    console.log("Next clicked");
+    if (!currentPlaylist || currentPlaylist.length === 0) {
+        console.warn("currentPlaylist is empty");
+        return;
     }
 
-    if (currentPlaylist && currentPlaylist.length > 0 && currentSongId !== null) {
-        const index = currentPlaylist.findIndex(song => song.id === currentSongId);
-        if (index !== -1 && index < currentPlaylist.length - 1) {
-            playSongFromObject(currentPlaylist[index + 1]);
-            return;
-        }
-    }
+    const index = currentPlaylist.findIndex(song => song.id === currentSongId);
+    console.log("Current song index in playlist:", index);
 
-    playRandomFromListsongs();
+    if (index !== -1 && index < currentPlaylist.length - 1) {
+        playSongFromObject(currentPlaylist[index + 1]);
+    } else {
+        playRandomFromListsongs();
+    }
 }
 
 function playPrevious() {
