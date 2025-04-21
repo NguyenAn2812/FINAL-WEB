@@ -172,6 +172,22 @@ function closeUploadModal() {
     const modal = document.getElementById('uploadModal');
     if (modal) modal.classList.add('hidden');
 }
+function regeneratePlaylistFromDOM() {
+    const domSongs = document.querySelectorAll('[data-songcard]');
+    const newList = [];
+
+    domSongs.forEach(el => {
+        newList.push({
+            id: parseInt(el.getAttribute('data-songcard')),
+            title: el.querySelector('p.font-semibold')?.innerText ?? '',
+            artist: el.querySelector('p.text-gray-400')?.innerText ?? '',
+            thumbnail: el.querySelector('img')?.src ?? '',
+            file: el.getAttribute('onclick')?.match(/'(.*?)'/)?.[1] ?? ''
+        });
+    });
+
+    currentPlaylist = newList;
+}
 function loadSongDisplay(songId) {
     fetch(`${BASE}/component/songdisplay?id=${songId}`)
       .then(res => res.text())
@@ -254,20 +270,4 @@ function highlightNowPlaying() {
             card.classList.remove('bg-blue-800/30', 'ring-2', 'ring-blue-400');
         }
     });
-}
-function regeneratePlaylistFromDOM() {
-    const domSongs = document.querySelectorAll('[data-songcard]');
-    const newList = [];
-
-    domSongs.forEach(el => {
-        newList.push({
-            id: parseInt(el.getAttribute('data-songcard')),
-            title: el.querySelector('p.font-semibold')?.innerText ?? '',
-            artist: el.querySelector('p.text-gray-400')?.innerText ?? '',
-            thumbnail: el.querySelector('img')?.src ?? '',
-            file: el.getAttribute('onclick')?.match(/'(.*?)'/)?.[1] ?? ''
-        });
-    });
-
-    currentPlaylist = newList;
 }
