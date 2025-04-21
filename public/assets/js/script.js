@@ -238,9 +238,9 @@ function highlightNowPlaying() {
     cards.forEach(card => {
         const id = parseInt(card.getAttribute('data-songcard'));
         if (id === currentSongId) {
-            card.classList.add('bg-[#3ea6ff1a]', 'ring-2', 'ring-[#3ea6ff]');
+            card.classList.add('bg-blue-800/30', 'ring-2', 'ring-blue-400');
         } else {
-            card.classList.remove('bg-[#3ea6ff1a]', 'ring-2', 'ring-[#3ea6ff]');
+            card.classList.remove('bg-blue-800/30', 'ring-2', 'ring-blue-400');
         }
     });
 }

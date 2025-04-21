@@ -1,17 +1,4 @@
-<?php
-use Core\Database;
-
-$db = Database::getInstance();
-
-$stmt = $db->query("
-    SELECT songs.*, users.username AS artist
-    FROM songs
-    LEFT JOIN users ON songs.user_id = users.id
-    ORDER BY songs.created_at DESC
-");
-
-$songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
+<?php if (!isset($songs)) return; ?>
 
 <div class="flex flex-col gap-3">
   <?php foreach ($songs as $song): ?>
@@ -51,4 +38,3 @@ setCurrentPlaylist(<?= json_encode(array_map(function ($s) {
     ];
 }, $songs), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>);
 </script>
-
