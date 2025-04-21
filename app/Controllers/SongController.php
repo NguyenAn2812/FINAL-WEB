@@ -42,8 +42,8 @@ class SongController
         $musicName = time() . '_' . basename($musicFile['name']);
         $thumbName = time() . '_' . basename($thumbFile['name']);
 
-        $musicPath = 'uploads/songs/' . $musicName;
-        $thumbPath = 'uploads/songs/' . $thumbName;
+        $musicPath = 'uploads/songs/mp3' . $musicName;
+        $thumbPath = 'uploads/songs/thumbnail/' . $thumbName;
 
         // Move files
         move_uploaded_file($musicFile['tmp_name'], $musicPath);
