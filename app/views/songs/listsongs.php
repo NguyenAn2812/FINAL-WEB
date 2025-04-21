@@ -25,3 +25,16 @@
     </div>
   <?php endforeach; ?>
 </div>
+
+<!-- Gửi danh sách phát sang JS -->
+<script>
+setCurrentPlaylist(<?= json_encode(array_map(function ($s) {
+    return [
+        'id' => $s['id'],
+        'title' => $s['title'],
+        'artist' => $s['artist'],
+        'thumbnail' => BASE_URL . '/uploads/songs/' . $s['thumbnail'],
+        'file' => BASE_URL . '/uploads/songs/' . $s['filename']
+    ];
+}, $songs), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>);
+</script>
