@@ -81,7 +81,11 @@ class ComponentController
                 $songModel = new Song();
                 $songs = $songModel->getAllWithArtist(); 
 
-                require __DIR__ . '/../views/layouts/songcontainer.php';
+                $view = $this->makeView();
+                
+                echo $view->render('layouts/songcontainer', [
+                    'songs' => $songs 
+                ]);
                 break;
 
             default:
