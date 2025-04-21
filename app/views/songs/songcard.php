@@ -8,7 +8,7 @@
         )'
     class="cursor-pointer bg-[#1e1e1e] rounded p-4 w-60 shadow mx-2 my-2 hover:bg-[#2a2a2a] transition">
 
-    <img src="<?= $this->asset("/uploads/songs/{$song['thumbnail']}") ?>"
+    <img src="<?= BASE_URL ?>/uploads/songs/<?= htmlspecialchars($song['thumbnail']) ?>"
          class="w-full h-32 object-cover rounded mb-2"
          alt="<?= htmlspecialchars($song['title']) ?>">
 
