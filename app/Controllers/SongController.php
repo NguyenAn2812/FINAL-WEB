@@ -45,6 +45,9 @@ class SongController
         if (!is_dir('uploads/songs')) {
             mkdir('uploads/songs', 0777, true);
         }
+        if (!is_writable('uploads/songs')) {
+            echo "Folder is not writable.";
+        }
     
         $musicPath = 'uploads/songs/' . $musicName;
         $thumbPath = 'uploads/songs/' . $thumbName;
