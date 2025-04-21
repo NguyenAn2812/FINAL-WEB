@@ -206,9 +206,26 @@ function openSongDisplayFromController() {
     if (!currentSongId) return;
     loadSongDisplay(currentSongId);
 }
-let currentPlaylist = []
+let currentPlaylist = [];
+
 function setCurrentPlaylist(songArray) {
     currentPlaylist = songArray;
+    console.log("Playlist set:", currentPlaylist);
+}
+
+function loadGlobalPlaylist() {
+    fetch(`${BASE}/playlist/json`)
+        .then(res => res.json())
+        .then(data => {
+            if (Array.isArray(data)) {
+                setCurrentPlaylist(data);
+            } else {
+                console.warn("Invalid playlist data");
+            }
+        })
+        .catch(err => {
+            console.error("Failed to fetch global playlist:", err);
+        });
 }
 function playNext() {
     if ((!currentPlaylist || currentPlaylist.length === 0) && document.querySelectorAll('[data-songcard]').length > 0) {
@@ -270,3 +287,17 @@ function highlightNowPlaying() {
         }
     });
 }
+function fetchPlaylist() {
+    fetch(`${BASE}/playlist/json`)
+      .then(res => res.json())
+      .then(data => {
+        setCurrentPlaylist(data);
+        console.log('Playlist loaded from backend');
+      })
+      .catch(err => {
+        console.error('Failed to load playlist:', err);
+      });
+}
+document.addEventListener('DOMContentLoaded', () => {
+    loadGlobalPlaylist();
+});
