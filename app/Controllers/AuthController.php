@@ -59,7 +59,6 @@ class AuthController {
                 return;
             }
 
-            // Lưu user vào session
             $_SESSION['user'] = [
                 'id' => $user['id'],
                 'username' => $user['username'],

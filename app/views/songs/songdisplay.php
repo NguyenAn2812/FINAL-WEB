@@ -10,13 +10,13 @@
         <!-- INFO -->
         <div class="mb-6">
             <h1 class="text-2xl font-bold"><?= htmlspecialchars($song['title']) ?></h1>
-            <p class="text-sm text-gray-400 mt-1">Người đăng: <?= htmlspecialchars($song['artist'] ?? 'Không rõ') ?></p>
+            <p class="text-sm text-gray-400 mt-1"><?= htmlspecialchars($song['artist'] ?? 'Không rõ') ?></p>
 
         </div>
 
         <!-- LIST -->
         <div class="flex-1 overflow-y-auto">
-            <h3 class="text-lg font-semibold mb-4">🎵 Danh sách phát</h3>
+            <h3 class="text-lg font-semibold mb-4">You might like</h3>
             <?php $this->insert('songs/listsongs', ['songs' => $relatedSongs]); ?>
         </div>
     </div>

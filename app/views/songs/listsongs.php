@@ -19,7 +19,7 @@ $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
       onclick="playSong(
         '<?= BASE_URL ?>/uploads/songs/<?= $song['filename'] ?>',
         '<?= htmlspecialchars($song['title']) ?>',
-        '<?= htmlspecialchars($song['artist'] ?? 'Không rõ') ?>',
+        '<?= htmlspecialchars($song['artist'] ?? 'Unknown') ?>',
         '<?= BASE_URL ?>/uploads/songs/<?= $song['thumbnail'] ?>'
       ); loadSongDisplay(<?= $song['id'] ?>);"
       class="flex items-center gap-3 cursor-pointer hover:bg-[#2a2a2a] p-2 rounded transition"
@@ -31,7 +31,7 @@ $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
       >
       <div>
         <p class="font-semibold"><?= htmlspecialchars($song['title']) ?></p>
-        <p class="text-sm text-gray-400"><?= htmlspecialchars($song['artist'] ?? 'Không rõ') ?></p>
+        <p class="text-sm text-gray-400"><?= htmlspecialchars($song['artist'] ?? 'Unknown') ?></p>
       </div>
     </div>
   <?php endforeach; ?>

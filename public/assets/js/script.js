@@ -21,6 +21,18 @@ function loadComponent(name) {
             }
         });
 }
+function toggleDropdown() {
+    document.getElementById('dropdownMenu').classList.toggle('hidden');
+}
+
+document.addEventListener('click', function (e) {
+    const menu = document.getElementById('dropdownMenu');
+    const btn = document.getElementById('avatar-toggle');
+    if (!menu || !btn) return;
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.add('hidden');
+    }
+});
 function openLoginModal() {
     const modal = document.getElementById('loginModal');
     const content = document.getElementById('loginFormContent');

@@ -2,7 +2,7 @@
     <div class="flex items-center space-x-4">
         <img id="now-playing-thumb" src="" class="w-12 h-12 rounded object-cover" alt="">
         <div>
-            <p id="now-playing-title" class="font-semibold">Chưa chọn bài hát</p>
+            <p id="now-playing-title" class="font-semibold">Haven't chosen a song yet</p>
             <p id="now-playing-artist" class="text-sm text-gray-400"></p>
         </div>
     </div>

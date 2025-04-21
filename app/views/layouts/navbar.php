@@ -37,7 +37,7 @@
     
 </header>
 
-<script>
+<!-- <script>
 function toggleDropdown() {
     document.getElementById('dropdownMenu').classList.toggle('hidden');
 }
@@ -50,4 +50,4 @@ document.addEventListener('click', function (e) {
         menu.classList.add('hidden');
     }
 });
-</script>
+</script> -->

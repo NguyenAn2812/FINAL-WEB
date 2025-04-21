@@ -12,5 +12,5 @@ class="cursor-pointer bg-[#1e1e1e] rounded p-4 w-60 shadow mx-2 my-2 hover:bg-[#
          alt="<?= htmlspecialchars($song['title']) ?>">
 
     <h3 class="text-lg font-semibold"><?= htmlspecialchars($song['title']) ?></h3>
-    <p class="text-sm text-gray-400"><?= htmlspecialchars($song['artist'] ?? 'Không rõ') ?></p>
+    <p class="text-sm text-gray-400"><?= htmlspecialchars($song['artist'] ?? 'Unknown') ?></p>
 </div>

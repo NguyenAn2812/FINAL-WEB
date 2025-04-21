@@ -1,10 +1,10 @@
-<h2 class="text-xl font-bold mb-4 text-center">Tải lên bài hát</h2>
+<h2 class="text-xl font-bold mb-4 text-center">Upload songs</h2>
 
 <form action="<?= BASE_URL ?>/song/upload" method="post" enctype="multipart/form-data" class="space-y-4">
-    <input type="text" name="title" placeholder="Tiêu đề" required
+    <input type="text" name="title" placeholder="Title" required
         class="w-full p-2 rounded bg-[#0f0f0f] border border-[#303030] text-white" />
 
-    <textarea name="description" placeholder="Mô tả" rows="3"
+    <textarea name="description" placeholder="description" rows="3"
         class="w-full p-2 rounded bg-[#0f0f0f] border border-[#303030] text-white"></textarea>
 
     <input type="file" name="file" accept="audio/*" required

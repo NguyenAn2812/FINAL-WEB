@@ -18,7 +18,7 @@ class SongController {
     public function upload() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             http_response_code(405);
-            echo "Phương thức không hợp lệ.";
+            echo "Invalid method.";
             return;
         }
 
@@ -29,22 +29,25 @@ class SongController {
 
         // Validate file
         if (!$musicFile || $musicFile['error'] !== UPLOAD_ERR_OK || !$thumbFile || $thumbFile['error'] !== UPLOAD_ERR_OK) {
-            echo " Upload thất bại. Vui lòng kiểm tra file.";
+            echo " Upload failed. Please check the file.";
             return;
         }
 
-        // Tạo tên file an toàn
+        
+        // Create safe file name
         $musicName = time() . '_' . basename($musicFile['name']);
         $thumbName = time() . '_' . basename($thumbFile['name']);
 
         $musicPath = 'uploads/songs/' . $musicName;
         $thumbPath = 'uploads/songs/' . $thumbName;
 
-        // Di chuyển file
+        
+        // Move files
         move_uploaded_file($musicFile['tmp_name'], $musicPath);
         move_uploaded_file($thumbFile['tmp_name'], $thumbPath);
 
-        // Ghi vào database
+        
+        // Write to database
         $stmt = $this->db->prepare("INSERT INTO songs (title, description, filename, thumbnail, user_id) VALUES (?, ?, ?, ?, ?)");
         $stmt->execute([
             $title,

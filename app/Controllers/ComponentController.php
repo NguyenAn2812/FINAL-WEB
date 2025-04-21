@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Controllers;
+
 use Core\Database;
 use League\Plates\Engine;
 use PDO;
+
 class ComponentController {
     public function load($component) {
         $basePath = __DIR__ . '/../views/';
@@ -24,7 +26,7 @@ class ComponentController {
             case 'songdisplay':
                 $id = $_GET['id'] ?? null;
                 if (!$id) {
-                    echo "<p class='text-red-500'>Không tìm thấy bài hát.</p>";
+                    echo "<p class='text-red-500'>Song not found.</p>";
                     return;
                 }
             
@@ -38,6 +40,10 @@ class ComponentController {
                 $relatedSongs = $related->fetchAll(PDO::FETCH_ASSOC);
             
                 $view = new \League\Plates\Engine(__DIR__ . '/../views');
+                if (!$song) {
+                    echo "<p class='text-red-500'>Song does not exist.</p>";
+                    return;
+                }
                 echo $view->render('songs/songdisplay', ['song' => $song, 'relatedSongs' => $relatedSongs]);
                 break;
 
