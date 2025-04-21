@@ -3,14 +3,21 @@
 namespace App\Controllers;
 
 use App\Models\Song;
+use App\Models\Playlist;
+use League\Plates\Engine;
 
 class PlaylistController
 {
+    protected $playlistModel;
     protected $songModel;
+    protected $view;
 
     public function __construct()
     {
+        $this->playlistModel = new Playlist();
         $this->songModel = new Song();
+        $this->view = new Engine(__DIR__ . '/../views');
+        $this->view->registerFunction('asset', fn($p) => BASE_URL . '/' . ltrim($p, '/'));
     }
 
     public function getAllSongsAsJson()
@@ -28,9 +35,21 @@ class PlaylistController
             ];
         }, $songs), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
-    public function listAll()
+
+    public function listContainer()
     {
         $playlists = $this->playlistModel->getAll();
-        require_once __DIR__ . '/../views/playlist/list.php';
+        echo $this->view->render('layouts/listcontainer', ['playlists' => $playlists]);
+    }
+
+    public function display($id)
+    {
+        $playlist = $this->playlistModel->find($id);
+        $songs = $this->playlistModel->getSongs($id);
+
+        echo $this->view->render('playlist/playlistdisplay', [
+            'playlist' => $playlist,
+            'songs' => $songs
+        ]);
     }
 }
