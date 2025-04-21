@@ -23,7 +23,11 @@ define('BASE_URL', rtrim($_ENV['APP_URL'] ?? '/', '/'));
 
 $view = new Engine(__DIR__ . '/../app/views');
 $view->registerFunction('asset', fn($path) => BASE_URL . '/' . ltrim($path, '/'));
+echo "<pre>";
+print_r(get_declared_classes());
+echo "</pre>";
 
+die('🧪 Autoload test');
 $router = new Router();
 $auth = new AuthController();
 
