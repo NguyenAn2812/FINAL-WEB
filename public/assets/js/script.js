@@ -193,24 +193,29 @@ function setCurrentPlaylist(songArray) {
     currentPlaylist = songArray;
 }
 function playNext() {
-    if (!currentPlaylist.length || currentSongId === null) return;
-
-    const currentIndex = currentPlaylist.findIndex(song => song.id === currentSongId);
-    if (currentIndex >= 0 && currentIndex < currentPlaylist.length - 1) {
-        const nextSong = currentPlaylist[currentIndex + 1];
-        playSongFromObject(nextSong);
+    if (currentPlaylist && currentPlaylist.length > 0 && currentSongId !== null) {
+        const index = currentPlaylist.findIndex(song => song.id === currentSongId);
+        if (index !== -1 && index < currentPlaylist.length - 1) {
+            playSongFromObject(currentPlaylist[index + 1]);
+            return;
+        }
     }
+
+    playRandomFromListsongs();
 }
 
 function playPrevious() {
-    if (!currentPlaylist.length || currentSongId === null) return;
-
-    const currentIndex = currentPlaylist.findIndex(song => song.id === currentSongId);
-    if (currentIndex > 0) {
-        const prevSong = currentPlaylist[currentIndex - 1];
-        playSongFromObject(prevSong);
+    if (currentPlaylist && currentPlaylist.length > 0 && currentSongId !== null) {
+        const index = currentPlaylist.findIndex(song => song.id === currentSongId);
+        if (index > 0) {
+            playSongFromObject(currentPlaylist[index - 1]);
+            return;
+        }
     }
+
+    playRandomFromListsongs();
 }
+
 function playSongFromObject(song) {
     playSong(
         song.file,
@@ -221,9 +226,9 @@ function playSongFromObject(song) {
     );
 }
 function playRandomFromListsongs() {
-    const items = document.querySelectorAll('[data-song]');
-    if (!items.length) return;
+    const songs = document.querySelectorAll('[data-songcard]');
+    if (songs.length === 0) return;
 
-    const randomItem = items[Math.floor(Math.random() * items.length)];
-    randomItem.click(); // giả lập click lại chính bài đó
+    const randomIndex = Math.floor(Math.random() * songs.length);
+    songs[randomIndex].click(); // mô phỏng click lên bài hát
 }

@@ -15,7 +15,7 @@ $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="flex flex-col gap-3">
   <?php foreach ($songs as $song): ?>
-    <div data-song
+    <div data-songcard
       onclick="playSong(
         '<?= BASE_URL ?>/uploads/songs/<?= $song['filename'] ?>',
         '<?= htmlspecialchars($song['title']) ?>',
