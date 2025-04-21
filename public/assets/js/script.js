@@ -231,12 +231,12 @@ function playRandomFromListsongs() {
     if (songs.length === 0) return;
 
     const randomIndex = Math.floor(Math.random() * songs.length);
-    songs[randomIndex].click(); // mô phỏng click lên bài hát
+    songs[randomIndex].click(); 
 }
 function highlightNowPlaying() {
     const cards = document.querySelectorAll('[data-songcard]');
     cards.forEach(card => {
-        const id = parseInt(card.getAttribute('data-song-id'));
+        const id = parseInt(card.getAttribute('data-songcard'));
         if (id === currentSongId) {
             card.classList.add('bg-[#3ea6ff1a]', 'ring-2', 'ring-[#3ea6ff]');
         } else {

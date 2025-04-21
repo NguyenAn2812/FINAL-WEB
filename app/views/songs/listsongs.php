@@ -16,8 +16,7 @@ $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="flex flex-col gap-3">
   <?php foreach ($songs as $song): ?>
     <div 
-      data-songcard 
-      data-song-id="<?= $song['id'] ?>"
+      data-songcard="<?= $song['id'] ?>"
       onclick="playSong(
         '<?= BASE_URL ?>/uploads/songs/<?= $song['filename'] ?>',
         '<?= addslashes($song['title']) ?>',
