@@ -39,7 +39,8 @@ $router->get('/component/(\w+)', fn($name) => (new ComponentController())->load(
 $router->post('/song/upload', fn() => (new SongController())->upload());
 
 // API Playlist
-$router->get('/playlist/json', fn() => (new PlaylistController())->getAllSongsAsJson());
+$router->get('/playlist/list', fn() => (new PlaylistController())->listContainer());
+$router->get('/playlist/view/(\d+)', fn($id) => (new PlaylistController())->display($id));
 
 // Auth
 $router->post('/register', fn() => $auth->register());
