@@ -1,4 +1,3 @@
-console.log("BASE:", BASE);
 
 function loadComponent(name) {
     fetch(`${BASE}/component/${name}`)
@@ -302,5 +301,6 @@ function fetchPlaylist() {
       });
 }
 document.addEventListener('DOMContentLoaded', () => {
+    loadComponent('home');
     loadGlobalPlaylist();
 });
