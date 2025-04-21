@@ -1,33 +1,44 @@
 <?php
 session_start();
-require_once __DIR__ . '/../vendor/autoload.php';
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+require_once __DIR__ . '/../vendor/autoload.php';
+use Dotenv\Dotenv;
 use League\Plates\Engine;
 use Bramus\Router\Router;
 use App\Controllers\ComponentController;
 use App\Controllers\AuthController;
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
 $_ENV['APP_URL'] = $_ENV['APP_URL'] ?? '/FINAL-WEB/public';
 define('BASE_URL', $_ENV['APP_URL']);
-$auth = new AuthController();
-$router = new Router();
+
 
 $view = new Engine(__DIR__ . '/../app/views');
 $view->registerFunction('asset', function ($path) {
     return '/FINAL-WEB/public' . $path;
 });
 
-// ✅ Route component: /component/login, /component/register,...
+$auth = new AuthController();
+$router = new Router();
+
+$router->post('/song/upload', function () {
+    $controller = new App\Controllers\SongController();
+    $controller->upload();
+});
 $router->get('/component/(\w+)', function ($name) {
     $controller = new ComponentController();
     $controller->load($name);
 });
 
-// ✅ Route trang chính: / → gọi layout chính
 $router->get('/', function () use ($view) {
     echo $view->render('layouts/main');
 });
 
-// ✅ Route fallback 404
 $router->set404(function () {
     http_response_code(404);
     echo "Page not found.";

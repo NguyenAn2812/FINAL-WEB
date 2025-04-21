@@ -1,6 +1,20 @@
-<h2 class="text-2xl font-bold mb-4">Upload a Song</h2>
-<form method="POST" action="/upload" enctype="multipart/form-data" class="space-y-4">
-    <input type="text" name="title" placeholder="Song title" class="form-control w-full p-2 rounded bg-[#2a2a2a] border border-gray-700 text-white">
-    <input type="file" name="audio" class="text-white">
-    <button type="submit" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500">Upload</button>
+<h2 class="text-xl font-bold mb-4 text-center">Tải lên bài hát</h2>
+
+<form action="<?= BASE_URL ?>/song/upload" method="post" enctype="multipart/form-data" class="space-y-4">
+    <input type="text" name="title" placeholder="Tiêu đề" required
+        class="w-full p-2 rounded bg-[#0f0f0f] border border-[#303030] text-white" />
+
+    <textarea name="description" placeholder="Mô tả" rows="3"
+        class="w-full p-2 rounded bg-[#0f0f0f] border border-[#303030] text-white"></textarea>
+
+    <input type="file" name="file" accept="audio/*" required
+        class="w-full text-sm bg-[#0f0f0f] border border-[#303030] rounded p-2 text-white" />
+
+    <input type="file" name="thumbnail" accept="image/*" required
+        class="w-full text-sm bg-[#0f0f0f] border border-[#303030] rounded p-2 text-white" />
+
+    <button type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded transition">
+        Tải lên
+    </button>
 </form>

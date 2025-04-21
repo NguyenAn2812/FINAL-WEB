@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use League\Plates\Engine;
+use Core\Database;
+
 use PDO;
 
 class AuthController {
@@ -10,10 +12,7 @@ class AuthController {
     protected $view;
 
     public function __construct() {
-        // Kết nối database
-        $this->db = new PDO('mysql:host=localhost;dbname=music_library;charset=utf8', 'root', '');
-
-        // Khởi tạo view
+        $this->db = Database::getInstance();
         $this->view = new Engine(__DIR__ . '/../views/auth');
     }
 
@@ -24,24 +23,22 @@ class AuthController {
             $password = $_POST['password'] ?? '';
             $confirm = $_POST['password_confirmation'] ?? '';
 
-            // Kiểm tra đơn giản
             if ($password !== $confirm) {
                 return;
             }
 
-            // Kiểm tra tên đăng nhập đã tồn tại
             $stmt = $this->db->prepare("SELECT id FROM users WHERE username = ?");
             $stmt->execute([$username]);
             if ($stmt->fetch()) {
                 return;
             }
 
-            // Mã hoá mật khẩu
             $hashed = password_hash($password, PASSWORD_DEFAULT);
 
-            // Thêm user vào database
             $stmt = $this->db->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
             $stmt->execute([$username, $email, $hashed]);
+            header("Location: " . BASE_URL);
+
 
             return;
         }
@@ -54,7 +51,6 @@ class AuthController {
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            // Tìm user theo username
             $stmt = $this->db->prepare("SELECT * FROM users WHERE username = ?");
             $stmt->execute([$username]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -70,7 +66,7 @@ class AuthController {
                 'avatar' => $user['avatar'] ?? null,
                 'role' => $user['role'] ?? 'user'
             ];
-
+            header("Location: " . BASE_URL);
             return;
         }
 
@@ -79,7 +75,7 @@ class AuthController {
 
     public function logout() {
         session_destroy();
-        header("Location: /");
+        header("Location: " . BASE_URL);
         exit;
     }
 }

@@ -12,9 +12,11 @@
     <?php $this->insert('layouts/navbar'); ?>
 
     <main class="p-4">
-        <h1 class="text-3xl font-bold">Hello from Wetube</h1>
+        <div id="app">
+            <?php $this->insert('layouts/songcontainer'); ?>
+        </div>
+        <?php $this->insert('layouts/controllerbar'); ?>
     </main>
-
     <div id="loginModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
         <div id="loginModalContent" class="bg-[#1e1e1e] rounded-lg shadow-lg p-6 w-full max-w-md text-white relative">
             <button onclick="closeLoginModal()" class="absolute top-2 right-3 text-xl hover:text-red-500">×</button>
@@ -32,10 +34,21 @@
             </div>
         </div>
     </div>
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+        <div id="uploadModalContent" class="bg-[#1e1e1e] rounded-lg shadow-lg p-6 w-full max-w-xl text-white relative">
+            <button onclick="closeUploadModal()" class="absolute top-2 right-3 text-xl hover:text-red-500">×</button>
+            <div id="uploadFormContent">
+                <p>Đang tải...</p>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         const BASE = "<?= BASE_URL ?>";
     </script>
-    <script src="<?= $this->asset('/assets/js/script.js') ?>"></script>
+    <script src="<?= $this->asset('/assets/js/script.js') ?>?v=<?= time() ?>"></script>
+
 </body>
 </html>
