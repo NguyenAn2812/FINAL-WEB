@@ -82,8 +82,9 @@ class ComponentController
                 $songs = $songModel->getAllWithArtist(); 
 
                 $view = $this->makeView();
+                
                 echo $view->render('layouts/songcontainer', [
-                    'songs' => $songs // 
+                    'songs' => $songs 
                 ]);
                 break;
 
