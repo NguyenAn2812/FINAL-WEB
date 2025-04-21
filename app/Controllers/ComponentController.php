@@ -73,7 +73,7 @@ class ComponentController
                 $view = $this->makeView(); 
                 echo $view->render('songs/songdisplay', [
                     'song' => $song,
-                    'songs' => $relatedSongs 
+                    'songs' => $songs 
                 ]);
                 break;
 
