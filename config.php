@@ -1,5 +1,5 @@
 <?php
-
+var_dump($_ENV['DB_USER']);
 return [
     'db' => [
         'host' => $_ENV['DB_HOST'],
