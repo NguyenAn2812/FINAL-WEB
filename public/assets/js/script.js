@@ -196,6 +196,10 @@ function setCurrentPlaylist(songArray) {
     currentPlaylist = songArray;
 }
 function playNext() {
+    if ((!currentPlaylist || currentPlaylist.length === 0) && document.querySelectorAll('[data-songcard]').length > 0) {
+        regeneratePlaylistFromDOM();
+    }
+
     if (currentPlaylist && currentPlaylist.length > 0 && currentSongId !== null) {
         const index = currentPlaylist.findIndex(song => song.id === currentSongId);
         if (index !== -1 && index < currentPlaylist.length - 1) {
@@ -208,6 +212,10 @@ function playNext() {
 }
 
 function playPrevious() {
+    if ((!currentPlaylist || currentPlaylist.length === 0) && document.querySelectorAll('[data-songcard]').length > 0) {
+        regeneratePlaylistFromDOM();
+    }
+
     if (currentPlaylist && currentPlaylist.length > 0 && currentSongId !== null) {
         const index = currentPlaylist.findIndex(song => song.id === currentSongId);
         if (index > 0) {
@@ -218,6 +226,7 @@ function playPrevious() {
 
     playRandomFromListsongs();
 }
+
 
 function playSongFromObject(song) {
     playSong(
@@ -245,4 +254,20 @@ function highlightNowPlaying() {
             card.classList.remove('bg-blue-800/30', 'ring-2', 'ring-blue-400');
         }
     });
+}
+function regeneratePlaylistFromDOM() {
+    const domSongs = document.querySelectorAll('[data-songcard]');
+    const newList = [];
+
+    domSongs.forEach(el => {
+        newList.push({
+            id: parseInt(el.getAttribute('data-songcard')),
+            title: el.querySelector('p.font-semibold')?.innerText ?? '',
+            artist: el.querySelector('p.text-gray-400')?.innerText ?? '',
+            thumbnail: el.querySelector('img')?.src ?? '',
+            file: el.getAttribute('onclick')?.match(/'(.*?)'/)?.[1] ?? ''
+        });
+    });
+
+    currentPlaylist = newList;
 }
