@@ -1,22 +1,24 @@
 <?php
 
 namespace App\Controllers;
-use Core\Database;
-use PDO;
 
-class PlaylistController {
-    public function getAllSongsAsJson() {
-        $db = Database::getInstance();
-        $stmt = $db->query("
-            SELECT songs.*, users.username AS artist
-            FROM songs
-            LEFT JOIN users ON songs.user_id = users.id
-            ORDER BY songs.created_at DESC
-        ");
-        $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+use App\Models\Song;
+
+class PlaylistController
+{
+    protected $songModel;
+
+    public function __construct()
+    {
+        $this->songModel = new Song();
+    }
+
+    public function getAllSongsAsJson()
+    {
+        $songs = $this->songModel->getAllWithArtist();
 
         header('Content-Type: application/json');
-        echo json_encode(array_map(function($s) {
+        echo json_encode(array_map(function ($s) {
             return [
                 'id' => $s['id'],
                 'title' => $s['title'],
@@ -25,5 +27,10 @@ class PlaylistController {
                 'file' => BASE_URL . '/uploads/songs/' . $s['filename'],
             ];
         }, $songs), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    }
+    public function listAll()
+    {
+        $playlists = $this->playlistModel->getAll();
+        require_once __DIR__ . '/../views/playlist/list.php';
     }
 }
