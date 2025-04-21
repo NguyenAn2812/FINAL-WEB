@@ -7,7 +7,8 @@ error_reporting(E_ALL);
 
 // Autoload
 require_once __DIR__ . '/../vendor/autoload.php';
-
+var_dump(class_exists(\App\Models\Song::class)); // <- thêm dòng này
+die();
 use Dotenv\Dotenv;
 use League\Plates\Engine;
 use Bramus\Router\Router;
@@ -23,11 +24,7 @@ define('BASE_URL', rtrim($_ENV['APP_URL'] ?? '/', '/'));
 
 $view = new Engine(__DIR__ . '/../app/views');
 $view->registerFunction('asset', fn($path) => BASE_URL . '/' . ltrim($path, '/'));
-echo "<pre>";
-print_r(get_declared_classes());
-echo "</pre>";
 
-die('🧪 Autoload test');
 $router = new Router();
 $auth = new AuthController();
 
