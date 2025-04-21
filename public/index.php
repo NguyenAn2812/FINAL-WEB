@@ -13,16 +13,13 @@ use App\Controllers\ComponentController;
 use App\Controllers\AuthController;
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
-
-$_ENV['APP_URL'] = $_ENV['APP_URL'] ?? '/FINAL-WEB/public';
-define('BASE_URL', $_ENV['APP_URL']);
-
+$_ENV['APP_URL'] = $_ENV['APP_URL'] ?? '/';
+define('BASE_URL', rtrim($_ENV['APP_URL'], '/'));
 
 $view = new Engine(__DIR__ . '/../app/views');
 $view->registerFunction('asset', function ($path) {
-    return '/FINAL-WEB/public' . $path;
+    return BASE_URL . '/' . ltrim($path, '/');
 });
-
 $auth = new AuthController();
 $router = new Router();
 

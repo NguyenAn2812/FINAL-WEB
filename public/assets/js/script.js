@@ -73,16 +73,26 @@ const playIcon = document.getElementById('play-icon');
 const controllerBar = document.getElementById('controller-bar');
 
 function playSong(file, title, artist, thumb) {
+    const audio = document.getElementById('global-audio');
+    const playIcon = document.getElementById('play-icon');
+    const controllerBar = document.getElementById('controller-bar');
+
+    audio.pause();
+    audio.currentTime = 0;
     audio.src = file;
+
     document.getElementById('now-playing-title').innerText = title;
     document.getElementById('now-playing-artist').innerText = artist;
     document.getElementById('now-playing-thumb').src = thumb;
-
     controllerBar.classList.remove('hidden');
-    audio.play();
-    playIcon.classList.replace('mdi-play', 'mdi-pause');
-}
 
+    setTimeout(() => {
+        audio.play().catch(err => {
+            console.warn("⚠️ Không thể play audio:", err.message);
+        });
+        playIcon.classList.replace('mdi-play', 'mdi-pause');
+    }, 200); 
+}
 function togglePlay() {
     if (audio.paused) {
         audio.play();

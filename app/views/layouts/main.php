@@ -48,7 +48,6 @@
     <script>
         const BASE = "<?= BASE_URL ?>";
     </script>
-    <script src="<?= $this->asset('/assets/js/script.js') ?>?v=<?= time() ?>"></script>
-
+<script src="<?= BASE_URL ?>assets/js/script.js?v=<?= time() ?>"></script>
 </body>
 </html>
