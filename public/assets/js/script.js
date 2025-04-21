@@ -107,6 +107,7 @@ function playSong(file, title, artist, thumb, songId = null, showDisplay = true)
     if (showDisplay && songId !== null) {
         loadSongDisplay(songId);
     }
+    highlightNowPlaying();
 
 }
 function togglePlay() {
@@ -231,4 +232,15 @@ function playRandomFromListsongs() {
 
     const randomIndex = Math.floor(Math.random() * songs.length);
     songs[randomIndex].click(); // mô phỏng click lên bài hát
+}
+function highlightNowPlaying() {
+    const cards = document.querySelectorAll('[data-songcard]');
+    cards.forEach(card => {
+        const id = parseInt(card.getAttribute('data-song-id'));
+        if (id === currentSongId) {
+            card.classList.add('bg-[#3ea6ff1a]', 'ring-2', 'ring-[#3ea6ff]');
+        } else {
+            card.classList.remove('bg-[#3ea6ff1a]', 'ring-2', 'ring-[#3ea6ff]');
+        }
+    });
 }

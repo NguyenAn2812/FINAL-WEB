@@ -15,13 +15,16 @@ $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="flex flex-col gap-3">
   <?php foreach ($songs as $song): ?>
-    <div data-songcard
+    <div 
+      data-songcard 
+      data-song-id="<?= $song['id'] ?>"
       onclick="playSong(
         '<?= BASE_URL ?>/uploads/songs/<?= $song['filename'] ?>',
-        '<?= htmlspecialchars($song['title']) ?>',
-        '<?= htmlspecialchars($song['artist'] ?? 'Unknown') ?>',
-        '<?= BASE_URL ?>/uploads/songs/<?= $song['thumbnail'] ?>'
-      ); loadSongDisplay(<?= $song['id'] ?>);"
+        '<?= addslashes($song['title']) ?>',
+        '<?= addslashes($song['artist'] ?? 'Unknown') ?>',
+        '<?= BASE_URL ?>/uploads/songs/<?= $song['thumbnail'] ?>',
+        <?= $song['id'] ?>
+      )"
       class="flex items-center gap-3 cursor-pointer hover:bg-[#2a2a2a] p-2 rounded transition"
     >
       <img
@@ -36,12 +39,17 @@ $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
   <?php endforeach; ?>
 </div>
+
+<!-- Gửi danh sách phát sang JS -->
 <script>
-setCurrentPlaylist(<?= json_encode(array_map(fn($s) => [
-    'id' => $s['id'],
-    'title' => addslashes($s['title']),
-    'artist' => addslashes($s['artist']),
-    'thumbnail' => BASE_URL . '/uploads/songs/' . $s['thumbnail'],
-    'file' => BASE_URL . '/uploads/songs/' . $s['filename']
-], $songs)) ?>);
+setCurrentPlaylist(<?= json_encode(array_map(function ($s) {
+    return [
+        'id' => $s['id'],
+        'title' => $s['title'],
+        'artist' => $s['artist'],
+        'thumbnail' => BASE_URL . '/uploads/songs/' . $s['thumbnail'],
+        'file' => BASE_URL . '/uploads/songs/' . $s['filename']
+    ];
+}, $songs), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>);
 </script>
+
