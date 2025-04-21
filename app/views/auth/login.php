@@ -20,7 +20,7 @@
 </form>
 
 <p class="text-sm mt-4 text-center text-gray-400">
-    Chưa có tài khoản?
+    Don't have an account?
     <a href="#" onclick="openRegisterModal(); closeLoginModal()" class="text-[#3ea6ff] hover:underline">
         Register now
     </a>
