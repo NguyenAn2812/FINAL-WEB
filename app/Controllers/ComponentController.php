@@ -60,7 +60,6 @@ class ComponentController
                     return;
                 }
 
-                // Danh sách gợi ý
                 $related = $db->prepare("
                     SELECT songs.*, users.username AS artist
                     FROM songs
