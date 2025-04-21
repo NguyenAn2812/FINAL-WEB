@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Core\Database;
 use League\Plates\Engine;
 use PDO;
+use App\Models\Song;
 
 class ComponentController
 {
@@ -45,7 +46,6 @@ class ComponentController
                 }
 
                 $db = Database::getInstance();
-
                 $stmt = $db->prepare("
                     SELECT songs.*, users.username AS artist
                     FROM songs
@@ -70,16 +70,21 @@ class ComponentController
                 $related->execute([$id]);
                 $relatedSongs = $related->fetchAll(PDO::FETCH_ASSOC);
 
-                $view = $this->makeView(); 
+                $view = $this->makeView();
                 echo $view->render('songs/songdisplay', [
                     'song' => $song,
-                    'songs' => $songs 
+                    'songs' => $relatedSongs // ✅ fix lỗi ở đây
                 ]);
                 break;
 
             case 'home':
+                $songModel = new Song();
+                $songs = $songModel->getAllWithArtist(); 
+
                 $view = $this->makeView();
-                echo $view->render('layouts/songcontainer');
+                echo $view->render('layouts/songcontainer', [
+                    'songs' => $songs // 
+                ]);
                 break;
 
             default:
