@@ -64,7 +64,7 @@
                 ['https://picsum.photos/300/300?random=4', 'Lofi cực chill', 'EMINEM'],
                 ['https://picsum.photos/300/300?random=4', 'Lofi cực chill', 'EMINEM']
             ];
-            include '../playlist/playlistdisplay.php';
+            include '../app/views/playlist/playlistdisplay.php';
         ?>
 
         <?php 
@@ -80,7 +80,7 @@
             ['https://picsum.photos/300/300?random=4', 'Lofi cực chill', 'EMINEM'],
             ['https://picsum.photos/300/300?random=4', 'Lofi cực chill', 'EMINEM']
             ];
-            include '../playlist/playlistdisplay.php';
+            include '../app/views/playlist/playlistdisplay.php';
         ?>
     </div>
 
