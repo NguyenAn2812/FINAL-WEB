@@ -1,4 +1,4 @@
-
+<?php var_dump($this);?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
