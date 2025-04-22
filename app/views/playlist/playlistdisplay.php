@@ -1,51 +1,34 @@
-<div class="flex w-full h-[calc(100vh-150px)]">
-  <!-- LEFT: PLAYLIST INFO -->
-  <div class="w-2/3 p-6 flex flex-col justify-center items-center">
-    <img src="<?= BASE_URL ?>/uploads/playlist/<?= htmlspecialchars($playlist['thumbnail']) ?>"
-         class="w-[500px] h-[500px] object-cover rounded shadow-lg mb-4"
-         alt="<?= htmlspecialchars($playlist['name']) ?>">
-    <div class="text-center">
-      <h1 class="text-2xl font-bold"><?= htmlspecialchars($playlist['name']) ?></h1>
-      <p class="text-sm text-gray-400 mt-1">
-        Created by: <?= htmlspecialchars($playlist['username'] ?? 'Unknown') ?>
-      </p>
-      <?php if (!empty($playlist['description'])): ?>
-        <p class="text-sm text-gray-300 mt-2 italic">
-          <?= htmlspecialchars($playlist['description']) ?>
-        </p>
-      <?php endif; ?>
-    </div>
-  </div>
+<!-- Trước khi include file này phải khai báo các biến $playListDisplayId, $playListDisplayName, $playListDisplayInfo[][imgsrc, name, author] -->
 
-  <!-- RIGHT: SONGS IN PLAYLIST -->
-  <div class="w-1/3 p-6 border-l border-[#303030] overflow-y-auto">
-    <h3 class="text-lg font-semibold mb-4">Song in playlist</h3>
-    <?php if (empty($songs)): ?>
-      <p class="text-sm text-gray-400"> There are no songs in this playlist yet</p>
-    <?php else: ?>
-      <?php foreach ($songs as $song): ?>
-        <div 
-          data-songcard="<?= $song['id'] ?>"
-          onclick="playSong(
-              '<?= BASE_URL ?>/uploads/songs/<?= $song['filename'] ?>',
-              '<?= addslashes($song['title']) ?>',
-              '<?= addslashes($song['artist'] ?? 'Unknown') ?>',
-              '<?= BASE_URL ?>/uploads/songs/<?= $song['thumbnail'] ?>',
-              <?= $song['id'] ?>
-          )"
-          class="flex items-center gap-3 cursor-pointer hover:bg-[#2a2a2a] p-2 rounded transition"
-        >
-          <img
-            src="<?= BASE_URL ?>/uploads/songs/<?= $song['thumbnail'] ?>"
-            alt="<?= htmlspecialchars($song['title']) ?>"
-            class="w-14 h-14 rounded object-cover"
-          >
-          <div>
-            <p class="font-semibold"><?= htmlspecialchars($song['title']) ?></p>
-            <p class="text-sm text-gray-400"><?= htmlspecialchars($song['artist'] ?? 'Unknown') ?></p>
-          </div>
-        </div>
-      <?php endforeach; ?>
-    <?php endif; ?>
-  </div>
+<?php include_once 'playlistcard.php';?>
+
+<div class="row">
+    <div class="col text-start">
+        <h4 class="mb-4"><?=$playListDisplayName?></h4>
+    </div>
+    <div class="col text-end">
+        <button class="scroll-btn" onclick="scrollPlaylist(<?=$playListDisplayId?>, -1)">&#8249;</button>
+        <button class="scroll-btn" onclick="scrollPlaylist(<?=$playListDisplayId?> ,1)">&#8250;</button>
+    </div>
 </div>
+
+<!-- Scrollable playlist -->
+<div class="playlist-wrapper" id="playlistScroll<?=$playListDisplayId?>">
+    <div class="playlist-row">
+    <!-- Playlist Card -->
+    <?php
+        foreach ($playListDisplayInfo as $cardInfo) {
+            renderPlaylistCard($cardInfo[0], $cardInfo[1], $cardInfo[2]);
+        }
+    ?>
+    </div>
+</div>
+
+<script>
+  function scrollPlaylist(playListDisplayId, direction) {
+    containerId = "playlistScroll" + playListDisplayId;
+    const container = document.getElementById(containerId);
+    const cardWidth = container.querySelector(".playlist-card").offsetWidth + 20; // thêm gap
+    container.scrollLeft += direction * cardWidth;
+  }
+</script>
