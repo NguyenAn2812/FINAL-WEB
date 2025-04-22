@@ -17,7 +17,7 @@
 
     <main class="p-4">
         <div id="app">
-            <?php $this->insert('layouts/songcontainer'); ?>
+            <!-- <?php $this->insert('layouts/songcontainer'); ?> -->
             <?php $this->insert('layouts/playlistcontainer'); ?>
         </div>
         <?php $this->insert('layouts/controllerbar'); ?>
