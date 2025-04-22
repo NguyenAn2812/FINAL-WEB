@@ -18,13 +18,6 @@
         
     </div>
     <?php $this->insert('layouts/navbar'); ?>
-
-    <main class="p-4">
-        <div id="app">
-        </div>
-        <?php $this->insert('layouts/controllerbar'); ?>
-    </main>
-
     <?php
             $playListDisplayId = 1;
             $playListDisplayName = 'Dành cho bạn';
@@ -56,6 +49,14 @@
             ];
             include '../app/views/playlist/playlistdisplay.php';
         ?>
+
+    <main class="p-4">
+        <div id="app">
+        </div>
+        <?php $this->insert('layouts/controllerbar'); ?>
+    </main>
+
+    
 
     <!-- Login Modal -->
     <div id="loginModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
