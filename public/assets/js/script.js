@@ -271,6 +271,7 @@ function playSongFromObject(song) {
     );
 }
 function openPlaylistDisplay(playlistId) {
+    if (!playlistId) return;
     fetch(`${BASE}/component/playlistdisplay?id=${playlistId}`)
         .then(res => res.text())
         .then(html => {

@@ -15,7 +15,7 @@
         </p>
       <?php endif; ?>
     </div>
-  </div>
+</div>
 
   <!-- RIGHT: SONGS IN PLAYLIST -->
   <div class="w-1/3 p-6 border-l border-[#303030] overflow-y-auto">
