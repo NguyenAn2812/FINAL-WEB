@@ -42,15 +42,6 @@
             </div>
         </div>
     </div>
-    <!-- Upload Modal -->
-    <div id="uploadModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-        <div id="uploadModalContent" class="bg-[#1e1e1e] rounded-lg shadow-lg p-6 w-full max-w-xl text-white relative">
-            <button onclick="closeUploadModal()" class="absolute top-2 right-3 text-xl hover:text-red-500">×</button>
-            <div id="uploadFormContent">
-                <p>Loading...</p>
-            </div>
-        </div>
-    </div>
 
     <?php
             $playListDisplayId = 1;
@@ -83,6 +74,17 @@
             ];
             include '../app/views/playlist/playlistdisplay.php';
         ?>
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+        <div id="uploadModalContent" class="bg-[#1e1e1e] rounded-lg shadow-lg p-6 w-full max-w-xl text-white relative">
+            <button onclick="closeUploadModal()" class="absolute top-2 right-3 text-xl hover:text-red-500">×</button>
+            <div id="uploadFormContent">
+                <p>Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    
 
     <script>
         const BASE = "<?= BASE_URL ?>";
