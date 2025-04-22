@@ -5,5 +5,6 @@
     <img src="<?= BASE_URL ?>/uploads/playlist/<?= htmlspecialchars($playlist['thumbnail']) ?>"
          alt="<?= htmlspecialchars($playlist['name']) ?>"
          class="w-full h-32 object-cover rounded mb-2">
+
     <h3 class="text-lg font-semibold"><?= htmlspecialchars($playlist['name']) ?></h3>
 </div>
