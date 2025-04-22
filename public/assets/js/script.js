@@ -261,7 +261,6 @@ function playPrevious() {
     playRandomFromListsongs();
 }
 
-
 function playSongFromObject(song) {
     playSong(
         song.file,
@@ -271,6 +270,16 @@ function playSongFromObject(song) {
         song.id
     );
 }
+function openPlaylistDisplay(playlistId) {
+    fetch(`${BASE}/component/playlistdisplay?id=${playlistId}`)
+        .then(res => res.text())
+        .then(html => {
+            const app = document.getElementById('app');
+            if (app) app.innerHTML = html;
+        })
+        .catch(err => console.error("Can't load UI playlist.", err));
+}
+
 function playRandomFromListsongs() {
     const songs = document.querySelectorAll('[data-songcard]');
     if (songs.length === 0) return;
@@ -299,7 +308,14 @@ function fetchPlaylist() {
       .catch(err => {
         console.error('Failed to load playlist:', err);
       });
+      
 }
+function scrollPlaylist(playListDisplayId, direction) {
+    containerId = "playlistScroll" + playListDisplayId;
+    const container = document.getElementById(containerId);
+    const cardWidth = container.querySelector(".playlist-card").offsetWidth + 20; // thêm gap
+    container.scrollLeft += direction * cardWidth;
+  }
 document.addEventListener('DOMContentLoaded', () => {
     loadComponent('home');
     loadGlobalPlaylist();

@@ -80,14 +80,51 @@ class ComponentController
             case 'home':
                 $songModel = new Song();
                 $songs = $songModel->getAllWithArtist(); 
-
+                
                 $view = $this->makeView();
                 
                 echo $view->render('layouts/songcontainer', [
                     'songs' => $songs 
                 ]);
                 break;
-
+            case 'playlistdisplay':
+                $id = $_GET['id'] ?? null;
+                if (!$id) {
+                    echo "<p class='text-red-500'>Playlist not found.</p>";
+                    return;
+                }
+            
+                $db = Database::getInstance();
+                $stmt = $db->prepare("
+                    SELECT playlists.*, users.username 
+                    FROM playlists  
+                    LEFT JOIN users ON playlists.user_id = users.id 
+                    WHERE playlists.id = ?
+                ");
+                $stmt->execute([$id]);
+                $playlist = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+                if (!$playlist) {
+                    echo "<p class='text-red-500'>Playlist không tồn tại.</p>";
+                    return;
+                }
+            
+                $songsStmt = $db->prepare("
+                    SELECT songs.*, users.username AS artist 
+                    FROM playlist_songs 
+                    INNER JOIN songs ON playlist_songs.song_id = songs.id 
+                    LEFT JOIN users ON songs.user_id = users.id
+                    WHERE playlist_songs.playlist_id = ?
+                ");
+                $songsStmt->execute([$id]);
+                $songs = $songsStmt->fetchAll(PDO::FETCH_ASSOC);
+            
+                $view = $this->makeView();
+                echo $view->render('playlist/playlistdisplay', [
+                    'playlist' => $playlist,
+                    'songs' => $songs
+                ]);
+                break;
             default:
                 http_response_code(404);
                 echo "Component not found";
