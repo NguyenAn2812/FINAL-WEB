@@ -21,8 +21,8 @@
     
 
     <main class="p-4">
-        <div id="app">
-        </div>
+        <!-- <div id="app">
+        </div> -->
         <?php $this->insert('layouts/controllerbar'); ?>
     </main>
 
