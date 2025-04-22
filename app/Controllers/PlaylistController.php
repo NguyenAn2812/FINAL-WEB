@@ -67,8 +67,14 @@ class PlaylistController
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    public function getSongsByQuery($orderClause = '') {
+    public function getSongsByQuery($type = 'latest') {
         $db = Database::getInstance();
+        $orderClause = match ($type) {
+            'latest' => 'ORDER BY songs.created_at DESC',
+            'popular' => 'ORDER BY songs.views DESC', // cần đảm bảo có cột views
+            default => 'ORDER BY songs.created_at DESC',
+        };
+    
         $stmt = $db->query("
             SELECT songs.*, users.username AS artist
             FROM songs
@@ -77,6 +83,7 @@ class PlaylistController
         ");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
     
     public function getSongsByUserId($userId) {
         if (!$userId) return [];
