@@ -38,7 +38,7 @@ class PlaylistController
 
     public function listContainer()
     {
-        $playlists = $this->playlistModel->getAll();
+        $playlists = $this->playlistModel->getAllWithUser();
         echo $this->view->render('layouts/listcontainer', ['playlists' => $playlists]);
     }
 
