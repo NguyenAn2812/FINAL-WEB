@@ -53,4 +53,43 @@ class PlaylistController
             'songs' => $songs
         ]);
     }
+    public function getSongsByArtist($name) {
+        $db = Database::getInstance();
+        $stmt = $db->prepare("
+            SELECT songs.*, users.username AS artist
+            FROM songs
+            LEFT JOIN users ON songs.user_id = users.id
+            WHERE users.username = ?
+            ORDER BY songs.created_at DESC
+        ");
+        $stmt->execute([$name]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function getSongsByQuery($orderClause = '') {
+        $db = Database::getInstance();
+        $stmt = $db->query("
+            SELECT songs.*, users.username AS artist
+            FROM songs
+            LEFT JOIN users ON songs.user_id = users.id
+            $orderClause
+        ");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function getSongsByUserId($userId) {
+        if (!$userId) return [];
+    
+        $db = Database::getInstance();
+        $stmt = $db->prepare("
+            SELECT songs.*, users.username AS artist
+            FROM songs
+            LEFT JOIN users ON songs.user_id = users.id
+            WHERE user_id = ?
+            ORDER BY songs.created_at DESC
+        ");
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
 }

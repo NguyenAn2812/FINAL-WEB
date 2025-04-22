@@ -125,6 +125,21 @@ class ComponentController
                     'songs' => $songs
                 ]);
                 break;
+            case 'newfeed':
+                $playlist = new \App\Controllers\PlaylistController();
+            
+                $trendingSongs = $playlist->getSongsByQuery("ORDER BY views DESC LIMIT 6");
+                $mtpSongs = $playlist->getSongsByArtist('Sơn Tùng M-TP');
+                $personalizedSongs = $playlist->getSongsByUserId($_SESSION['user']['id'] ?? null);
+            
+                $view = $this->makeView();
+                echo $view->render('newfeed/container', [
+                    'trendingSongs' => $trendingSongs,
+                    'mtpSongs' => $mtpSongs,
+                    'personalizedSongs' => $personalizedSongs
+                ]);
+                break;
+                
             default:
                 http_response_code(404);
                 echo "Component not found";
