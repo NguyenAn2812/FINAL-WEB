@@ -1,5 +1,3 @@
-<?php var_dump(get_class($this));?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +19,6 @@
     
 
     <main class="p-4">
-        <?php $this->insert('layouts/songcontainer'); ?>
         <?php $this->insert('layouts/playlistcontainer'); ?>
         <?php $this->insert('layouts/controllerbar'); ?>
     </main>
