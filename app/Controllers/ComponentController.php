@@ -121,9 +121,10 @@ class ComponentController
             
                 $view = $this->makeView();
                 echo $view->render('playlist/playlistdisplay', [
-                    'playlist' => $playlist,
-                    'songs' => $songs
+                    'playlist' => $playlistData,
+                    'songs' => $playlistSongs
                 ]);
+                
                 break;
             case 'newfeed':
                 $playlist = new \App\Controllers\PlaylistController();

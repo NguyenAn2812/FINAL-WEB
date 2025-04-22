@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Song;
 use App\Models\Playlist;
 use League\Plates\Engine;
+use Core\Database;
 
 class PlaylistController
 {
