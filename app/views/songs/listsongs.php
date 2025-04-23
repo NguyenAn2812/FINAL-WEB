@@ -26,7 +26,6 @@
   <?php endforeach; ?>
 </div>
 
-<!-- Gửi danh sách phát sang JS -->
 <script>
 setCurrentPlaylist(<?= json_encode(array_map(function ($s) {
     return [
