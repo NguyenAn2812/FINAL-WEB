@@ -22,10 +22,20 @@ class PlaylistController
     public function showAddSongToPlaylistForm($songId)
     {
         $userId = $_SESSION['user']['id'] ?? null;
-        if (!$userId) return;
+
+        if (!$userId) {
+            echo "<div style='color:red'>❌ Bạn chưa đăng nhập</div>"; // DEBUG
+            return;
+        }
 
         $playlists = $this->playlistModel->getUserPlaylists($userId);
-        echo $this->view->render('layouts/addplaylist', [
+
+        // DEBUG
+        if (empty($playlists)) {
+            echo "<div style='color:orange'>⚠️ Không có playlist nào</div>";
+        }
+
+        echo $this->view->render('layouts/modal-addtoplaylist', [
             'playlists' => $playlists,
             'songId' => $songId
         ]);
