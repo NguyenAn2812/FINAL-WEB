@@ -19,7 +19,30 @@ class PlaylistController
         $this->view = new Engine(__DIR__ . '/../views');
         $this->view->registerFunction('asset', fn($p) => BASE_URL . '/' . ltrim($p, '/'));
     }
+    public function showAddSongToPlaylistForm($songId)
+    {
+        $userId = $_SESSION['user']['id'] ?? null;
+        if (!$userId) return;
 
+        $playlists = $this->playlistModel->getUserPlaylists($userId);
+        echo $this->view->render('layouts/modal-addtoplaylist', [
+            'playlists' => $playlists,
+            'songId' => $songId
+        ]);
+    }
+    public function addSongToPlaylist()
+    {
+        $playlistIds = $_POST['playlist_ids'] ?? [];
+        $songId = $_POST['song_id'] ?? null;
+
+        if (!$songId || empty($playlistIds)) return;
+
+        foreach ($playlistIds as $pid) {
+            $this->playlistModel->addSongToPlaylist($pid, $songId);
+        }
+
+        echo "done";
+    }
     public function getAllSongsAsJson()
     {
         $songs = $this->songModel->getAllWithArtist();

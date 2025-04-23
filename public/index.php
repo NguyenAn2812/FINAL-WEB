@@ -41,6 +41,9 @@ $router->post('/song/upload', fn() => (new SongController())->upload());
 // API Playlist
 $router->get('/playlist/list', fn() => (new PlaylistController())->listContainer());
 $router->get('/playlist/view/(\d+)', fn($id) => (new PlaylistController())->display($id));
+$router->get('/playlist/addform', fn() => (new PlaylistController())->showAddSongToPlaylistForm($_GET['song_id']));
+$router->post('/playlist/add', fn() => (new PlaylistController())->addSongToPlaylist());
+
 
 // Auth
 $router->post('/register', fn() => $auth->register());

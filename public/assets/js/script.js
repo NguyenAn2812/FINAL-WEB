@@ -321,3 +321,30 @@ document.addEventListener('DOMContentLoaded', () => {
     loadComponent('home');
     loadGlobalPlaylist();
 });
+function openAddToPlaylistModal(songId) {
+    fetch(`${BASE}/playlist/addform?song_id=${songId}`)
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        document.getElementById('addToPlaylistModal').classList.remove('hidden');
+      });
+  }
+  
+  function closeAddToPlaylistModal() {
+    document.getElementById('addToPlaylistModal')?.remove();
+  }
+  
+  document.addEventListener('submit', function(e) {
+    if (e.target.id === 'addToPlaylistForm') {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      fetch(`${BASE}/playlist/add`, {
+        method: 'POST',
+        body: formData
+      }).then(() => {
+        closeAddToPlaylistModal();
+        alert("Added playlist!");
+      });
+    }
+  });
+  

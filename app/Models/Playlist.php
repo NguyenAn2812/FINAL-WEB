@@ -85,4 +85,11 @@ class Playlist
         ");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getUserPlaylists($userId)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM playlists WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
