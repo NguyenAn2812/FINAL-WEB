@@ -3,12 +3,12 @@
             "<?= $this->asset("/uploads/songs/{$song['filename']}") ?>",
             "<?= addslashes($song['title']) ?>",
             "<?= addslashes($song['artist'] ?? 'Unknown') ?>",
-            "<?= BASE_URL ?>/uploads/songs/<?= htmlspecialchars($song['thumbnail']) ?>",
+            "<?= BASE_URL ?>/uploads/thumbnails/<?= htmlspecialchars($song['thumbnail']) ?>",
             <?= $song['id'] ?>
         )'
     class="cursor-pointer bg-[#1e1e1e] rounded p-4 w-60 shadow mx-2 my-2 hover:bg-[#2a2a2a] transition">
 
-    <img src="<?= BASE_URL ?>/uploads/songs/<?= htmlspecialchars($song['thumbnail']) ?>"
+    <img src="<?= BASE_URL ?>/uploads/thumbnails/<?= htmlspecialchars($song['thumbnail']) ?>"
          class="w-full h-32 object-cover rounded mb-2"
          alt="<?= htmlspecialchars($song['title']) ?>">
 
