@@ -95,7 +95,11 @@ function playSong(file, title, artist, thumb, songId = null, showDisplay = true)
     audio.src = file;
     document.getElementById('now-playing-title').innerText = title;
     document.getElementById('now-playing-artist').innerText = artist;
-    document.getElementById('now-playing-thumb').src = thumb.startsWith('/uploads/') ? thumb : '/uploads/thumbnails/' + thumb;
+    if (thumb.startsWith('http') || thumb.startsWith('/uploads/')) {
+        document.getElementById('now-playing-thumb').src = thumb;
+    } else {
+        document.getElementById('now-playing-thumb').src = BASE + '/uploads/thumbnails/' + thumb;
+    }
     controllerBar.classList.remove('hidden');
     currentSongId = songId;
     setTimeout(() => {
