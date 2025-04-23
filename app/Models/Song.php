@@ -39,16 +39,19 @@ class Song
 
     public function getRelatedSongs($excludeId, $limit = 6)
     {
+        $limit = intval($limit); 
         $stmt = $this->db->prepare("
             SELECT songs.*, users.username AS artist
             FROM songs
             LEFT JOIN users ON songs.user_id = users.id
             WHERE songs.id != ?
-            ORDER BY RAND() LIMIT ?
+            ORDER BY RAND()
+            LIMIT $limit
         ");
-        $stmt->execute([$excludeId, $limit]);
+        $stmt->execute([$excludeId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function create($data)
     {
