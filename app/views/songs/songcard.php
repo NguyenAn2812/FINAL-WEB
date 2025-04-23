@@ -16,8 +16,11 @@
 
     <h3 class="text-lg font-semibold"><?= htmlspecialchars($song['title']) ?></h3>
     <p class="text-sm text-gray-400"><?= htmlspecialchars($song['artist'] ?? 'Unknown') ?></p>
-    <button onclick="openAddToPlaylistModal(<?= $song['id'] ?>)" class="absolute top-2 right-2 text-white">
-    &#8942;
-  </button>
+    <button 
+  onclick="event.stopPropagation(); openAddToPlaylistModal(<?= $song['id'] ?>)" 
+  class="absolute top-2 right-2 text-white"
+>
+  &#8942;
+</button>
 </div>
 </div>
