@@ -375,15 +375,11 @@ document.addEventListener('submit', function (e) {
         method: 'POST',
         body: formData
       })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          // Sau khi tạo thành công, gọi lại modal chọn playlist (cập nhật)
-          openAddToPlaylistModal(new Event('click'), data.song_id);
-        } else {
-          alert(data.message || "Đã có lỗi xảy ra");
-        }
-      });
+      .then(res => res.text()) // đổi từ .json() sang .text() để debug
+      .then(text => {
+        console.log("🪵 Server response:", text); // XEM TOÀN BỘ NỘI DUNG TRẢ VỀ
+      })
+      .catch(err => console.error("❌ Fetch error:", err));
     }
   });
   
