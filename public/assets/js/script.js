@@ -361,18 +361,38 @@ function openAddToPlaylistModal(e, songId) {
     title.innerText = "Thêm vào Playlist";
   }
 }
+function openCreatePlaylistModal() {
+  fetch(`${BASE}/component/createplaylist`)
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('createPlaylistModal')?.remove();
+      document.body.insertAdjacentHTML('beforeend', html);
+      document.getElementById('createPlaylistModal')?.classList.remove('hidden');
+    });
+}
+
+function closeCreatePlaylistModal() {
+  document.getElementById('createPlaylistModal')?.remove();
+}
 
 document.addEventListener('submit', function (e) {
-  if (e.target.id === 'createPlaylistForm') {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-    fetch(`${BASE}/playlist/create`, {
-      method: 'POST',
-      body: formData
-    }).then(() => {
-      alert('Đã tạo playlist!');
-      location.reload(); // reload lại để danh sách playlist cập nhật
-    });
-  }
-});
+    if (e.target.id === 'createPlaylistForm') {
+      e.preventDefault();
+  
+      const formData = new FormData(e.target);
+      fetch(`${BASE}/playlist/create`, {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          // Sau khi tạo thành công, gọi lại modal chọn playlist (cập nhật)
+          openAddToPlaylistModal(new Event('click'), data.song_id);
+        } else {
+          alert(data.message || "Đã có lỗi xảy ra");
+        }
+      });
+    }
+  });
+  

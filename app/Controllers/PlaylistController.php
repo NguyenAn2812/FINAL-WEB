@@ -37,6 +37,31 @@ class PlaylistController
             'songId' => $songId
         ]);
     }
+    public function create()
+    {
+        $name = $_POST['name'] ?? '';
+        $userId = $_SESSION['user']['id'] ?? null;
+        $thumbFile = $_FILES['thumbnail'] ?? null;
+        $songId = $_POST['song_id'] ?? null;
+
+        if (!$name || !$userId) {
+            echo json_encode(['success' => false, 'message' => 'Thiếu thông tin']);
+            return;
+        }
+
+        $thumbName = null;
+        if ($thumbFile && $thumbFile['error'] === UPLOAD_ERR_OK) {
+            $thumbName = time() . '_' . basename($thumbFile['name']);
+            move_uploaded_file(
+                $thumbFile['tmp_name'],
+                __DIR__ . '/../../public/uploads/songs/' . $thumbName
+            );
+        }
+
+        $this->playlistModel->create($name, $userId, $thumbName);
+
+        echo json_encode(['success' => true, 'song_id' => $songId]);
+    }
 
     public function addSongToPlaylist()
     {
