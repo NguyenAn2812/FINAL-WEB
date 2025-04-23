@@ -321,14 +321,16 @@ document.addEventListener('DOMContentLoaded', () => {
     loadComponent('home');
     loadGlobalPlaylist();
 });
-function openAddToPlaylistModal(songId) {
+function openAddToPlaylistModal(e, songId) {
+    e.stopPropagation(); 
+  
     fetch(`${BASE}/playlist/addform?song_id=${songId}`)
       .then(res => res.text())
       .then(html => {
         document.body.insertAdjacentHTML('beforeend', html);
-        document.getElementById('addToPlaylistModal').classList.remove('hidden');
+        document.getElementById('addToPlaylistModal')?.classList.remove('hidden');
       });
-  }
+}
   
   function closeAddToPlaylistModal() {
     document.getElementById('addToPlaylistModal')?.remove();
