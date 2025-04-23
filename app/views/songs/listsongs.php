@@ -8,7 +8,7 @@
         '<?= BASE_URL ?>/uploads/songs/<?= $song['filename'] ?>',
         '<?= addslashes($song['title']) ?>',
         '<?= addslashes($song['artist'] ?? 'Unknown') ?>',
-        '<?= BASE_URL ?>/uploads/songs/thumbnails<?= $song['thumbnail'] ?>',
+        '<?= BASE_URL ?>/uploads/thumbnails/<?= $song['thumbnail'] ?>',
         <?= $song['id'] ?>
       )"
       class="flex items-center gap-3 cursor-pointer hover:bg-[#2a2a2a] p-2 rounded transition"
