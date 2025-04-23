@@ -346,21 +346,12 @@ function openAddToPlaylistModal(e, songId) {
     document.getElementById('addToPlaylistModal')?.remove();
   }
   
-  function toggleCreatePlaylist(showCreate) {
-  const choose = document.getElementById('choosePlaylistSection');
-  const create = document.getElementById('createPlaylistSection');
-  const title = document.getElementById('playlistModalTitle');
-
-  if (showCreate) {
-    choose.classList.add('hidden');
-    create.classList.remove('hidden');
-    title.innerText = "Tạo playlist mới";
-  } else {
-    create.classList.add('hidden');
-    choose.classList.remove('hidden');
-    title.innerText = "Thêm vào Playlist";
+  function toggleCreatePlaylist(show) {
+    document.getElementById('choosePlaylistSection')?.classList.toggle('hidden', show);
+    document.getElementById('createPlaylistSection')?.classList.toggle('hidden', !show);
+    const title = document.getElementById('playlistModalTitle');
+    if (title) title.innerText = show ? 'Tạo playlist mới' : 'Thêm vào Playlist';
   }
-}
 function openCreatePlaylistModal() {
   fetch(`${BASE}/component/createplaylist`)
     .then(res => res.text())
