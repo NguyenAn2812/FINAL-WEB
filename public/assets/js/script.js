@@ -187,7 +187,11 @@ function regeneratePlaylistFromDOM() {
             id: parseInt(el.getAttribute('data-songcard')),
             title: el.querySelector('p.font-semibold')?.innerText ?? '',
             artist: el.querySelector('p.text-gray-400')?.innerText ?? '',
-            thumbnail: el.querySelector('img')?.src ?? '',
+            thumbnail: (() => {
+                const imgSrc = el.querySelector('img')?.src ?? '';
+                const filename = imgSrc.split('/').pop();
+                return '/uploads/thumbnails/' + filename;
+              })(),
             file: el.getAttribute('onclick')?.match(/'(.*?)'/)?.[1] ?? ''
         });
     });
