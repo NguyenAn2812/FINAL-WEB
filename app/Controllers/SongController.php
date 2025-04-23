@@ -16,7 +16,7 @@ class SongController
         $this->view->registerFunction('asset', fn($p) => BASE_URL . '/' . ltrim($p, '/'));
         $this->songModel = new Song();
     }
-
+    
     public function showSongContainer()
     {
         $songs = $this->songModel->getAllWithArtist();
@@ -38,6 +38,7 @@ class SongController
         ]);
     }
 
+    
     public function upload()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -79,4 +80,5 @@ class SongController
         header("Location: " . BASE_URL);
         exit;
     }
+    
 }
