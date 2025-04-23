@@ -43,6 +43,8 @@ $router->get('/playlist/list', fn() => (new PlaylistController())->listContainer
 $router->get('/playlist/view/(\d+)', fn($id) => (new PlaylistController())->display($id));
 $router->get('/playlist/addform', fn() => (new PlaylistController())->showAddSongToPlaylistForm($_GET['song_id']));
 $router->post('/playlist/add', fn() => (new PlaylistController())->addSongToPlaylist());
+$router->post('/playlist/create', fn() => (new \App\Controllers\PlaylistController())->create());
+$router->get('/playlist/json', fn() => (new \App\Controllers\PlaylistController())->getAllSongsAsJson());
 
 
 // Auth
