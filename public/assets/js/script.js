@@ -336,16 +336,33 @@ function openAddToPlaylistModal(e, songId) {
     document.getElementById('addToPlaylistModal')?.remove();
   }
   
-  document.addEventListener('submit', function(e) {
-    if (e.target.id === 'addToPlaylistForm') {
+  function toggleCreatePlaylist(showCreate) {
+    const choose = document.getElementById('choosePlaylistSection');
+    const create = document.getElementById('createPlaylistSection');
+    const title = document.getElementById('playlistModalTitle');
+  
+    if (showCreate) {
+      choose.classList.add('hidden');
+      create.classList.remove('hidden');
+      title.innerText = "Tạo playlist mới";
+    } else {
+      create.classList.add('hidden');
+      choose.classList.remove('hidden');
+      title.innerText = "Thêm vào Playlist";
+    }
+  }
+  
+  document.addEventListener('submit', function (e) {
+    if (e.target.id === 'createPlaylistForm') {
       e.preventDefault();
+  
       const formData = new FormData(e.target);
-      fetch(`${BASE}/playlist/add`, {
+      fetch(`${BASE}/playlist/create`, {
         method: 'POST',
         body: formData
       }).then(() => {
-        closeAddToPlaylistModal();
-        alert("Added playlist!");
+        alert('Đã tạo playlist!');
+        location.reload();
       });
     }
   });
