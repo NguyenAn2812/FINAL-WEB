@@ -32,7 +32,7 @@ class PlaylistController
 
         $playlists = $this->playlistModel->getUserPlaylists($userId);
 
-        echo $this->view->render('layouts/modal-addtoplaylist', [
+        echo $this->view->render('layouts/addplaylist', [
             'playlists' => $playlists,
             'songId' => $songId
         ]);
