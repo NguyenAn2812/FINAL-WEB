@@ -375,11 +375,21 @@ document.addEventListener('submit', function (e) {
         method: 'POST',
         body: formData
       })
-      .then(res => res.text()) // đổi từ .json() sang .text() để debug
-      .then(text => {
-        console.log("🪵 Server response:", text); // XEM TOÀN BỘ NỘI DUNG TRẢ VỀ
-      })
-      .catch(err => console.error("❌ Fetch error:", err));
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("🎉 Playlist đã tạo!");
+  
+          // 🟢 Thay dòng này nếu bạn muốn cập nhật lại modal:
+          // openAddToPlaylistModal(new Event('click'), data.song_id);
+  
+          // ✅ Nếu chỉ muốn quay lại danh sách:
+          toggleCreatePlaylist(false);
+        } else {
+          alert(data.message || "Đã có lỗi xảy ra");
+        }
+      });
     }
   });
+  
   
