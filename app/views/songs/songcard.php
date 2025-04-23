@@ -20,7 +20,7 @@
 </div>
 <button
     onclick="openAddToPlaylistModal(event, <?= $song['id'] ?>)"
-    class="absolute top-2 right-2 z-10 bg-black/50 px-2 rounded"
+    class="absolute top-2 right-2 z-10 px-2 rounded"
   >
     &#8942;
   </button>
