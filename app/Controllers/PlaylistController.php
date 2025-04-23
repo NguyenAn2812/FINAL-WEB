@@ -24,22 +24,20 @@ class PlaylistController
         $userId = $_SESSION['user']['id'] ?? null;
 
         if (!$userId) {
-            echo "<div style='color:red'>❌ Bạn chưa đăng nhập</div>"; // DEBUG
+            // ✅ Trả về tín hiệu đặc biệt thay vì HTML
+            http_response_code(401); // Unauthorized
+            echo "NOT_LOGGED_IN";
             return;
         }
 
         $playlists = $this->playlistModel->getUserPlaylists($userId);
-
-        // DEBUG
-        if (empty($playlists)) {
-            echo "<div style='color:orange'>⚠️ Không có playlist nào</div>";
-        }
 
         echo $this->view->render('layouts/modal-addtoplaylist', [
             'playlists' => $playlists,
             'songId' => $songId
         ]);
     }
+
     public function addSongToPlaylist()
     {
         $playlistIds = $_POST['playlist_ids'] ?? [];
