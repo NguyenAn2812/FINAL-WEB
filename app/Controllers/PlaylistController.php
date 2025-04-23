@@ -39,6 +39,7 @@ class PlaylistController
     }
     public function create()
     {
+        header('Content-Type: application/json'); 
         $name = $_POST['name'] ?? '';
         $userId = $_SESSION['user']['id'] ?? null;
         $thumbFile = $_FILES['thumbnail'] ?? null;
