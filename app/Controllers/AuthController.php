@@ -3,20 +3,21 @@
 namespace App\Controllers;
 
 use League\Plates\Engine;
-use Core\Database;
+use App\Controllers\UserController;
 
-use PDO;
-
-class AuthController {
-    protected $db;
+class AuthController
+{
     protected $view;
+    protected $userController;
 
-    public function __construct() {
-        $this->db = Database::getInstance();
+    public function __construct()
+    {
         $this->view = new Engine(__DIR__ . '/../views/auth');
+        $this->userController = new UserController();
     }
 
-    public function register() {
+    public function register()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'] ?? '';
             $email = $_POST['email'] ?? '';
@@ -24,38 +25,33 @@ class AuthController {
             $confirm = $_POST['password_confirmation'] ?? '';
 
             if ($password !== $confirm) {
+                echo "<p class='text-red-500'>Passwords do not match</p>";
                 return;
             }
 
-            $stmt = $this->db->prepare("SELECT id FROM users WHERE username = ?");
-            $stmt->execute([$username]);
-            if ($stmt->fetch()) {
+            if ($this->userController->findByUsername($username)) {
+                echo "<p class='text-red-500'>Username already exists</p>";
                 return;
             }
 
-            $hashed = password_hash($password, PASSWORD_DEFAULT);
-
-            $stmt = $this->db->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-            $stmt->execute([$username, $email, $hashed]);
+            $this->userController->createUser($username, $email, $password);
             header("Location: " . BASE_URL);
-
-
             return;
         }
 
         echo $this->view->render('register');
     }
 
-    public function login() {
+    public function login()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            $stmt = $this->db->prepare("SELECT * FROM users WHERE username = ?");
-            $stmt->execute([$username]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $user = $this->userController->findByUsername($username);
 
-            if (!$user || !password_verify($password, $user['password'])) {
+            if (!$user || !$this->userController->verifyPassword($password, $user['password'])) {
+                echo "<p class='text-red-500'>Wrong account or password</p>";
                 return;
             }
 
@@ -65,6 +61,7 @@ class AuthController {
                 'avatar' => $user['avatar'] ?? null,
                 'role' => $user['role'] ?? 'user'
             ];
+
             header("Location: " . BASE_URL);
             return;
         }
@@ -72,7 +69,8 @@ class AuthController {
         echo $this->view->render('login');
     }
 
-    public function logout() {
+    public function logout()
+    {
         session_destroy();
         header("Location: " . BASE_URL);
         exit;

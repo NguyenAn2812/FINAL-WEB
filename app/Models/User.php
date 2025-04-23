@@ -28,9 +28,32 @@ class User
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function create($data)
+    public function getAllUsers()
     {
-        $stmt = $this->db->prepare("INSERT INTO users (username, password, avatar) VALUES (?, ?, ?)");
-        return $stmt->execute([$data['username'], $data['password'], $data['avatar'] ?? null]);
+        $stmt = $this->db->query("SELECT * FROM users ORDER BY id DESC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function create($username, $email, $password, $avatar = null)
+    {
+        $hashed = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $this->db->prepare("
+            INSERT INTO users (username, email, password, avatar) 
+            VALUES (?, ?, ?, ?)
+        ");
+        return $stmt->execute([$username, $email, $hashed, $avatar]);
+    }
+
+    public function updateAvatar($id, $avatar)
+    {
+        $stmt = $this->db->prepare("UPDATE users SET avatar = ? WHERE id = ?");
+        return $stmt->execute([$avatar, $id]);
+    }
+
+    public function changePassword($id, $newPassword)
+    {
+        $hashed = password_hash($newPassword, PASSWORD_DEFAULT);
+        $stmt = $this->db->prepare("UPDATE users SET password = ? WHERE id = ?");
+        return $stmt->execute([$hashed, $id]);
     }
 }
