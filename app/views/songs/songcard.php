@@ -1,3 +1,5 @@
+<div class="relative">
+
 <div 
     onclick='playSong(
             "<?= $this->asset("/uploads/songs/{$song['filename']}") ?>",
@@ -17,4 +19,5 @@
     <button onclick="openAddToPlaylistModal(<?= $song['id'] ?>)" class="absolute top-2 right-2 text-white">
     &#8942;
   </button>
+</div>
 </div>
