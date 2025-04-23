@@ -87,7 +87,7 @@ class PlaylistController
                 'id' => $s['id'],
                 'title' => $s['title'],
                 'artist' => $s['artist'],
-                'thumbnail' => BASE_URL . '/uploads/songs/' . $s['thumbnail'],
+                'thumbnail' => BASE_URL . '/uploads/thumbnails/' . $s['thumbnail'],
                 'file' => BASE_URL . '/uploads/songs/' . $s['filename'],
             ];
         }, $songs), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
