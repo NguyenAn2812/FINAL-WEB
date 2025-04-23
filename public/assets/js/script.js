@@ -322,15 +322,23 @@ document.addEventListener('DOMContentLoaded', () => {
     loadGlobalPlaylist();
 });
 function openAddToPlaylistModal(e, songId) {
-    e.stopPropagation(); 
-    console.log("🔘 CLICK 3 CHẤM:", songId);
+    e.stopPropagation();
     fetch(`${BASE}/playlist/addform?song_id=${songId}`)
       .then(res => res.text())
       .then(html => {
+        console.log("📦 Modal HTML fetched:", html.slice(0, 100)); // Xem có nội dung không
+        document.getElementById('addToPlaylistModal')?.remove();
         document.body.insertAdjacentHTML('beforeend', html);
-        document.getElementById('addToPlaylistModal')?.classList.remove('hidden');
+        const modal = document.getElementById('addToPlaylistModal');
+        if (modal) {
+          modal.classList.remove('hidden');
+          console.log("✅ Modal hiển thị thành công");
+        } else {
+          console.warn("❌ Không tìm thấy modal sau khi insert!");
+        }
       });
-}
+  }
+  
   
   function closeAddToPlaylistModal() {
     document.getElementById('addToPlaylistModal')?.remove();
