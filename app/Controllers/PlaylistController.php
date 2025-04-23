@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Controllers;
-use PDO;
+
 use App\Models\Song;
 use App\Models\Playlist;
 use League\Plates\Engine;
-use Core\Database;
 
 class PlaylistController
 {
@@ -40,8 +39,7 @@ class PlaylistController
     public function listContainer()
     {
         $playlists = $this->playlistModel->getAllWithUser();
-        var_dump($playlists);
-        echo $this->view->render('layouts/playlistdisplay', ['playlists' => $playlists]);
+        echo $this->view->render('layouts/listcontainer', ['playlists' => $playlists]);
     }
 
     public function display($id)
@@ -54,50 +52,19 @@ class PlaylistController
             'songs' => $songs
         ]);
     }
-    public function getSongsByArtist($name) {
-        $db = Database::getInstance();
-        $stmt = $db->prepare("
-            SELECT songs.*, users.username AS artist
-            FROM songs
-            LEFT JOIN users ON songs.user_id = users.id
-            WHERE users.username = ?
-            ORDER BY songs.created_at DESC
-        ");
-        $stmt->execute([$name]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    public function getSongsByArtist($name)
+    {
+        return $this->playlistModel->getSongsByArtist($name);
     }
-    
-    public function getSongsByQuery($type = 'latest') {
-        $db = Database::getInstance();
-        $orderClause = match ($type) {
-            'latest' => 'ORDER BY songs.created_at DESC',
-            'popular' => 'ORDER BY songs.views DESC', // cần đảm bảo có cột views
-            default => 'ORDER BY songs.created_at DESC',
-        };
-    
-        $stmt = $db->query("
-            SELECT songs.*, users.username AS artist
-            FROM songs
-            LEFT JOIN users ON songs.user_id = users.id
-            $orderClause
-        ");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    public function getSongsByQuery($type = 'latest')
+    {
+        return $this->playlistModel->getSongsByQuery($type);
     }
-    
-    
-    public function getSongsByUserId($userId) {
-        if (!$userId) return [];
-    
-        $db = Database::getInstance();
-        $stmt = $db->prepare("
-            SELECT songs.*, users.username AS artist
-            FROM songs
-            LEFT JOIN users ON songs.user_id = users.id
-            WHERE user_id = ?
-            ORDER BY songs.created_at DESC
-        ");
-        $stmt->execute([$userId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    public function getSongsByUserId($userId)
+    {
+        return $this->playlistModel->getSongsByUserId($userId);
     }
-    
 }

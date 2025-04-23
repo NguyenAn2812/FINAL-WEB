@@ -25,39 +25,6 @@ class Song
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function findById($id)
-    {
-        $stmt = $this->db->prepare("SELECT * FROM songs WHERE id = ?");
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function getByPlaylist($playlistId)
-    {
-        $stmt = $this->db->prepare("
-            SELECT songs.* 
-            FROM songs 
-            INNER JOIN playlist_songs ON songs.id = playlist_songs.song_id 
-            WHERE playlist_songs.playlist_id = ?
-        ");
-        $stmt->execute([$playlistId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function create($data)
-    {
-        $stmt = $this->db->prepare("
-            INSERT INTO songs (title, description, filename, thumbnail, user_id) 
-            VALUES (?, ?, ?, ?, ?)
-        ");
-        return $stmt->execute([
-            $data['title'],
-            $data['description'],
-            $data['filename'],
-            $data['thumbnail'],
-            $data['user_id']
-        ]);
-    }
     public function findWithArtist($id)
     {
         $stmt = $this->db->prepare("
@@ -81,5 +48,20 @@ class Song
         ");
         $stmt->execute([$excludeId, $limit]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function create($data)
+    {
+        $stmt = $this->db->prepare("
+            INSERT INTO songs (title, description, filename, thumbnail, user_id) 
+            VALUES (?, ?, ?, ?, ?)
+        ");
+        return $stmt->execute([
+            $data['title'],
+            $data['description'],
+            $data['filename'],
+            $data['thumbnail'],
+            $data['user_id']
+        ]);
     }
 }

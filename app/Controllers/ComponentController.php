@@ -34,8 +34,7 @@ class ComponentController
                 break;
 
             case 'upload':
-                $view = $this->makeView(__DIR__ . '/../views/layouts');
-                echo $view->render('upload');
+                echo $this->makeView(__DIR__ . '/../views/layouts')->render('upload');
                 break;
 
             case 'songdisplay':
@@ -44,48 +43,11 @@ class ComponentController
                     echo "<p class='text-red-500'>Song not found.</p>";
                     return;
                 }
-
-                $db = Database::getInstance();
-                $stmt = $db->prepare("
-                    SELECT songs.*, users.username AS artist
-                    FROM songs
-                    LEFT JOIN users ON songs.user_id = users.id
-                    WHERE songs.id = ?
-                ");
-                $stmt->execute([$id]);
-                $song = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                if (!$song) {
-                    echo "<p class='text-red-500'>Song does not exist.</p>";
-                    return;
-                }
-
-                $related = $db->prepare("
-                    SELECT songs.*, users.username AS artist
-                    FROM songs
-                    LEFT JOIN users ON songs.user_id = users.id
-                    WHERE songs.id != ?
-                    ORDER BY RAND() LIMIT 6
-                ");
-                $related->execute([$id]);
-                $relatedSongs = $related->fetchAll(PDO::FETCH_ASSOC);
-
-                $view = $this->makeView();
-                echo $view->render('songs/songdisplay', [
-                    'song' => $song,
-                    'songs' => $relatedSongs 
-                ]);
+                (new \App\Controllers\SongController())->display($id);
                 break;
 
             case 'home':
-                $songModel = new Song();
-                $songs = $songModel->getAllWithArtist(); 
-                
-                $view = $this->makeView();
-                
-                echo $view->render('layouts/songcontainer', [
-                    'songs' => $songs 
-                ]);
+                (new \App\Controllers\SongController())->showSongContainer();
                 break;
             case 'playlistdisplay':
                 $id = $_GET['id'] ?? null;
