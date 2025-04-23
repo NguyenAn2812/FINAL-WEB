@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 function openAddToPlaylistModal(e, songId) {
     e.stopPropagation(); 
-  
+    console.log("🔘 CLICK 3 CHẤM:", songId);
     fetch(`${BASE}/playlist/addform?song_id=${songId}`)
       .then(res => res.text())
       .then(html => {
@@ -337,33 +337,32 @@ function openAddToPlaylistModal(e, songId) {
   }
   
   function toggleCreatePlaylist(showCreate) {
-    const choose = document.getElementById('choosePlaylistSection');
-    const create = document.getElementById('createPlaylistSection');
-    const title = document.getElementById('playlistModalTitle');
-  
-    if (showCreate) {
-      choose.classList.add('hidden');
-      create.classList.remove('hidden');
-      title.innerText = "Tạo playlist mới";
-    } else {
-      create.classList.add('hidden');
-      choose.classList.remove('hidden');
-      title.innerText = "Thêm vào Playlist";
-    }
+  const choose = document.getElementById('choosePlaylistSection');
+  const create = document.getElementById('createPlaylistSection');
+  const title = document.getElementById('playlistModalTitle');
+
+  if (showCreate) {
+    choose.classList.add('hidden');
+    create.classList.remove('hidden');
+    title.innerText = "Tạo playlist mới";
+  } else {
+    create.classList.add('hidden');
+    choose.classList.remove('hidden');
+    title.innerText = "Thêm vào Playlist";
   }
-  
-  document.addEventListener('submit', function (e) {
-    if (e.target.id === 'createPlaylistForm') {
-      e.preventDefault();
-  
-      const formData = new FormData(e.target);
-      fetch(`${BASE}/playlist/create`, {
-        method: 'POST',
-        body: formData
-      }).then(() => {
-        alert('Đã tạo playlist!');
-        location.reload();
-      });
-    }
-  });
-  
+}
+
+document.addEventListener('submit', function (e) {
+  if (e.target.id === 'createPlaylistForm') {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    fetch(`${BASE}/playlist/create`, {
+      method: 'POST',
+      body: formData
+    }).then(() => {
+      alert('Đã tạo playlist!');
+      location.reload(); // reload lại để danh sách playlist cập nhật
+    });
+  }
+});
