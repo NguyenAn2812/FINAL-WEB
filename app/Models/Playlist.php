@@ -69,6 +69,14 @@ class Playlist
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function create($name, $userId, $thumbnail = null)
+    {
+        $stmt = $this->db->prepare("
+            INSERT INTO playlists (name, user_id, thumbnail)
+            VALUES (?, ?, ?)
+        ");
+        return $stmt->execute([$name, $userId, $thumbnail]);
+    }
 
     public function getSongsByQuery($type = 'latest')
     {
