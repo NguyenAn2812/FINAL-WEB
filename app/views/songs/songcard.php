@@ -18,6 +18,6 @@
   <button
     onclick="openAddToPlaylistModal(event, <?= $song['id'] ?>)"
     class="absolute top-2 right-2 z-10 px-2 rounded">
-    <img src="<?= BASE_URL ?>/image/more.png/" alt="more button" class="w-10 h-10 shadow-lg">
+    <img src="<?= BASE_URL ?>/images/more.png" alt="more button" class="w-10 h-10 shadow-lg">
   </button>
 </div>
