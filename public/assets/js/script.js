@@ -110,10 +110,7 @@ function playSong(file, title, artist, thumb, songId = null, showDisplay = true)
         });
         playIcon.classList.replace('mdi-play', 'mdi-pause');
     }, 200); 
-    if (showDisplay && songId !== null) {
-        loadSongDisplay(songId);
-    }
-    loadSongDisplay(songId);
+    
 
 
 }
