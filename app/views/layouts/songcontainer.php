@@ -1,3 +1,4 @@
+<h2 class="text-3xl font-bold text-white mb-4">Latest songs</h2>
 <div class="relative px-4">
   <div id="songSlider" class="flex transition-transform duration-500 ease-in-out gap-6">
     <?php foreach ($songs as $song): ?>
