@@ -24,13 +24,7 @@
         <?php if (!empty($songs)): ?>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 <?php foreach ($songs as $song): ?>
-                    <div class="bg-[#1f1f1f] rounded p-4 shadow hover:shadow-lg transition">
-                        <img src="<?= BASE_URL ?>/uploads/thumbnails/<?= htmlspecialchars($song['thumbnail']) ?>"
-                             class="w-full h-40 object-cover rounded mb-2" alt="Thumbnail">
-
-                        <h4 class="font-semibold"><?= htmlspecialchars($song['title']) ?></h4>
-                        <p class="text-gray-400 text-sm"><?= htmlspecialchars($song['artist']) ?></p>
-                    </div>
+                    <?= $this->insert('songs/songcard', ['song' => $song]) ?>
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
@@ -49,7 +43,7 @@
                    class="w-full p-2 rounded bg-[#1f1f1f] mb-3">
 
             <button class="bg-green-600 px-4 py-2 rounded hover:bg-green-500">
-                💾 Lưu thay đổi
+                Lưu thay đổi
             </button>
             <button type="button" onclick="closeEditProfileModal()" class="ml-4 text-gray-400 hover:text-white">
                 Hủy
