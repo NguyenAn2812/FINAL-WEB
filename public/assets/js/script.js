@@ -200,10 +200,7 @@ function regeneratePlaylistFromDOM_Column() {
             ? src.replace('/uploads/songs/', '/uploads/thumbnails/')
             : src;
         })(),
-        file: el.dataset.file,
-        title: el.dataset.title,
-        artist: el.dataset.artist,
-        thumbnail: el.dataset.thumb
+        file: el.getAttribute('onclick')?.match(/'(.*?)'/)?.[1] ?? ''
       });
     });
   
@@ -349,7 +346,7 @@ function playPlaylist(playlistId) {
   
     const index = currentPlaylist.findIndex(song => song.id === currentSongId);
     if (index !== -1 && index < currentPlaylist.length - 1) {
-      playSongFromObject(currentPlaylist[index + 1]);
+        playSongFromObject(currentPlaylist[index + 1]);
     }
   }
   
