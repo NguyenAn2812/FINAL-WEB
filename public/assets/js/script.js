@@ -543,7 +543,7 @@ document.addEventListener('submit', function (e) {
             method: 'POST',
             body: formData
         })
-        .then(res => res.json())
+        .then(res => res.text())
         .then(data => {
             const errorP = document.getElementById('loginError');
             if (data.success) {
