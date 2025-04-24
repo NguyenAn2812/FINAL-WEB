@@ -59,7 +59,7 @@ class UserController
             $file = $_FILES['avatar'];
             $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
             $filename = 'avatar_' . time() . '.' . $ext;
-            move_uploaded_file($file['tmp_name'], __DIR__ . '/../../public/uploads/avatar/' . $filename);
+            move_uploaded_file($file['tmp_name'], __DIR__ . '/../../public/uploads/avatars/' . $filename);
 
             $userModel->updateAvatar($id, $filename);
             $_SESSION['user']['avatar'] = $filename;
