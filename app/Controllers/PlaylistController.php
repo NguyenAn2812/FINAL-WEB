@@ -67,7 +67,7 @@ class PlaylistController
     public function addSongToPlaylist()
     {
         $playlistIds = $_POST['playlist_ids'] ?? [];
-        $songId = $_POST['song_id'] ?? null;
+        $songId = $_POST['song_id'] ?? null; 
 
         if (!$songId || empty($playlistIds)) return;
 
