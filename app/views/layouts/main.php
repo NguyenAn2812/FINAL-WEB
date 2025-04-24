@@ -21,6 +21,7 @@
 
     <main class="p-4">
         <div id = "app">
+        
         </div>
         <?php $this->insert('layouts/controllerbar'); ?>
     </main>
@@ -57,8 +58,6 @@
             </div>
         </div>
     </div>
-
-    
 
     <script>
         const BASE = "<?= BASE_URL ?>";

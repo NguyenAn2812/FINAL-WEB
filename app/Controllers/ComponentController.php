@@ -23,6 +23,9 @@ class ComponentController
     public function load($component)
     {
         switch ($component) {
+            case 'profile':
+                (new \App\Controllers\UserController())->showProfile();
+                break;
             case 'login':
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     (new \App\Controllers\AuthController())->login();

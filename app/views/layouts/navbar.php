@@ -17,9 +17,9 @@
 
             <div id="dropdownMenu" class="hidden absolute right-0 top-12 bg-[#181818] text-white shadow-md rounded border border-[#303030] w-40 z-50">
                 
-                <button onclick="loadComponent('account')" class="w-full text-left px-4 py-2 hover:bg-[#2a2a2a]">
-                    <i class="mdi mdi-account-edit mr-2"></i>Profile
-                </button>
+            <button onclick="loadComponent('profile')" class="w-full text-left px-4 py-2 hover:bg-[#2a2a2a]">
+                <i class="mdi mdi-account-edit mr-2"></i> Profile
+            </button>
                 <form id="logoutForm">
                     <button class="w-full text-left px-4 py-2 hover:bg-[#2a2a2a]">
                         <i class="mdi mdi-logout mr-2"></i> Logout
