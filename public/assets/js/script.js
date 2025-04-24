@@ -313,6 +313,11 @@ function playPlaylist(playlistId) {
         if (app) app.innerHTML = html;
 
         const domSongs = document.querySelectorAll('#playlist-songs-container [data-songcard]');
+        if (!domSongs.length) {
+            alert("Playlist này không có bài hát nào.");
+            return;
+        }
+
         const list = Array.from(domSongs).map(el => ({
             id: parseInt(el.dataset.songcard),
             title: el.querySelector('p.font-semibold')?.innerText ?? '',
@@ -329,6 +334,7 @@ function playPlaylist(playlistId) {
         playSong(firstSong.file, firstSong.title, firstSong.artist, firstSong.thumbnail, firstSong.id, true, list);
     });
 }
+
     
 function shufflePlaylist(playlistId) {
     fetch(`${BASE}/playlist/json?id=${playlistId}`)
