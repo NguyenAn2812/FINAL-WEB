@@ -22,22 +22,14 @@
     </div>
 
     <main class="p-4">
-<<<<<<< HEAD
         <div id = "app">
         
-=======
-        <div id="app">
->>>>>>> c1f87b471c6c2dd2e7db19ae9d0cecb3ace7693a
+
         </div>
         <?php $this->insert('layouts/controllerbar'); ?>
     </main>
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> c1f87b471c6c2dd2e7db19ae9d0cecb3ace7693a
-    <!-- Login Modal -->
+  <!-- Login Modal -->
     <div id="loginModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
         <div id="loginModalContent" class="bg-[#1e1e1e] rounded-lg shadow-lg p-6 w-full max-w-md text-white relative">
             <button onclick="closeLoginModal()" class="absolute top-2 right-3 text-xl hover:text-red-500">×</button>
