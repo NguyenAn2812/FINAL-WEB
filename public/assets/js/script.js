@@ -700,7 +700,7 @@ function closeEditProfileModal() {
 }
 // Trong script.js
 let currentSlide = 0;
-const slideSize = 6; // số lượng bài hát mỗi trang
+const slideSize = 3; // số lượng bài hát mỗi trang
 
 function updateSlide() {
     const slider = document.getElementById('songSlider');
