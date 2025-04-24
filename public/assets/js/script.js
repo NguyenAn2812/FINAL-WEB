@@ -698,35 +698,43 @@ function openEditProfileModal() {
 function closeEditProfileModal() {
     document.getElementById('editProfileModal').classList.add('hidden');
 }
-    
-let currentPage = 1;
-const pageSize = 6;
+// Trong script.js
+if (typeof paginateSongs === 'undefined') {
+    let currentPage = 1;
+    const pageSize = 6;
 
-function paginateSongs() {
-    const cards = document.querySelectorAll('.songcard-wrapper');
-    const total = cards.length;
-    const totalPages = Math.ceil(total / pageSize);
+    function paginateSongs() {
+        const cards = document.querySelectorAll('.songcard-wrapper');
+        const total = cards.length;
+        const totalPages = Math.ceil(total / pageSize);
 
-    cards.forEach((card, index) => {
-        const start = (currentPage - 1) * pageSize;
-        const end = start + pageSize;
-        card.style.display = (index >= start && index < end) ? 'block' : 'none';
+        cards.forEach((card, index) => {
+            const start = (currentPage - 1) * pageSize;
+            const end = start + pageSize;
+            card.style.display = (index >= start && index < end) ? 'block' : 'none';
+        });
+
+        document.getElementById('prevBtn').disabled = currentPage === 1;
+        document.getElementById('nextBtn').disabled = currentPage === totalPages;
+    }
+
+    function nextPage() {
+        currentPage++;
+        paginateSongs();
+    }
+
+    function prevPage() {
+        currentPage--;
+        paginateSongs();
+    }
+
+    // Auto-trigger if container exists
+    document.addEventListener('DOMContentLoaded', () => {
+        const check = setInterval(() => {
+            if (document.querySelector('.songcard-wrapper')) {
+                paginateSongs();
+                clearInterval(check);
+            }
+        }, 50);
     });
-
-    document.getElementById('prevBtn').disabled = currentPage === 1;
-    document.getElementById('nextBtn').disabled = currentPage === totalPages;
 }
-
-function nextPage() {
-    currentPage++;
-    paginateSongs();
-}
-
-function prevPage() {
-    currentPage--;
-    paginateSongs();
-}
-
-// Gọi hàm khi load
-document.addEventListener('DOMContentLoaded', paginateSongs);
-    
