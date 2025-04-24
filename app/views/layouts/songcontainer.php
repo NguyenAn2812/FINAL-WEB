@@ -1,13 +1,13 @@
-<div class="relative overflow-hidden">
-  <!-- SLIDER CONTAINER -->
-  <div id="songSlider" class="flex transition-transform duration-500 ease-in-out">
+<div class="relative overflow-hidden px-4">
+  <div id="songSlider" class="flex transition-transform duration-500 ease-in-out gap-4">
     <?php foreach ($songs as $song): ?>
-      <div class="w-[200px] shrink-0 mr-4 songcard-wrapper">
+      <div class="w-[200px] shrink-0 songcard-wrapper">
         <?= $this->insert('songs/songcard', ['song' => $song]) ?>
       </div>
     <?php endforeach; ?>
   </div>
 </div>
+
 
 <div class="flex justify-center gap-4 mt-6" id="paginationControls">
   <button id="prevBtn" onclick="prevSlide()" aria-label="Previous"
