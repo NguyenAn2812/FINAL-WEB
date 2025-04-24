@@ -266,21 +266,46 @@ function playPlaylist(playlistId) {
   }
   
   function shufflePlaylist(playlistId) {
-    isShuffling = true;
-
     fetch(`${BASE}/component/playlistdisplay?id=${playlistId}`)
       .then(res => res.text())
       .then(html => {
         const app = document.getElementById('app');
         if (app) app.innerHTML = html;
   
-        const songs = document.querySelectorAll('[data-songcard]');
-        if (songs.length > 0) {
-          const randomIndex = Math.floor(Math.random() * songs.length);
-          songs[randomIndex].click();
+        // ✅ regenerate lại danh sách trong cột
+        const domSongs = document.querySelectorAll('#playlist-songs-container [data-songcard]');
+        let newList = [];
+  
+        domSongs.forEach(el => {
+          newList.push({
+            id: parseInt(el.getAttribute('data-songcard')),
+            title: el.querySelector('p.font-semibold')?.innerText ?? '',
+            artist: el.querySelector('p.text-gray-400')?.innerText ?? '',
+            thumbnail: (() => {
+              const src = el.querySelector('img')?.src ?? '';
+              return src.includes('/uploads/songs/')
+                ? src.replace('/uploads/songs/', '/uploads/thumbnails/')
+                : src;
+            })(),
+            file: el.getAttribute('onclick')?.match(/'(.*?)'/)?.[1] ?? ''
+          });
+        });
+  
+        // ✅ Shuffle danh sách
+        for (let i = newList.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [newList[i], newList[j]] = [newList[j], newList[i]];
         }
+  
+        // ✅ Cập nhật danh sách hiện tại
+        currentPlaylist = newList;
+        isShuffling = true;
+  
+        // ✅ Phát bài đầu tiên
+        playSongFromObject(currentPlaylist[0]);
       });
   }
+  
   
   function sharePlaylist(playlistId) {
     const url = `${window.location.origin}${BASE}/component/playlistdisplay?id=${playlistId}`;
