@@ -698,16 +698,19 @@ function openEditProfileModal() {
 function closeEditProfileModal() {
     document.getElementById('editProfileModal').classList.add('hidden');
 }
+// Trong script.js
 let currentSlide = 0;
-const slideSize = 6;
+const slideSize = 6; // số lượng bài hát mỗi trang
 
 function updateSlide() {
     const slider = document.getElementById('songSlider');
-    const cards = slider.querySelectorAll('.songcard-wrapper, .w-[200px]');
+    const cards = slider.querySelectorAll('.songcard-wrapper');
     const totalSlides = Math.ceil(cards.length / slideSize);
 
-    const translateX = -(currentSlide * 100);
-    slider.style.transform = `translateX(${translateX}%)`;
+    const containerWidth = 200 + 16; // w-[200px] + mr-4 (16px gap)
+    const offset = currentSlide * containerWidth * slideSize;
+
+    slider.style.transform = `translateX(-${offset}px)`;
 
     document.getElementById('prevBtn').disabled = currentSlide === 0;
     document.getElementById('nextBtn').disabled = currentSlide >= totalSlides - 1;
@@ -724,3 +727,4 @@ function prevSlide() {
 }
 
 document.addEventListener('DOMContentLoaded', updateSlide);
+
