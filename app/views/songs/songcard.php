@@ -1,4 +1,4 @@
-<div class="relative w-full max-w-[200px] aspect-square bg-[#1f1f1f] rounded overflow-hidden shadow group">
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 relative w-full max-w-[180px] aspect-square bg-[#1f1f1f] rounded overflow-hidden shadow group">
 
   <div class="songcard w-full h-full p-2 cursor-pointer flex flex-col justify-between"
     data-songcard="<?= $song['id'] ?>"
