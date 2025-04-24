@@ -16,7 +16,7 @@ class Controller
 
     public function __construct()
     {
-        $this->view = new Engine(__DIR__ . '/../views');
+        $this->view = new Engine(__DIR__ . '/../app/views');
         $this->view->registerFunction('asset', fn($p) => BASE_URL . '/' . ltrim($p, '/'));
 
         $this->userModel = new User();
