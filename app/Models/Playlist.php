@@ -36,18 +36,19 @@ class Playlist
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getSongs($playlistId)
+    public function getSongs($id)
     {
         $stmt = $this->db->prepare("
-            SELECT songs.*, users.username AS artist 
-            FROM playlist_songs 
-            INNER JOIN songs ON playlist_songs.song_id = songs.id 
+            SELECT songs.*, users.username AS artist
+            FROM playlist_songs
+            INNER JOIN songs ON playlist_songs.song_id = songs.id
             LEFT JOIN users ON songs.user_id = users.id
             WHERE playlist_songs.playlist_id = ?
         ");
-        $stmt->execute([$playlistId]);
+        $stmt->execute([$id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function getSongsByArtist($artistName)
     {

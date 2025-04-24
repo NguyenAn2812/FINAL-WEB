@@ -23,6 +23,7 @@
     <?php if (empty($songs)): ?>
       <p class="text-sm text-gray-400"> There are no songs in this playlist yet</p>
     <?php else: ?>
+      <p class="text-sm text-yellow-300">DEBUG: <?= isset($songs) ? count($songs) . ' bài hát' : 'Biến $songs không tồn tại' ?></p>
       <?php foreach ($songs as $song): ?>
         <div 
           data-songcard="<?= $song['id'] ?>"
