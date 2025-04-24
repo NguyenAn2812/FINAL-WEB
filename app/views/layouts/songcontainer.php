@@ -7,6 +7,14 @@
   <?php endforeach; ?>
 </div>
 <div class="flex justify-center gap-4 mt-6" id="paginationControls">
-  <button onclick="prevPage()" class="bg-gray-600 text-white px-4 py-2 rounded disabled:opacity-50" id="prevBtn" disabled>⬅ Prev</button>
-  <button onclick="nextPage()" class="bg-gray-600 text-white px-4 py-2 rounded disabled:opacity-50" id="nextBtn">Next ➡</button>
+<button id="prevBtn" onclick="prevPage()" aria-label="Previous"
+  class="w-9 h-9 flex items-center justify-center rounded-full bg-[#272727] hover:bg-[#3a3a3a] text-white transition disabled:opacity-40 disabled:cursor-not-allowed">
+  <i class="mdi mdi-chevron-left text-xl"></i>
+</button>
+
+<button id="nextBtn" onclick="nextPage()" aria-label="Next"
+  class="w-9 h-9 flex items-center justify-center rounded-full bg-[#272727] hover:bg-[#3a3a3a] text-white transition disabled:opacity-40 disabled:cursor-not-allowed">
+  <i class="mdi mdi-chevron-right text-xl"></i>
+</button>
+
 </div>
