@@ -314,17 +314,21 @@ function playPlaylist(playlistId) {
   
         // 🔀 Tạo bản shuffle từ danh sách gốc
         currentPlaylist = [...originalPlaylist];
-        renderPlaylistSongsFromCurrentPlaylist();
         for (let i = currentPlaylist.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [currentPlaylist[i], currentPlaylist[j]] = [currentPlaylist[j], currentPlaylist[i]];
         }
   
         isShuffling = true;
+  
+        // ✅ Sau khi shuffle xong mới render lại
+        renderPlaylistSongsFromCurrentPlaylist();
+  
+        // ✅ Phát bài đầu tiên trong danh sách shuffle
         playSongFromObject(currentPlaylist[0]);
       });
   }
-  
+    
   
   
   function sharePlaylist(playlistId) {
