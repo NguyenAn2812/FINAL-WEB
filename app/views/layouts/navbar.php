@@ -1,7 +1,7 @@
 <header class="flex items-center justify-between px-4 py-2 border-b border-[#303030] shadow-sm sticky top-0 bg-[#181818] text-white z-50">
     <a href="#" onclick="loadComponent('home')" class="flex items-center space-x-2 text-white text-xl font-bold">
         <i class="mdi mdi-youtube text-red-600 text-5xl"></i>
-        <span>Wetube musiccccccccccccccc</span>
+        <span>Wetube musiccccccccccccccccccccccc</span>
     </a>
 
     <div class="flex items-center space-x-4 relative" id="navbar-user">
