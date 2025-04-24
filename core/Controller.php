@@ -7,7 +7,8 @@ use App\Models\Song;
 use App\Models\Playlist;
 
 class BaseController extends Controller
-{
+{   
+    protected $view;
     protected $userModel;
     protected $songModel;
     protected $playlistModel;
