@@ -596,6 +596,16 @@ document.addEventListener('submit', function (e) {
             alert(" Added to playlist!");
         });
     }
+    if (e.target.id === 'logoutForm') {
+        e.preventDefault();
+
+        fetch(`${BASE}/logout`)
+            .then(() => {
+                reloadNavbar(); 
+                loadComponent('home'); 
+            })
+            .catch(err => console.error("Logout failed:", err));
+    }
 });
     
     
