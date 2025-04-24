@@ -24,7 +24,7 @@
         <?php if (!empty($songs)): ?>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 <?php foreach ($songs as $song): ?>
-                    <?= $this->insert('songs/songcard', ['song' => $song]) ?>
+                    <?php include __DIR__ . '/../songs/songcard.php'; ?>
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
