@@ -7,7 +7,7 @@
 
     <div class="text-center">
       <h1 class="text-2xl font-bold"><?= htmlspecialchars($playlist['name']) ?></h1>
-      <p class="text-sm text-gray-400 mt-1">Created by: <?= htmlspecialchars($playlist['username'] ?? 'Unknown') ?></p>
+      <p class="text-sm text-gray-400 mt-1">Created by: <?= htmlspecialchars($playlist['creator'] ?? 'Unknown') ?></p>
 
       <?php if (!empty($playlist['description'])): ?>
         <p class="text-sm text-gray-300 mt-2 italic"><?= htmlspecialchars($playlist['description']) ?></p>
