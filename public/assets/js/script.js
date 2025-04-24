@@ -1,4 +1,4 @@
-
+let isShuffling = false;
 function loadComponent(name) {
     fetch(`${BASE}/component/${name}`)
         .then(response => {
@@ -247,6 +247,8 @@ function loadPlaylistDisplay(playlistId) {
         .catch(err => console.error("Unable to load playlist display:", err));
 }
 function playPlaylist(playlistId) {
+    isShuffling = false;
+
     fetch(`${BASE}/component/playlistdisplay?id=${playlistId}`)
       .then(res => res.text())
       .then(html => {
@@ -259,6 +261,8 @@ function playPlaylist(playlistId) {
   }
   
   function shufflePlaylist(playlistId) {
+    isShuffling = true;
+
     fetch(`${BASE}/component/playlistdisplay?id=${playlistId}`)
       .then(res => res.text())
       .then(html => {
@@ -280,38 +284,41 @@ function playPlaylist(playlistId) {
       .catch(err => alert("Không thể copy liên kết."));
   }
 
-function playNext() {
-    console.log("Next clicked");
-    if (!currentPlaylist || currentPlaylist.length === 0) {
-        console.warn("currentPlaylist is empty");
-        return;
-    }
-
-    const index = currentPlaylist.findIndex(song => song.id === currentSongId);
-    console.log("Current song index in playlist:", index);
-
-    if (index !== -1 && index < currentPlaylist.length - 1) {
-        playSongFromObject(currentPlaylist[index + 1]);
+  function playNext() {
+    if (!currentPlaylist || currentPlaylist.length === 0) return;
+  
+    if (isShuffling) {
+      const availableSongs = currentPlaylist.filter(song => song.id !== currentSongId);
+      if (availableSongs.length > 0) {
+        const randomIndex = Math.floor(Math.random() * availableSongs.length);
+        playSongFromObject(availableSongs[randomIndex]);
+      }
     } else {
-        playRandomFromListsongs();
+      const index = currentPlaylist.findIndex(song => song.id === currentSongId);
+      if (index !== -1 && index < currentPlaylist.length - 1) {
+        playSongFromObject(currentPlaylist[index + 1]);
+      }
     }
-}
+  }
+  
 
-function playPrevious() {
-    if ((!currentPlaylist || currentPlaylist.length === 0) && document.querySelectorAll('[data-songcard]').length > 0) {
-        regeneratePlaylistFromDOM();
+  function playPrevious() {
+    if (!currentPlaylist || currentPlaylist.length === 0) return;
+  
+    if (isShuffling) {
+      const availableSongs = currentPlaylist.filter(song => song.id !== currentSongId);
+      if (availableSongs.length > 0) {
+        const randomIndex = Math.floor(Math.random() * availableSongs.length);
+        playSongFromObject(availableSongs[randomIndex]);
+      }
+    } else {
+      const index = currentPlaylist.findIndex(song => song.id === currentSongId);
+      if (index > 0) {
+        playSongFromObject(currentPlaylist[index - 1]);
+      }
     }
-
-    if (currentPlaylist && currentPlaylist.length > 0 && currentSongId !== null) {
-        const index = currentPlaylist.findIndex(song => song.id === currentSongId);
-        if (index > 0) {
-            playSongFromObject(currentPlaylist[index - 1]);
-            return;
-        }
-    }
-
-    playRandomFromListsongs();
-}
+  }
+  
 
 function playSongFromObject(song) {
     playSong(
