@@ -334,7 +334,17 @@ function shufflePlaylist(playlistId) {
     fetch(`${BASE}/playlist/json?id=${playlistId}`)
     .then(res => res.json())
     .then(songs => {
-        if (!Array.isArray(songs) || songs.length === 0) return;
+        if (!Array.isArray(songs) || songs.length === 0) {
+            const container = document.getElementById('playlist-songs-container');
+            if (container) {
+                container.innerHTML = `
+                    <div class="text-center text-gray-400 italic py-4">
+                        Playlist này chưa có bài hát nào để phát.
+                    </div>`;
+            }
+            return;
+        }
+        
 
         currentPlaylistId = playlistId;
         isShuffling = true;
