@@ -16,13 +16,15 @@ class Playlist
 
     public function getAllWithUser()
     {
-        $stmt = $this->db->query("
-            SELECT playlists.*, users.username AS owner
+        $stmt = $this->db->prepare("
+            SELECT playlists.*, users.username AS creator
             FROM playlists
-            LEFT JOIN users ON playlists.user_id = users.id
+            JOIN users ON playlists.user_id = users.id
         ");
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function find($id)
     {
