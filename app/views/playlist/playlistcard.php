@@ -1,5 +1,5 @@
 <div 
-  class="w-44 cursor-pointer transition hover:scale-105 hover:shadow-lg relative" 
+  class="w-[200px] md:w-[220px] lg:w-[240px] cursor-pointer transition hover:scale-105 hover:shadow-lg relative"
   onclick="openPlaylistDisplay(<?= $playlist['id'] ?>)"
   data-playlistcard="<?= $playlist['id'] ?>"
 >
