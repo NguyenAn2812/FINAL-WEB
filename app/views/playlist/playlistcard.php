@@ -1,9 +1,20 @@
-<div class="bg-[#202020] rounded-xl overflow-hidden hover:bg-[#2a2a2a] transition cursor-pointer"
-     onclick="loadPlaylistDisplay(<?= $playlist['id'] ?>)">
-     <img src="<?= $asset('uploads/songs/' . $playlist['thumbnail']) ?>" alt="<?= $playlist['name'] ?>"
-     class="w-full h-40 object-cover">
-    <div class="p-3">
-        <p class="font-semibold truncate"><?= htmlspecialchars($playlist['name']) ?></p>
-        <p class="text-sm text-gray-400 truncate"><?= htmlspecialchars($playlist['creator'] ?? 'Unknown') ?></p>
+<div 
+  class="w-44 cursor-pointer transition hover:scale-105 hover:shadow-lg relative" 
+  onclick="playPlaylist(<?= $playlist['id'] ?>)"
+  data-playlistcard="<?= $playlist['id'] ?>"
+>
+  <div class="relative">
+    <img 
+      src="<?= $playlist['thumbnail'] ?>" 
+      alt="Playlist Thumbnail" 
+      class="w-full h-44 object-cover rounded-xl"
+    >
+    <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 rounded-xl opacity-0 hover:opacity-100 transition">
+      <i class="mdi mdi-play text-white text-4xl"></i>
     </div>
+  </div>
+  <div class="mt-2">
+    <p class="text-white font-semibold truncate"><?= $playlist['name'] ?></p>
+    <p class="text-gray-400 text-sm truncate">Playlist • <?= $playlist['creator'] ?? 'Unknown' ?></p>
+  </div>
 </div>
