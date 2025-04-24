@@ -500,17 +500,23 @@ function playSongFromObject(song) {
 
     currentSongId = Number(song.id);
     const audio = document.getElementById('audio-player');
-    audio.src = song.file;
-    audio.play();
+    if (audio) {
+        audio.src = song.file;
+        audio.play();
+    }
 
-    // Hiển thị thông tin ở controllerbar
-    document.getElementById('now-playing-title').textContent = song.title;
-    document.getElementById('now-playing-artist').textContent = song.artist;
-    document.getElementById('now-playing-thumb').src = song.thumbnail;
+    // ✅ Chỉ update UI nếu phần tử có tồn tại
+    const titleEl = document.getElementById('now-playing-title');
+    const artistEl = document.getElementById('now-playing-artist');
+    const thumbEl = document.getElementById('now-playing-thumb');
 
-    // Highlight lại listsong nếu có
+    if (titleEl) titleEl.textContent = song.title;
+    if (artistEl) artistEl.textContent = song.artist;
+    if (thumbEl) thumbEl.src = song.thumbnail;
+
     renderPlaylistSongsFromList(currentPlaylist);
 }
+
     
 function openPlaylistDisplay(playlistId) {
     if (!playlistId) return;
