@@ -499,7 +499,7 @@ function playSongFromObject(song) {
     if (!song || !song.file) return;
 
     currentSongId = Number(song.id);
-    const audio = document.getElementById('audio-player');
+    const audio = document.getElementById('global-audio');
     if (audio) {
         audio.src = song.file;
         audio.play();
@@ -769,11 +769,11 @@ function handleSongCardClick(el) {
         file: el.dataset.file
     };
 
-    console.log("Playing song:", song); // ✅ để debug xem có nhận đúng không
-
+    console.log("🎧 Playing song:", song);
     currentSongId = song.id;
     playSongFromObject(song);
 }
+
 // Trong script.js
 let currentSlide = 0;
 const slideSize = 3; // số lượng bài hát mỗi trang
