@@ -57,38 +57,21 @@ class ComponentController
                     return;
                 }
             
-                $db = Database::getInstance();
-                $stmt = $db->prepare("
-                    SELECT playlists.*, users.username 
-                    FROM playlists  
-                    LEFT JOIN users ON playlists.user_id = users.id 
-                    WHERE playlists.id = ?
-                ");
-                $stmt->execute([$id]);
-                $playlist = $stmt->fetch(PDO::FETCH_ASSOC);
+                $playlistModel = new \App\Models\Playlist();
+                $playlist = $playlistModel->find($id);
             
                 if (!$playlist) {
                     echo "<p class='text-red-500'>Playlist không tồn tại.</p>";
                     return;
                 }
             
-                $songsStmt = $db->prepare("
-                    SELECT songs.*, users.username AS artist 
-                    FROM playlist_songs 
-                    INNER JOIN songs ON playlist_songs.song_id = songs.id 
-                    LEFT JOIN users ON songs.user_id = users.id
-                    WHERE playlist_songs.playlist_id = ?
-                ");
-                $songsStmt->execute([$id]);
-                $songs = $songsStmt->fetchAll(PDO::FETCH_ASSOC);
+                $songs = $playlistModel->getSongs($id);
             
                 $view = $this->makeView();
                 echo $view->render('playlist/playlistdisplay', [
                     'playlist' => $playlist,
                     'songs' => $songs
                 ]);
-                
-                
                 break;
             case 'newfeed':
                 $playlist = new \App\Controllers\PlaylistController();

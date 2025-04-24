@@ -28,7 +28,10 @@ class Playlist
 
     public function find($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM playlists WHERE id = ?");
+        $stmt = $this->db->prepare("SELECT playlists.*, users.username AS owner
+                                    FROM playlists
+                                    LEFT JOIN users ON playlists.user_id = users.id
+                                    WHERE playlists.id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -36,9 +39,9 @@ class Playlist
     public function getSongs($playlistId)
     {
         $stmt = $this->db->prepare("
-            SELECT songs.*, users.username AS artist
-            FROM songs
-            INNER JOIN playlist_songs ON songs.id = playlist_songs.song_id
+            SELECT songs.*, users.username AS artist 
+            FROM playlist_songs 
+            INNER JOIN songs ON playlist_songs.song_id = songs.id 
             LEFT JOIN users ON songs.user_id = users.id
             WHERE playlist_songs.playlist_id = ?
         ");
