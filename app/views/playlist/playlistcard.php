@@ -1,6 +1,6 @@
 <div class="bg-[#202020] rounded-xl overflow-hidden hover:bg-[#2a2a2a] transition cursor-pointer"
      onclick="loadPlaylistDisplay(<?= $playlist['id'] ?>)">
-    <img src="<?= asset('uploads/songs/' . $playlist['thumbnail']) ?>" alt="<?= $playlist['name'] ?>"
+    <img src="<?= asset('uploads/thumbnails/' . $playlist['thumbnail']) ?>" alt="<?= $playlist['name'] ?>"
          class="w-full h-40 object-cover">
     <div class="p-3">
         <p class="font-semibold truncate"><?= htmlspecialchars($playlist['name']) ?></p>
