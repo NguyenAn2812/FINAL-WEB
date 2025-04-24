@@ -540,7 +540,7 @@ document.addEventListener('submit', function (e) {
         const formData = new FormData(e.target);
 
         fetch(`${BASE}/login`, { method: 'POST', body: formData })
-        .then(res => res.text())
+        .then(res => res.json())
         .then(data => {
             const errorP = document.getElementById('loginError');
             if (data.success) {
