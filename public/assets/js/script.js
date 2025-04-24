@@ -395,9 +395,10 @@ async function playNext() {
         currentSongId = next.id;
         playSongFromObject(next);
     } else {
-        // Phát bài kế tiếp
         const next = currentPlaylist[index + 1];
         currentSongId = next.id;
+        await loadComponent(`songdisplay?id=${next.id}`);
+        renderPlaylistSongsFromList(currentPlaylist);
         playSongFromObject(next);
     }
 }
@@ -430,13 +431,17 @@ function renderPlaylistSongsFromList(songs) {
     container.innerHTML = songs.map(song => `
         <div class="songcard ${song.id === currentSongId ? 'border border-blue-500' : ''}"
              data-songcard="${song.id}"
-             onclick='playSongFromObject(${JSON.stringify(song)})'>
+             data-title="${song.title}"
+             data-artist="${song.artist}"
+             data-thumb="${song.thumbnail}"
+             data-file="${song.file}">
             <img src="${song.thumbnail}" class="w-full h-20 object-cover rounded" />
             <p class="text-white text-sm font-semibold">${song.title}</p>
             <p class="text-gray-400 text-xs">${song.artist}</p>
         </div>
     `).join('');
 }
+
 
     
 function playPrevious() {
@@ -518,7 +523,6 @@ function playSongFromObject(song) {
     if (artistEl) artistEl.textContent = song.artist;
     if (thumbEl) thumbEl.src = song.thumbnail;
 
-    renderPlaylistSongsFromList(currentPlaylist);
 }
 
     
