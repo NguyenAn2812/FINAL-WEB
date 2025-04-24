@@ -1,7 +1,7 @@
 <div class="relative overflow-hidden px-4">
   <div id="songSlider" class="flex transition-transform duration-500 ease-in-out gap-6">
     <?php foreach ($songs as $song): ?>
-      <div class="w-[200px] shrink-0 songcard-wrapper">
+      <div class="shrink-0 w-[220px] songcard-wrapper bg-[#1f1f1f] rounded-lg overflow-hidden shadow-md">
         <?= $this->insert('songs/songcard', ['song' => $song]) ?>
       </div>
     <?php endforeach; ?>
