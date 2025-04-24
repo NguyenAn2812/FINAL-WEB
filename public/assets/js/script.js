@@ -377,8 +377,7 @@ function sharePlaylist(playlistId) {
 
 async function playNext() {
     if (!currentPlaylist || currentPlaylist.length === 0) {
-        // 👉 Nếu không có playlist hiện tại: tạo random list
-        const randomSongs = await loadRandomSongs(); // gọi API random
+        const randomSongs = await loadRandomSongs();
         if (randomSongs.length === 0) {
             alert("Không còn bài hát nào để phát!");
             return;
@@ -388,23 +387,27 @@ async function playNext() {
         originalPlaylist = [...randomSongs];
         isShuffling = true;
 
-        // Render songdisplay + listsongs UI
-        openSongDisplay(randomSongs[0]); // bài đầu tiên
-        renderPlaylistSongsFromList(randomSongs); 
+        loadComponent(`songdisplay?id=${randomSongs[0].id}`);
+        renderPlaylistSongsFromList(randomSongs);
 
         currentSongId = randomSongs[0].id;
         playSongFromObject(randomSongs[0]);
         return;
     }
 
-    const index = currentPlaylist.findIndex(song => Number(song.id) === currentSongId);
-    if (index !== -1 && index < currentPlaylist.length - 1) {
-        // 👉 Phát bài tiếp theo trong list đã có
+    const index = currentPlaylist.findIndex(song => Number(song.id) === Number(currentSongId));
+
+    if (index === -1) {
+        currentSongId = currentPlaylist[0].id;
+        playSongFromObject(currentPlaylist[0]);
+        return;
+    }
+
+    if (index < currentPlaylist.length - 1) {
         const next = currentPlaylist[index + 1];
         currentSongId = next.id;
         playSongFromObject(next);
     } else {
-        // 👉 Phát hết list: load thêm random và tiếp tục
         const moreSongs = await loadRandomSongs();
         if (moreSongs.length === 0) {
             alert("Hết bài để phát tiếp.");
@@ -412,13 +415,14 @@ async function playNext() {
         }
 
         currentPlaylist = [...currentPlaylist, ...moreSongs];
-        originalPlaylist = [...currentPlaylist]; // cập nhật bản gốc nếu muốn shuffle
+        originalPlaylist = [...currentPlaylist];
         renderPlaylistSongsFromList(currentPlaylist);
         const next = moreSongs[0];
         currentSongId = next.id;
         playSongFromObject(next);
     }
 }
+
 function openSongDisplay(song) {
     loadComponent(`songdisplay?id=${song.id}`);
 }
