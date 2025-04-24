@@ -2,7 +2,7 @@
     <!-- Header -->
     <div class="flex items-center justify-between mb-8">
         <div class="flex items-center space-x-6">
-            <img src="<?= BASE_URL ?>/uploads/avatar/<?= htmlspecialchars($user['avatar'] ?? 'default.png') ?>"
+            <img src="<?= BASE_URL ?>/uploads/avatars/<?= htmlspecialchars($user['avatar'] ?? 'default.png') ?>"
                  alt="Avatar"
                  class="w-24 h-24 rounded-full object-cover border border-gray-500">
 
