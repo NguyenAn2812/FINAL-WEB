@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Wetube music</title>
@@ -10,22 +11,32 @@
     <link rel="icon" href="../../assets/images/logo.svg" />
     <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
+
 <body class="bg-[#121212] text-white">
 
-<div class="container-fluid">
-        
+    <div class="container-fluid">
+
     </div>
-    <div id="navbar" >
+    <div id="navbar">
         <?php $this->insert('layouts/navbar'); ?>
     </div>
 
     <main class="p-4">
+<<<<<<< HEAD
         <div id = "app">
         
+=======
+        <div id="app">
+>>>>>>> c1f87b471c6c2dd2e7db19ae9d0cecb3ace7693a
         </div>
         <?php $this->insert('layouts/controllerbar'); ?>
     </main>
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> c1f87b471c6c2dd2e7db19ae9d0cecb3ace7693a
     <!-- Login Modal -->
     <div id="loginModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
         <div id="loginModalContent" class="bg-[#1e1e1e] rounded-lg shadow-lg p-6 w-full max-w-md text-white relative">
@@ -35,7 +46,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Register Modal -->
     <div id="registerModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
         <div id="registerModalContent" class="bg-[#1e1e1e] rounded-lg shadow-lg p-6 w-full max-w-md text-white relative">
@@ -46,7 +57,7 @@
         </div>
     </div>
 
-    
+
     <!-- Upload Modal -->
     <div id="uploadModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
         <div id="uploadModalContent" class="bg-[#1e1e1e] rounded-lg shadow-lg p-6 w-full max-w-xl text-white relative">
@@ -57,9 +68,15 @@
         </div>
     </div>
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> c1f87b471c6c2dd2e7db19ae9d0cecb3ace7693a
     <script>
         const BASE = "<?= BASE_URL ?>";
     </script>
-<script src="<?= BASE_URL ?>assets/js/script.js?v=<?= time() ?>"></script>
+    <script src="<?= BASE_URL ?>assets/js/script.js?v=<?= time() ?>"></script>
 </body>
+
 </html>
