@@ -23,8 +23,6 @@
 
       <!-- SHUFFLE -->
       <button onclick="initPlaylistAndOpenSongDisplay(<?= $playlist['id'] ?>, true)">🔀 Shuffle</button>
-
-
       <!-- SHARE -->
       <button onclick="sharePlaylist(<?= $playlist['id'] ?>)" 
               class="bg-gray-700 hover:bg-gray-600 px-4 py-1 rounded text-sm text-white">

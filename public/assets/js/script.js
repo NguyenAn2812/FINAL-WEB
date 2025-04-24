@@ -179,6 +179,7 @@ function openUploadModal() {
             content.innerHTML = `<p class="text-red-500">Lỗi: ${err.message}</p>`;
         });
 }
+let currentPlaylistId = null;
 
 
 function closeUploadModal() {
@@ -247,9 +248,12 @@ function initPlaylistAndOpenSongDisplay(playlistId, isShuffle = false) {
       .then(res => res.json())
       .then(songs => {
         if (!Array.isArray(songs) || songs.length === 0) {
-          console.warn("No songs in this playlist.");
+          console.warn("No songs in playlist", playlistId);
           return;
         }
+  
+        currentPlaylistId = playlistId;
+        isShuffling = isShuffle;
   
         let list = [...songs];
         if (isShuffle) {
@@ -260,10 +264,9 @@ function initPlaylistAndOpenSongDisplay(playlistId, isShuffle = false) {
         }
   
         currentPlaylist = list;
-        isShuffling = isShuffle;
   
-        loadSongDisplay(list[0].id);
-        playSongFromObject(list[0]);
+        loadSongDisplay(list[0].id); 
+        playSongFromObject(list[0]); 
       });
   }
   
