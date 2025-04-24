@@ -22,7 +22,7 @@
 
   <button
     onclick="openAddToPlaylistModal(event, <?= $song['id'] ?>)"
-    class="absolute bottom-2 left-2 z-10 px-2 rounded hover:bg-black/80">
+    class="absolute bottom-2 right-2 z-10 px-2 rounded hover:bg-black/80">
     <img src="<?= BASE_URL ?>/images/more.png" alt="more button" class="w-5 shadow">
   </button>
 </div>
