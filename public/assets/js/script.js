@@ -539,10 +539,7 @@ document.addEventListener('submit', function (e) {
 
         const formData = new FormData(e.target);
 
-        fetch(`${BASE}/auth/login`, {
-            method: 'POST',
-            body: formData
-        })
+        fetch(`${BASE}/login`, { method: 'POST', body: formData })
         .then(res => res.text())
         .then(data => {
             const errorP = document.getElementById('loginError');
@@ -561,10 +558,7 @@ document.addEventListener('submit', function (e) {
 
         const formData = new FormData(e.target);
 
-        fetch(`${BASE}/auth/register`, {
-            method: 'POST',
-            body: formData
-        })
+        fetch(`${BASE}/register`, { method: 'POST', body: formData })
         .then(res => res.json())
         .then(data => {
             const errorP = document.getElementById('registerError');
