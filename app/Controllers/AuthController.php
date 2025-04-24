@@ -25,17 +25,17 @@ class AuthController
             $confirm = $_POST['password_confirmation'] ?? '';
 
             if ($password !== $confirm) {
-                echo "<p class='text-red-500'>Passwords do not match</p>";
+                echo json_encode(['success' => false, 'message' => 'Passwords do not match']);
                 return;
             }
 
             if ($this->userController->findByUsername($username)) {
-                echo "<p class='text-red-500'>Username already exists</p>";
+                echo json_encode(['success' => false, 'message' => 'Username already exists']);
                 return;
             }
 
             $this->userController->createUser($username, $email, $password);
-            header("Location: /" );
+            echo json_encode(['success' => true]);
             return;
         }
 
@@ -51,7 +51,10 @@ class AuthController
             $user = $this->userController->findByUsername($username);
 
             if (!$user || !$this->userController->verifyPassword($password, $user['password'])) {
-                echo "<p class='text-red-500'>Wrong account or password</p>";
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Wrong account or password'
+                ]);
                 return;
             }
 
@@ -62,17 +65,17 @@ class AuthController
                 'role' => $user['role'] ?? 'user'
             ];
 
-            header("Location: /");
+            echo json_encode(['success' => true]);
             return;
         }
 
         echo $this->view->render('login');
     }
 
+
     public function logout()
     {
         session_destroy();
-        header("Location: /");
         exit;
     }
 }
