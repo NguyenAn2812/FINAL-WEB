@@ -92,6 +92,14 @@ class PlaylistController
             ];
         }, $songs), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
+    public function showPlaylistContainer()
+    {
+        $playlists = $this->playlistModel->getAllWithUser();
+
+        echo $this->view->render('layouts/playlistcontainer', [
+            'playlists' => $playlists
+        ]);
+    }
 
     public function listContainer()
     {
@@ -104,7 +112,7 @@ class PlaylistController
         $playlist = $this->playlistModel->find($id);
         $songs = $this->playlistModel->getSongs($id);
 
-        echo $this->view->render('playlist/playlistdisplay', [
+        echo $this->view->render('playlist  /playlistdisplay', [
             'playlist' => $playlist,
             'songs' => $songs
         ]);

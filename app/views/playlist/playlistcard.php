@@ -1,10 +1,9 @@
-<div 
-    onclick="openPlaylistDisplay(<?= $playlist['id'] ?>)"
-    class="cursor-pointer bg-[#1e1e1e] rounded p-4 w-60 shadow mx-2 my-2 hover:bg-[#2a2a2a] transition"
->
-    <img src="<?= BASE_URL ?>/uploads/playlist/<?= htmlspecialchars($playlist['thumbnail']) ?>"
-         alt="<?= htmlspecialchars($playlist['name']) ?>"
-         class="w-full h-32 object-cover rounded mb-2">
-
-    <h3 class="text-lg font-semibold"><?= htmlspecialchars($playlist['name']) ?></h3>
+<div class="bg-[#202020] rounded-xl overflow-hidden hover:bg-[#2a2a2a] transition cursor-pointer"
+     onclick="loadPlaylistDisplay(<?= $playlist['id'] ?>)">
+    <img src="<?= $playlist['thumbnail'] ?>" alt="<?= $playlist['name'] ?>"
+         class="w-full h-40 object-cover">
+    <div class="p-3">
+        <p class="font-semibold truncate"><?= htmlspecialchars($playlist['name']) ?></p>
+        <p class="text-sm text-gray-400 truncate"><?= htmlspecialchars($playlist['creator']) ?></p>
+    </div>
 </div>

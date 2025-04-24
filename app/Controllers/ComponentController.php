@@ -48,6 +48,7 @@ class ComponentController
 
             case 'home':
                 (new \App\Controllers\SongController())->showSongContainer();
+                (new \App\Controllers\SongController())->showPlaylistContainer();
                 break;
             case 'playlistdisplay':
                 $id = $_GET['id'] ?? null;

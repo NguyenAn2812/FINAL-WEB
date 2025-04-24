@@ -22,7 +22,6 @@
         <div id = "app">
         
         </div>
-        <?php $this->insert('layouts/playlistcontainer'); ?>
         <?php $this->insert('layouts/controllerbar'); ?>
     </main>
 
