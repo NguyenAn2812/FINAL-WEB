@@ -444,14 +444,14 @@ function renderPlaylistSongsFromList(songs) {
 
 
     
-function playPrevious() {
-    if (!currentPlaylist || currentPlaylist.length === 0) return;
+// function playPrevious() {
+//     if (!currentPlaylist || currentPlaylist.length === 0) return;
 
-    const index = currentPlaylist.findIndex(song => song.id === currentSongId);
-    if (index > 0) {
-        playSongFromObject(currentPlaylist[index - 1]);
-    }
-}
+//     const index = currentPlaylist.findIndex(song => song.id === currentSongId);
+//     if (index > 0) {
+//         playSongFromObject(currentPlaylist[index - 1]);
+//     }
+// }
 
 
 
@@ -501,20 +501,27 @@ function renderPlaylistSongsFromCurrentPlaylist() {
 }
 
 function playSongFromObject(song) {
-    if (!song || !song.file) return;
+    console.log("▶️ playSongFromObject - nhận bài:", song);
+
+    if (!song || !song.file) {
+        console.warn("⛔ Không đủ dữ liệu để phát bài:", song);
+        return;
+    }
 
     currentSongId = Number(song.id);
+
     const audio = document.getElementById('global-audio');
     if (audio) {
         audio.src = song.file;
         audio.play();
+        console.log("🎵 Phát bài:", song.title);
     }
+
     const bar = document.getElementById('controller-bar');
     if (bar && bar.classList.contains('hidden')) {
         bar.classList.remove('hidden');
     }
 
-    // ✅ Chỉ update UI nếu phần tử có tồn tại
     const titleEl = document.getElementById('now-playing-title');
     const artistEl = document.getElementById('now-playing-artist');
     const thumbEl = document.getElementById('now-playing-thumb');
@@ -523,7 +530,9 @@ function playSongFromObject(song) {
     if (artistEl) artistEl.textContent = song.artist;
     if (thumbEl) thumbEl.src = song.thumbnail;
 
+    highlightNowPlaying(song.id);
 }
+
 
     
 function openPlaylistDisplay(playlistId) {
@@ -544,14 +553,14 @@ function playRandomFromListsongs() {
     const randomIndex = Math.floor(Math.random() * songs.length);
     songs[randomIndex].click(); 
 }
-function highlightNowPlaying() {
-    const cards = document.querySelectorAll('[data-songcard]');
-    cards.forEach(card => {
-        const id = parseInt(card.getAttribute('data-songcard'));
-        if (id === currentSongId) {
-            card.classList.add('bg-blue-800/30', 'ring-2', 'ring-blue-400');
+function highlightNowPlaying(songId) {
+    const allCards = document.querySelectorAll('.songcard');
+    allCards.forEach(card => {
+        const id = Number(card.dataset.songcard);
+        if (id === Number(songId)) {
+            card.classList.add('border', 'border-blue-500');
         } else {
-            card.classList.remove('bg-blue-800/30', 'ring-2', 'ring-blue-400');
+            card.classList.remove('border', 'border-blue-500');
         }
     });
 }
