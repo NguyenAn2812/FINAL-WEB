@@ -707,7 +707,7 @@ function updateSlide() {
     const cards = slider.querySelectorAll('.songcard-wrapper');
     const totalSlides = Math.ceil(cards.length / slideSize);
 
-    const containerWidth = 200 + 16; // w-[200px] + mr-4 (16px gap)
+    const containerWidth = 244; // w-[200px] + mr-4 (16px gap)
     const offset = currentSlide * containerWidth * slideSize;
 
     slider.style.transform = `translateX(-${offset}px)`;

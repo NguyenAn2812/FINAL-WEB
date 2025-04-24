@@ -1,5 +1,5 @@
 <div class="relative overflow-hidden px-4">
-  <div id="songSlider" class="flex transition-transform duration-500 ease-in-out gap-4">
+  <div id="songSlider" class="flex transition-transform duration-500 ease-in-out gap-6">
     <?php foreach ($songs as $song): ?>
       <div class="w-[200px] shrink-0 songcard-wrapper">
         <?= $this->insert('songs/songcard', ['song' => $song]) ?>
