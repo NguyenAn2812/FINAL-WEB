@@ -40,7 +40,7 @@
 </div>
 <div id="editProfileModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
     <div class="bg-[#181818] p-6 rounded shadow-lg w-full max-w-lg text-white">
-        <h3 class="text-xl font-bold mb-4">Chỉnh sửa thông tin</h3>
+        <h3 class="text-xl font-bold mb-4">Edit</h3>
         <form id="editProfileForm">
             <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>"
                    class="w-full p-2 rounded bg-[#1f1f1f] mb-3">
