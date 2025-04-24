@@ -1,4 +1,4 @@
-<div class="relative overflow-hidden px-4">
+<div class="relative px-4">
   <div id="songSlider" class="flex transition-transform duration-500 ease-in-out gap-6">
     <?php foreach ($songs as $song): ?>
       <div class="shrink-0 w-[250px] songcard-wrapper rounded-lg shadow-md">
