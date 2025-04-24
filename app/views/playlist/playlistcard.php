@@ -1,6 +1,6 @@
 <div 
   class="w-44 cursor-pointer transition hover:scale-105 hover:shadow-lg relative" 
-  onclick="playPlaylist(<?= $playlist['id'] ?>)"
+  onclick="openPlaylistDisplay(<?= $playlist['id'] ?>)"
   data-playlistcard="<?= $playlist['id'] ?>"
 >
   <div class="relative">

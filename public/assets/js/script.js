@@ -326,13 +326,13 @@ function playSongFromObject(song) {
 function openPlaylistDisplay(playlistId) {
     if (!playlistId) return;
     fetch(`${BASE}/component/playlistdisplay?id=${playlistId}`)
-        .then(res => res.text())
-        .then(html => {
-            const app = document.getElementById('app');
-            if (app) app.innerHTML = html;
-        })
-        .catch(err => console.error("Can't load UI playlist.", err));
-}
+      .then(res => res.text())
+      .then(html => {
+        const app = document.getElementById('app');
+        if (app) app.innerHTML = html;
+      })
+      .catch(err => console.error("❌ Không thể tải giao diện playlist:", err));
+  }
 
 function playRandomFromListsongs() {
     const songs = document.querySelectorAll('[data-songcard]');
