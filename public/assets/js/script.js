@@ -89,7 +89,10 @@ function playSong(file, title, artist, thumb, songId = null, showDisplay = true)
     const audio = document.getElementById('global-audio');
     const playIcon = document.getElementById('play-icon');
     const controllerBar = document.getElementById('controller-bar');
-
+    const mainThumb = document.getElementById('main-playlist-thumbnail');
+    if (mainThumb) {
+    mainThumb.src = thumb;
+    }
     audio.pause();
     audio.currentTime = 0;
     audio.src = file;

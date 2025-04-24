@@ -1,7 +1,7 @@
 <div class="flex w-full h-[calc(100vh-150px)]">
   <!-- LEFT: PLAYLIST INFO -->
   <div class="w-2/3 p-6 flex flex-col justify-center items-center">
-    <img src="<?= BASE_URL ?>/uploads/songs/<?= htmlspecialchars($playlist['thumbnail']) ?>"
+    <img id="main-playlist-thumbnail" src="<?= BASE_URL ?>/uploads/songs/<?= htmlspecialchars($playlist['thumbnail']) ?>"
          class="w-[500px] h-[500px] object-cover rounded shadow-lg mb-4"
          alt="<?= htmlspecialchars($playlist['name']) ?>">
 
