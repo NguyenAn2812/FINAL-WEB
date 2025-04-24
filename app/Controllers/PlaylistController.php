@@ -21,8 +21,7 @@ class PlaylistController extends Controller
         $userId = $_SESSION['user']['id'] ?? null;
 
         if (!$userId) {
-            // ✅ Trả về tín hiệu đặc biệt thay vì HTML
-            http_response_code(401); // Unauthorized
+            http_response_code(401); 
             echo "NOT_LOGGED_IN";
             return;
         }

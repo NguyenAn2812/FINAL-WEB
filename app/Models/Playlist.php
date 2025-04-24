@@ -48,6 +48,14 @@ class Playlist
         $stmt->execute([$id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function addSongToPlaylist($playlistId, $songId)
+    {
+        $stmt = $this->db->prepare("
+            INSERT IGNORE INTO playlist_songs (playlist_id, song_id)
+            VALUES (?, ?)
+        ");
+        return $stmt->execute([$playlistId, $songId]);
+    }
 
 
     public function getSongsByArtist($artistName)
