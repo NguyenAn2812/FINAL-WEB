@@ -249,17 +249,37 @@ function loadPlaylistDisplay(playlistId) {
 }
 function playPlaylist(playlistId) {
     fetch(`${BASE}/component/playlistdisplay?id=${playlistId}`)
-        .then(res => res.text())
-        .then(html => {
-            const app = document.getElementById('app');
-            if (app) {
-                app.innerHTML = html;
-            }
-        })
-        .catch(err => {
-            console.error("Failed to load playlist display:", err);
-        });
-}
+      .then(res => res.text())
+      .then(html => {
+        const app = document.getElementById('app');
+        if (app) app.innerHTML = html;
+  
+        const first = document.querySelector('[data-songcard]');
+        if (first) first.click();
+      });
+  }
+  
+  function shufflePlaylist(playlistId) {
+    fetch(`${BASE}/component/playlistdisplay?id=${playlistId}`)
+      .then(res => res.text())
+      .then(html => {
+        const app = document.getElementById('app');
+        if (app) app.innerHTML = html;
+  
+        const songs = document.querySelectorAll('[data-songcard]');
+        if (songs.length > 0) {
+          const randomIndex = Math.floor(Math.random() * songs.length);
+          songs[randomIndex].click();
+        }
+      });
+  }
+  
+  function sharePlaylist(playlistId) {
+    const url = `${window.location.origin}${BASE}/component/playlistdisplay?id=${playlistId}`;
+    navigator.clipboard.writeText(url)
+      .then(() => alert("📋 Link playlist đã được copy!"))
+      .catch(err => alert("Không thể copy liên kết."));
+  }
 
 function playNext() {
     console.log("Next clicked");
