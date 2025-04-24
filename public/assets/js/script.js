@@ -87,43 +87,46 @@ const audio = document.getElementById('global-audio');
 const playIcon = document.getElementById('play-icon');
 const controllerBar = document.getElementById('controller-bar');
 let currentSongId = null;
-function playSong(file, title, artist, thumb, songId = null, showDisplay = true) {
+function playSong(file, title, artist, thumb, songId = null, showDisplay = true, playlistQueue = null) {
     const audio = document.getElementById('global-audio');
     const playIcon = document.getElementById('play-icon');
     const controllerBar = document.getElementById('controller-bar');
-    const mainThumb = document.getElementById('main-playlist-thumbnail');
-    if (mainThumb) {
-    mainThumb.src = thumb;
-    }
+
     audio.pause();
     audio.currentTime = 0;
-    audio.src = '';
     audio.src = file;
-    console.log("🎵 Audio source:", file);
     audio.load();
+
     document.getElementById('now-playing-title').innerText = title;
     document.getElementById('now-playing-artist').innerText = artist;
+
     let thumbUrl = thumb;
     if (!thumb.startsWith('http') && !thumb.startsWith('/uploads/')) {
         thumbUrl = BASE + '/uploads/thumbnails/' + thumb;
     }
     document.getElementById('now-playing-thumb').src = thumbUrl;
+
     controllerBar.classList.remove('hidden');
-    if (document.getElementById('playlist-songs-container')) {
-        regeneratePlaylistFromDOM_Column();
-      }
-      currentSongId = Number(songId);
+    currentSongId = Number(songId);
     highlightNowPlaying();
+
+    if (playlistQueue && Array.isArray(playlistQueue)) {
+        currentPlaylist = [...playlistQueue]; // Gán danh sách queue
+        renderPlaylistSongsFromCurrentPlaylist(); // Render lại cột queue
+    }
+
+    if (showDisplay && currentSongId) {
+        loadSongDisplay(currentSongId);
+    }
+
     setTimeout(() => {
         audio.play().catch(err => {
-            console.warn("Unable to play audio:", err.message);
+            console.warn("Không thể phát:", err.message);
         });
         playIcon.classList.replace('mdi-play', 'mdi-pause');
-    }, 200); 
-    
-
-
+    }, 200);
 }
+
 function togglePlay() {
     if (audio.paused) {
         audio.play();
@@ -285,8 +288,8 @@ function playPlaylist(playlistId) {
       .then(html => {
         const app = document.getElementById('app');
         if (app) app.innerHTML = html;
-  
-        // 🔁 Tạo playlist chuẩn
+
+        // 🔁 Tạo playlist chuẩn từ DOM
         const domSongs = document.querySelectorAll('#playlist-songs-container [data-songcard]');
         const list = [];
         domSongs.forEach(el => {
@@ -303,14 +306,16 @@ function playPlaylist(playlistId) {
             file: el.getAttribute('onclick')?.match(/'(.*?)'/)?.[1] ?? ''
           });
         });
-  
+
         currentPlaylist = [...list];
-        originalPlaylist = [...list]; // 💡 lưu lại để dùng sau
+        originalPlaylist = [...list];
         isShuffling = false;
-  
-        playSongFromObject(currentPlaylist[0]);
+
+        const firstSong = currentPlaylist[0];
+        playSong(firstSong.file, firstSong.title, firstSong.artist, firstSong.thumbnail, firstSong.id, true, currentPlaylist);
       });
-  }
+}
+
   
   
   function shufflePlaylist(playlistId) {
@@ -322,22 +327,23 @@ function playPlaylist(playlistId) {
           return;
         }
 
-        // Trộn danh sách
+        currentPlaylistId = playlistId;
+
+        // Shuffle
         const shuffled = [...songs];
         for (let i = shuffled.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
         }
 
+        originalPlaylist = [...songs];
         currentPlaylist = shuffled;
-        originalPlaylist = [...songs]; // Lưu bản gốc chưa trộn
         isShuffling = true;
 
-        // Tải giao diện hiển thị (nếu cần)
-        loadPlaylistDisplay(playlistId);
-
-        // Phát bài đầu tiên
-        playSongFromObject(currentPlaylist[0]);
+        // Hiển thị cột queue
+        renderPlaylistSongsFromCurrentPlaylist();
+        const firstSong = shuffled[0];
+        playSong(firstSong.file, firstSong.title, firstSong.artist, firstSong.thumbnail, firstSong.id, true, shuffled);
       });
 }
 
