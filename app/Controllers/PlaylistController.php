@@ -80,7 +80,21 @@ class PlaylistController extends Controller
             ];
         }, $songs), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
-
+    public function getRandomSongs() {
+        $limit = $_GET['limit'] ?? 6;
+        $songs = $this->songModel->getRandomSongs($limit);
+    
+        echo json_encode(array_map(function ($s) {
+            return [
+                'id' => $s['id'],
+                'title' => $s['title'],
+                'artist' => $s['artist'],
+                'file' => BASE_URL . '/uploads/songs/' . $s['filename'],
+                'thumbnail' => BASE_URL . '/uploads/thumbnails/' . $s['thumbnail']
+            ];
+        }, $songs), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    }
+    
     public function random()
     {
         $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;

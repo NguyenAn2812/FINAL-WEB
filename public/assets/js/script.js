@@ -1,19 +1,8 @@
 let isShuffling = false;
 let originalPlaylist = [];
-function loadRandomSongs(limit = 10) {
-    return fetch(`${BASE}/playlist/random?limit=${limit}`)
-        .then(res => res.json())
-        .then(songs => {
-            if (!Array.isArray(songs)) return [];
-
-            
-            for (let i = songs.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [songs[i], songs[j]] = [songs[j], songs[i]];
-            }
-
-            return songs;
-        });
+async function loadRandomSongs(limit = 6) {
+    const res = await fetch(`${BASE}/playlist/random?limit=${limit}`);
+    return await res.json();
 }
     
 function loadComponent(name) {
@@ -376,55 +365,62 @@ function sharePlaylist(playlistId) {
 }
 
 async function playNext() {
+    // Trường hợp chưa có danh sách (không nằm trong playlist)
     if (!currentPlaylist || currentPlaylist.length === 0) {
         const randomSongs = await loadRandomSongs();
-        if (randomSongs.length === 0) {
-            alert("Không còn bài hát nào để phát!");
-            return;
-        }
+        if (!randomSongs || randomSongs.length === 0) return;
 
-        currentPlaylist = randomSongs;
+        currentPlaylist = [...randomSongs];
         originalPlaylist = [...randomSongs];
         isShuffling = true;
 
-        loadComponent(`songdisplay?id=${randomSongs[0].id}`);
-        renderPlaylistSongsFromList(randomSongs);
-
+        await loadComponent(`songdisplay?id=${randomSongs[0].id}`);
+        renderPlaylistSongsFromList(currentPlaylist);
         currentSongId = randomSongs[0].id;
         playSongFromObject(randomSongs[0]);
         return;
     }
 
+    // Tìm bài hiện tại trong playlist
     const index = currentPlaylist.findIndex(song => Number(song.id) === Number(currentSongId));
 
-    if (index === -1) {
-        currentSongId = currentPlaylist[0].id;
-        playSongFromObject(currentPlaylist[0]);
-        return;
-    }
+    if (index === -1 || index >= currentPlaylist.length - 1) {
+        // Hết playlist hiện tại → load thêm bài
+        const moreSongs = isShuffling ? await loadRandomSongs() : await loadNextSongsFromPlaylist();
+        if (!moreSongs || moreSongs.length === 0) return;
 
-    if (index < currentPlaylist.length - 1) {
-        const next = currentPlaylist[index + 1];
-        currentSongId = next.id;
-        playSongFromObject(next);
-    } else {
-        const moreSongs = await loadRandomSongs();
-        if (moreSongs.length === 0) {
-            alert("Hết bài để phát tiếp.");
-            return;
-        }
-
-        currentPlaylist = [...currentPlaylist, ...moreSongs];
-        originalPlaylist = [...currentPlaylist];
+        currentPlaylist.push(...moreSongs);
         renderPlaylistSongsFromList(currentPlaylist);
         const next = moreSongs[0];
         currentSongId = next.id;
         playSongFromObject(next);
+    } else {
+        // Phát bài kế tiếp
+        const next = currentPlaylist[index + 1];
+        currentSongId = next.id;
+        playSongFromObject(next);
     }
 }
+function shuffleArray(arr) {
+    const shuffled = [...arr];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
 
 function openSongDisplay(song) {
     loadComponent(`songdisplay?id=${song.id}`);
+}
+async function loadNextSongsFromPlaylist() {
+    if (!originalPlaylist || originalPlaylist.length === 0) return [];
+
+    const playedIds = currentPlaylist.map(s => Number(s.id));
+    const remaining = originalPlaylist.filter(s => !playedIds.includes(Number(s.id)));
+
+    return remaining.slice(0, 6);
 }
 
 function renderPlaylistSongsFromList(songs) {
@@ -432,8 +428,9 @@ function renderPlaylistSongsFromList(songs) {
     if (!container) return;
 
     container.innerHTML = songs.map(song => `
-        <div class="songcard" data-songcard="${song.id}"
-            onclick="playSongFromObject(${JSON.stringify(song)})">
+        <div class="songcard ${song.id === currentSongId ? 'border border-blue-500' : ''}"
+             data-songcard="${song.id}"
+             onclick='playSongFromObject(${JSON.stringify(song)})'>
             <img src="${song.thumbnail}" class="w-full h-20 object-cover rounded" />
             <p class="text-white text-sm font-semibold">${song.title}</p>
             <p class="text-gray-400 text-xs">${song.artist}</p>
@@ -499,11 +496,20 @@ function renderPlaylistSongsFromCurrentPlaylist() {
 }
 
 function playSongFromObject(song) {
-    if (!song || !song.file) {
-        console.warn(" playSongFromObject: Invalid data", song);
-        return;
-    }
-    playSong(song.file, song.title, song.artist, song.thumbnail, song.id, true, null);
+    if (!song || !song.file) return;
+
+    currentSongId = Number(song.id);
+    const audio = document.getElementById('audio-player');
+    audio.src = song.file;
+    audio.play();
+
+    // Hiển thị thông tin ở controllerbar
+    document.getElementById('now-playing-title').textContent = song.title;
+    document.getElementById('now-playing-artist').textContent = song.artist;
+    document.getElementById('now-playing-thumb').src = song.thumbnail;
+
+    // Highlight lại listsong nếu có
+    renderPlaylistSongsFromList(currentPlaylist);
 }
     
 function openPlaylistDisplay(playlistId) {
