@@ -1,7 +1,7 @@
 <h2 class="text-2xl font-semibold text-center mb-4">Register</h2>
 
 <form method="POST" action="<?= BASE_URL ?>/register" class="space-y-4">
-
+    <p id="registerError" class="text-red-500 mt-2 hidden"></p>
     <div>
         <label for="username" class="block text-sm mb-1">User name</label>
         <input type="text" name="username" id="username" required

@@ -534,6 +534,49 @@ function closeCreatePlaylistModal() {
 }
 
 document.addEventListener('submit', function (e) {
+    if (e.target.id === 'loginForm') {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+
+        fetch(`${BASE}/auth/login`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            const errorP = document.getElementById('loginError');
+            if (data.success) {
+                closeLoginModal();
+                loadComponent('home');
+            } else {
+                errorP.textContent = data.message || "Login failed!";
+                errorP.classList.remove('hidden');
+            }
+        });
+    }
+
+    if (e.target.id === 'registerForm') {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+
+        fetch(`${BASE}/auth/register`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            const errorP = document.getElementById('registerError');
+            if (data.success) {
+                closeRegisterModal();
+                loadComponent('home');
+            } else {
+                errorP.textContent = data.message || "Registration failed!";
+                errorP.classList.remove('hidden');
+            }
+        });
+    }
     if (e.target.id === 'addToPlaylistForm') {
         e.preventDefault();
 
