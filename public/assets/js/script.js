@@ -532,6 +532,15 @@ function openCreatePlaylistModal() {
 function closeCreatePlaylistModal() {
     document.getElementById('createPlaylistModal')?.remove();
 }
+function reloadNavbar() {
+    fetch(`${BASE}/component/navbar`)
+        .then(res => res.text())
+        .then(html => {
+            const nav = document.getElementById('navbar');
+            if (nav) nav.innerHTML = html;
+        })
+        .catch(err => console.error("❌ Failed to reload navbar", err));
+}
 
 document.addEventListener('submit', function (e) {
     if (e.target.id === 'loginForm') {
@@ -545,6 +554,7 @@ document.addEventListener('submit', function (e) {
             const errorP = document.getElementById('loginError');
             if (data.success) {
                 closeLoginModal();
+                reloadNavbar();
                 loadComponent('home');
             } else {
                 errorP.textContent = data.message || "Login failed!";

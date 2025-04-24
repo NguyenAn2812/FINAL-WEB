@@ -15,12 +15,12 @@
 <div class="container-fluid">
         
     </div>
-    <?php $this->insert('layouts/navbar'); ?>
-    
+    <div id="navbar" >
+        <?php $this->insert('layouts/navbar'); ?>
+    </div>
 
     <main class="p-4">
         <div id = "app">
-        
         </div>
         <?php $this->insert('layouts/controllerbar'); ?>
     </main>
