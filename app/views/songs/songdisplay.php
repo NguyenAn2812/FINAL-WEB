@@ -2,7 +2,7 @@
   <!-- LEFT: SONG THUMBNAIL + INFO -->
   <div class="w-2/3 p-6 flex flex-col justify-center items-center">
     <img src="<?= BASE_URL ?>/uploads/thumbnails/<?= htmlspecialchars($song['thumbnail']) ?>"
-         class="w-[500px] h-[500px] object-cover rounded shadow-lg mb-4" 
+         class="w-[500px] h-[500px] object-cover rounded shadow-lg mb-4 drop-shadow-[0_0_10px_white]" 
          alt="<?= htmlspecialchars($song['title']) ?>">
     <div class="text-center">
       <h1 class="text-2xl font-bold"><?= htmlspecialchars($song['title']) ?></h1>
