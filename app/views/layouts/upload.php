@@ -1,6 +1,6 @@
-<h2 id="uploadForm" enctype="multipart/form-data" method="POST" class="text-xl font-bold mb-4 text-center">Upload songs</h2>
+<h2 class="text-xl font-bold mb-4 text-center">Upload songs</h2>
 
-<form action="<?= BASE_URL ?>/song/upload" method="post" enctype="multipart/form-data" class="space-y-4">
+<form id="uploadForm" action="<?= BASE_URL ?>/song/upload" method="post" enctype="multipart/form-data" class="space-y-4">
     <input type="text" name="title" placeholder="Title" required
         class="w-full p-2 rounded bg-[#0f0f0f] border border-[#303030] text-white" />
 
