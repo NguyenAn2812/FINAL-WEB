@@ -247,7 +247,7 @@ function loadSongDisplay(songId) {
     
 function openSongDisplayFromController() {
         if (!currentSongId) return;
-        loadComponent(`songdisplay?id=${song.id}`);
+        loadSongDisplay(currentSongId);
 }
 let currentPlaylist = [];
 
@@ -418,6 +418,9 @@ async function playNext() {
         currentSongId = next.id;
         playSongFromObject(next);
     }
+}
+function openSongDisplay(song) {
+    loadComponent(`songdisplay?id=${song.id}`);
 }
 
 function renderPlaylistSongsFromList(songs) {
