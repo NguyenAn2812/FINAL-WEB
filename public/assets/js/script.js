@@ -760,6 +760,19 @@ function openEditProfileModal() {
 function closeEditProfileModal() {
     document.getElementById('editProfileModal').classList.add('hidden');
 }
+function handleSongCardClick(el) {
+    const song = {
+        id: Number(el.dataset.songcard),
+        title: el.dataset.title,
+        artist: el.dataset.artist,
+        thumbnail: el.dataset.thumb,
+        file: el.dataset.file
+    };
+
+    currentSongId = song.id;
+    playSongFromObject(song);
+}
+
 // Trong script.js
 let currentSlide = 0;
 const slideSize = 3; // số lượng bài hát mỗi trang

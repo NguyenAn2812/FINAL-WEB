@@ -21,7 +21,7 @@
   </div>
 
   <button
-    onclick="openAddToPlaylistModal(event, <?= $song['id'] ?>)"
+    onclick="openAddToPlaylistModal(event, <?= $song['id'] ?>); event.stopPropagation();"
     class="absolute bottom-2 right-2 z-10 px-2 rounded/80">
     <img src="<?= BASE_URL ?>/images/more.png" alt="more button" class="w-5 shadow">
   </button>
