@@ -698,56 +698,29 @@ function openEditProfileModal() {
 function closeEditProfileModal() {
     document.getElementById('editProfileModal').classList.add('hidden');
 }
-// Trong script.js
-if (typeof paginateSongs === 'undefined') {
-    let currentPage = 1;
-    const pageSize = 6;
+let currentSlide = 0;
+const slideSize = 6;
 
-    function paginateSongs() {
-        const container = document.getElementById('songGrid');
-        const cards = container.querySelectorAll('.songcard-wrapper');
-        const total = cards.length;
-        const totalPages = Math.ceil(total / pageSize);
-    
-        // ✅ Fade-out toàn bộ grid
-        container.classList.remove('opacity-100');
-        container.classList.add('opacity-0');
-    
-        setTimeout(() => {
-            // Hiển thị card theo trang
-            cards.forEach((card, index) => {
-                const start = (currentPage - 1) * pageSize;
-                const end = start + pageSize;
-                card.style.display = (index >= start && index < end) ? 'block' : 'none';
-            });
-    
-            // ✅ Fade-in trở lại
-            container.classList.remove('opacity-0');
-            container.classList.add('opacity-100');
-        }, 300);
-    
-        document.getElementById('prevBtn').disabled = currentPage === 1;
-        document.getElementById('nextBtn').disabled = currentPage === totalPages;
-    }
-    
+function updateSlide() {
+    const slider = document.getElementById('songSlider');
+    const cards = slider.querySelectorAll('.songcard-wrapper, .w-[200px]');
+    const totalSlides = Math.ceil(cards.length / slideSize);
 
-    function nextPage() {
-        currentPage++;
-        paginateSongs();
-    }
+    const translateX = -(currentSlide * 100);
+    slider.style.transform = `translateX(${translateX}%)`;
 
-    function prevPage() {
-        currentPage--;
-        paginateSongs();
-    }
-
-    // Auto-trigger if container exists
-    document.addEventListener('DOMContentLoaded', () => {
-        const check = setInterval(() => {
-            if (document.querySelector('.songcard-wrapper')) {
-                paginateSongs();
-                clearInterval(check);
-            }
-        }, 50);
-    });
+    document.getElementById('prevBtn').disabled = currentSlide === 0;
+    document.getElementById('nextBtn').disabled = currentSlide >= totalSlides - 1;
 }
+
+function nextSlide() {
+    currentSlide++;
+    updateSlide();
+}
+
+function prevSlide() {
+    currentSlide--;
+    updateSlide();
+}
+
+document.addEventListener('DOMContentLoaded', updateSlide);
