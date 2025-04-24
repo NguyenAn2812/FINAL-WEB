@@ -707,13 +707,20 @@ if (typeof paginateSongs === 'undefined') {
         const cards = document.querySelectorAll('.songcard-wrapper');
         const total = cards.length;
         const totalPages = Math.ceil(total / pageSize);
-
+    
         cards.forEach((card, index) => {
             const start = (currentPage - 1) * pageSize;
             const end = start + pageSize;
-            card.style.display = (index >= start && index < end) ? 'block' : 'none';
+    
+            if (index >= start && index < end) {
+                card.style.display = 'block';
+                setTimeout(() => card.classList.add('opacity-100'), 20); // fade in
+            } else {
+                card.classList.remove('opacity-100'); // fade out
+                setTimeout(() => card.style.display = 'none', 300); // delay để fade-out trước khi ẩn
+            }
         });
-
+    
         document.getElementById('prevBtn').disabled = currentPage === 1;
         document.getElementById('nextBtn').disabled = currentPage === totalPages;
     }
