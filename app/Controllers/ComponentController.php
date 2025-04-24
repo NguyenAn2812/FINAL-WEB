@@ -24,15 +24,24 @@ class ComponentController
     {
         switch ($component) {
             case 'login':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    (new \App\Controllers\AuthController())->login();
+                    return;
+                }
                 $view = $this->makeView(__DIR__ . '/../views/auth');
                 echo $view->render('login');
                 break;
 
             case 'register':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    (new \App\Controllers\AuthController())->register();
+                    return;
+                }
+            
                 $view = $this->makeView(__DIR__ . '/../views/auth');
                 echo $view->render('register');
                 break;
-
+                
             case 'upload':
                 echo $this->makeView(__DIR__ . '/../views/layouts')->render('upload');
                 break;
