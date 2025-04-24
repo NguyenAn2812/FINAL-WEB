@@ -20,10 +20,11 @@
   <!-- RIGHT: SONGS IN PLAYLIST -->
   <div class="w-1/3 p-6 border-l border-[#303030] overflow-y-auto">
     <h3 class="text-lg font-semibold mb-4">Song in playlist</h3>
+    <p class="text-sm text-yellow-300">DEBUG: <?= isset($songs) ? count($songs) . ' bài hát' : 'Biến $songs không tồn tại' ?></p>
     <?php if (empty($songs)): ?>
       <p class="text-sm text-gray-400"> There are no songs in this playlist yet</p>
     <?php else: ?>
-      <p class="text-sm text-yellow-300">DEBUG: <?= isset($songs) ? count($songs) . ' bài hát' : 'Biến $songs không tồn tại' ?></p>
+      
       <?php foreach ($songs as $song): ?>
         <div 
           data-songcard="<?= $song['id'] ?>"
