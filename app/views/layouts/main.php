@@ -60,11 +60,6 @@
         </div>
     </div>
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> c1f87b471c6c2dd2e7db19ae9d0cecb3ace7693a
     <script>
         const BASE = "<?= BASE_URL ?>";
     </script>
