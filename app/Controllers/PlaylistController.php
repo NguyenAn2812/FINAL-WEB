@@ -68,7 +68,10 @@ class PlaylistController extends Controller
         if (!$songId || empty($playlistIds)) return;
 
         foreach ($playlistIds as $pid) {
-            $this->playlistModel->addSongToPlaylist($pid, $songId);
+            $success = $this->playlistModel->addSongToPlaylist($pid, $songId);
+            if (!$success) {
+                error_log("❌ Failed to add song $songId to playlist $pid");
+            }
         }
 
         echo "done";
