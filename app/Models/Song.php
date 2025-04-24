@@ -26,11 +26,18 @@ class Song
     }
     public function getRandomSongs($limit = 10)
     {
-        $stmt = $this->db->prepare("SELECT * FROM songs ORDER BY RAND() LIMIT :limit");
-        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("
+            SELECT songs.*, users.username AS artist
+            FROM songs
+            JOIN users ON songs.user_id = users.id
+            ORDER BY RAND()
+            LIMIT ?
+        ");
+        $stmt->bindValue(1, $limit, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function findWithArtist($id)
     {

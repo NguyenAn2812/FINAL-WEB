@@ -47,6 +47,13 @@ $router->get('/playlist/addform', fn() => (new PlaylistController())->showAddSon
 $router->post('/playlist/add', fn() => (new PlaylistController())->addSongToPlaylist());
 $router->post('/playlist/create', fn() => (new \App\Controllers\PlaylistController())->create());
 $router->get('/playlist/json', fn() => (new \App\Controllers\PlaylistController())->getAllSongsAsJson());
+$router->get('/playlist/random', function () {
+    $limit = $_GET['limit'] ?? 10;
+    $songModel = new \App\Models\Song();
+    $songs = $songModel->getRandomSongs((int) $limit);
+    header('Content-Type: application/json');
+    echo json_encode($songs);
+});
 
 
 // Auth
