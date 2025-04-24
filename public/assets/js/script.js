@@ -400,27 +400,19 @@ function closeCreatePlaylistModal() {
 }
 
 document.addEventListener('submit', function (e) {
-    if (e.target.id === 'createPlaylistForm') {
+    if (e.target.id === 'addToPlaylistForm') {
       e.preventDefault();
   
       const formData = new FormData(e.target);
-      fetch(`${BASE}/playlist/create`, {
+      fetch(`${BASE}/playlist/add`, {
         method: 'POST',
         body: formData
       })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          alert("🎉 Playlist đã tạo!");
-  
-          // 🟢 Thay dòng này nếu bạn muốn cập nhật lại modal:
-          // openAddToPlaylistModal(new Event('click'), data.song_id);
-  
-          // ✅ Nếu chỉ muốn quay lại danh sách:
-          toggleCreatePlaylist(false);
-        } else {
-          alert(data.message || "Đã có lỗi xảy ra");
-        }
+      .then(res => res.text())
+      .then(result => {
+        console.log("🧪 Add song to playlist:", result);
+        closeAddToPlaylistModal();
+        alert("✅ Đã thêm vào playlist!");
       });
     }
   });
