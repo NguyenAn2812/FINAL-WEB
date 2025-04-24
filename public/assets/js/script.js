@@ -501,21 +501,21 @@ function renderPlaylistSongsFromCurrentPlaylist() {
 }
 
 function playSongFromObject(song) {
-    if (!song || (!song.file && !song.filename)) {
+    console.log("▶️ playSongFromObject - nhận bài:", song);
+
+    if (!song || !song.file) {
         console.warn("⛔ Không đủ dữ liệu để phát bài:", song);
         return;
     }
 
     currentSongId = Number(song.id);
-
-    // ✅ Fallback nếu chỉ có filename
     const fileUrl = song.file || `${BASE}/uploads/songs/${song.filename}`;
-    const thumbnailUrl = song.thumbnail || `${BASE}/uploads/thumbnails/${song.thumbnail}`;
 
     const audio = document.getElementById('global-audio');
     if (audio) {
         audio.src = fileUrl;
         audio.play();
+        console.log("🎵 Phát bài:", song.title);
     }
 
     const bar = document.getElementById('controller-bar');
@@ -529,11 +529,10 @@ function playSongFromObject(song) {
 
     if (titleEl) titleEl.textContent = song.title;
     if (artistEl) artistEl.textContent = song.artist;
-    if (thumbEl) thumbEl.src = thumbnailUrl;
+    if (thumbEl) thumbEl.src = song.thumbnail;
 
     highlightNowPlaying(song.id);
 }
-
 
 
     
