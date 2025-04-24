@@ -14,7 +14,7 @@
 
         <button onclick="openEditProfileModal()"
                 class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500">
-            ✏️ Edit Profile
+            Edit Profile
         </button>
     </div>
 
@@ -25,7 +25,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 <?php foreach ($songs as $song): ?>
                     <div class="bg-[#1f1f1f] rounded p-4 shadow hover:shadow-lg transition">
-                        <img src="<?= BASE_URL ?>/uploads/songs/<?= htmlspecialchars($song['thumbnail']) ?>"
+                        <img src="<?= BASE_URL ?>/uploads/thumbnails/<?= htmlspecialchars($song['thumbnail']) ?>"
                              class="w-full h-40 object-cover rounded mb-2" alt="Thumbnail">
 
                         <h4 class="font-semibold"><?= htmlspecialchars($song['title']) ?></h4>
