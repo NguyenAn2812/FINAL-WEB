@@ -9,9 +9,6 @@ use League\Plates\Engine;
 
 class PlaylistController extends Controller
 {
-    protected $playlistModel;
-    protected $songModel;
-
     public function __construct()
     {
         parent::__construct();
