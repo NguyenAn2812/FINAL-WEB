@@ -509,9 +509,10 @@ function playSongFromObject(song) {
     currentSongId = Number(song.id);
 
     const fileUrl = song.file || `${BASE}/uploads/songs/${song.filename}`;
-    const thumbnailUrl = song.thumbnail?.startsWith('http') || song.thumbnail?.startsWith('/')
-        ? song.thumbnail
-        : `${BASE}/uploads/thumbnails/${song.thumbnail}`;
+    const thumbnailUrl =
+        song.thumbnail?.startsWith('http') || song.thumbnail?.startsWith('/')
+            ? song.thumbnail
+            : `${BASE}/uploads/thumbnails/${song.thumbnail}`;
 
     const audio = document.getElementById('global-audio');
     if (audio) {
@@ -520,20 +521,19 @@ function playSongFromObject(song) {
     }
 
     const bar = document.getElementById('controller-bar');
-    if (bar && bar.classList.contains('hidden')) {
-        bar.classList.remove('hidden');
-    }
+    if (bar) bar.classList.remove('hidden');
 
     const titleEl = document.getElementById('now-playing-title');
     const artistEl = document.getElementById('now-playing-artist');
     const thumbEl = document.getElementById('now-playing-thumb');
 
-    if (titleEl) titleEl.textContent = song.title;
-    if (artistEl) artistEl.textContent = song.artist;
+    if (titleEl) titleEl.textContent = song.title || "Unknown";
+    if (artistEl) artistEl.textContent = song.artist || "Unknown";
     if (thumbEl) thumbEl.src = thumbnailUrl;
 
     highlightNowPlaying(song.id);
 }
+
 
 
     
