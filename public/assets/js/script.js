@@ -504,6 +504,10 @@ function playSongFromObject(song) {
         audio.src = song.file;
         audio.play();
     }
+    const bar = document.getElementById('controller-bar');
+    if (bar && bar.classList.contains('hidden')) {
+        bar.classList.remove('hidden');
+    }
 
     // ✅ Chỉ update UI nếu phần tử có tồn tại
     const titleEl = document.getElementById('now-playing-title');
