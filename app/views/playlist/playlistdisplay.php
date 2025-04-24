@@ -48,16 +48,21 @@
     <?php else: ?>
       <?php foreach ($songs as $song): ?>
         <div 
-          data-songcard="<?= $song['id'] ?>"
-          onclick="playSong(
-              '<?= BASE_URL ?>/uploads/songs/<?= $song['filename'] ?>',
-              '<?= addslashes($song['title']) ?>',
-              '<?= addslashes($song['artist'] ?? 'Unknown') ?>',
-              '<?= BASE_URL ?>/uploads/thumbnails/<?= htmlspecialchars($song['thumbnail']) ?>',
-              <?= $song['id'] ?>
-          )"
-          class="flex items-center gap-3 cursor-pointer hover:bg-[#2a2a2a] p-2 rounded transition"
-        >
+            data-songcard="<?= $song['id'] ?>"
+            data-title="<?= htmlspecialchars($song['title']) ?>"
+            data-artist="<?= htmlspecialchars($song['artist'] ?? 'Unknown') ?>"
+            data-file="<?= BASE_URL ?>/uploads/songs/<?= $song['filename'] ?>"
+            data-thumb="<?= BASE_URL ?>/uploads/thumbnails/<?= $song['thumbnail'] ?>"
+
+            onclick="playSong(
+                '<?= BASE_URL ?>/uploads/songs/<?= $song['filename'] ?>',
+                '<?= addslashes($song['title']) ?>',
+                '<?= addslashes($song['artist'] ?? 'Unknown') ?>',
+                '<?= BASE_URL ?>/uploads/thumbnails/<?= htmlspecialchars($song['thumbnail']) ?>',
+                <?= $song['id'] ?>
+            )"
+            class="flex items-center gap-3 cursor-pointer hover:bg-[#2a2a2a] p-2 rounded transition"
+          >
           <img
             src="<?= BASE_URL ?>/uploads/thumbnails/<?= htmlspecialchars($song['thumbnail']) ?>"
             alt="<?= htmlspecialchars($song['title']) ?>"
