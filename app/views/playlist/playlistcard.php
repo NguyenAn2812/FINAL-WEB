@@ -5,7 +5,7 @@
 >
   <div class="relative">
     <img 
-      src="<?= $playlist['thumbnail'] ?>" 
+      src="/FINAL-WEB/public/uploads/songs/<?= $playlist['thumbnail'] ?>" 
       alt="Playlist Thumbnail" 
       class="w-full h-44 object-cover rounded-xl"
     >
