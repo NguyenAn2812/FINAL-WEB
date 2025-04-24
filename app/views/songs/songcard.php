@@ -1,5 +1,4 @@
-<div class="w-[200px] md:w-[220px] lg:w-[240px] cursor-pointer transition hover:scale-105 hover:shadow-lg relative">
-
+<div class="w-[200px] md:w-[220px] lg:w-[240px] cursor-pointer transition transform hover:scale-105 hover:ring-2 hover:ring-blue-400/60 hover:shadow-xl relative rounded overflow-hidden">
   <div class="songcard w-full h-full p-2 cursor-pointer flex flex-col justify-between"
     data-songcard="<?= $song['id'] ?>"
     data-title="<?= htmlspecialchars($song['title'] ?? '') ?>"
