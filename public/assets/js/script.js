@@ -446,7 +446,7 @@ function playPlaylist(playlistId) {
       console.warn("❌ playSongFromObject: dữ liệu không hợp lệ", song);
       return;
     }
-    playSong(song.file, song.title, song.artist, song.thumbnail, song.id);
+    playSong(song.file, song.title, song.artist, song.thumbnail, song.id, true, null);
   }
   
 function openPlaylistDisplay(playlistId) {
