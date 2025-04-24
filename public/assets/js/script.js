@@ -539,7 +539,7 @@ function reloadNavbar() {
             const nav = document.getElementById('navbar');
             if (nav) nav.innerHTML = html;
         })
-        .catch(err => console.error("❌ Failed to reload navbar", err));
+        .catch(err => console.error("Failed to reload navbar", err));
 }
 
 document.addEventListener('submit', function (e) {

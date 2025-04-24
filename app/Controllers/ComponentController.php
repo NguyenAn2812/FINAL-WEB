@@ -45,7 +45,9 @@ class ComponentController
             case 'upload':
                 echo $this->makeView(__DIR__ . '/../views/layouts')->render('upload');
                 break;
-
+            case 'navbar':
+                echo $this->makeView(__DIR__ . '/../views/layouts')->render('navbar');
+                break;
             case 'songdisplay':
                 $id = $_GET['id'] ?? null;
                 if (!$id) {
