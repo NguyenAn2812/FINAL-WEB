@@ -46,7 +46,7 @@ $router->get('/playlist/view/(\d+)', fn($id) => (new PlaylistController())->disp
 $router->get('/playlist/addform', fn() => (new PlaylistController())->showAddSongToPlaylistForm($_GET['song_id']));
 $router->post('/playlist/add', fn() => (new PlaylistController())->addSongToPlaylist());
 $router->post('/playlist/create', fn() => (new \App\Controllers\PlaylistController())->create());
-$router->get('/playlist/json', fn() => (new \App\Controllers\PlaylistController())->getAllSongsAsJson());
+$router->get('/playlist/json', fn() => (new \App\Controllers\PlaylistController())->getSongsByPlaylistId());
 $router->get('/playlist/random', function () {
     $limit = $_GET['limit'] ?? 10;
     $songModel = new \App\Models\Song();
