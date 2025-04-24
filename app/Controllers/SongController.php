@@ -77,8 +77,7 @@ class SongController
             'user_id' => $_SESSION['user']['id'] ?? null
         ]);
 
-        header("Location: " . BASE_URL);
-        exit;
+        echo json_encode(['success' => true, 'message' => 'Song uploaded successfully']);
     }
     
 }
