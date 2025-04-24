@@ -585,9 +585,9 @@ document.addEventListener('submit', function (e) {
     }
     if (e.target.id === 'createPlaylistForm') {
         e.preventDefault();
-
+    
         const formData = new FormData(e.target);
-
+    
         fetch(`${BASE}/playlist/create`, {
             method: 'POST',
             body: formData
@@ -595,12 +595,21 @@ document.addEventListener('submit', function (e) {
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                toggleCreatePlaylist(false);
+                toggleCreatePlaylist(false); 
+    
+                const songId = formData.get('song_id');
+                fetch(`${BASE}/playlist/addform?song_id=${songId}`)
+                    .then(res => res.text())
+                    .then(html => {
+                        document.getElementById('addToPlaylistModal')?.remove();
+                        document.body.insertAdjacentHTML('beforeend', html);
+                    });
             } else {
                 alert(data.message || "Không thể tạo playlist");
             }
         });
     }
+    
     if (e.target.id === 'addToPlaylistForm') {
         e.preventDefault();
 
