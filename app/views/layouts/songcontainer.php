@@ -4,4 +4,3 @@
     <?= $this->insert('songs/songcard', ['song' => $song]) ?>
   <?php endforeach; ?>
 </div>
-
