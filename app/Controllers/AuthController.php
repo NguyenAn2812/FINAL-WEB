@@ -35,7 +35,7 @@ class AuthController
             }
 
             $this->userController->createUser($username, $email, $password);
-            header("Location: " . BASE_URL);
+            header("Location: /" );
             return;
         }
 
@@ -62,7 +62,7 @@ class AuthController
                 'role' => $user['role'] ?? 'user'
             ];
 
-            header("Location: " . BASE_URL);
+            header("Location: /");
             return;
         }
 
@@ -72,7 +72,7 @@ class AuthController
     public function logout()
     {
         session_destroy();
-        header("Location: " . BASE_URL);
+        header("Location: /");
         exit;
     }
 }
