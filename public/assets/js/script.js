@@ -769,10 +769,11 @@ function handleSongCardClick(el) {
         file: el.dataset.file
     };
 
+    console.log("Playing song:", song); // ✅ để debug xem có nhận đúng không
+
     currentSongId = song.id;
     playSongFromObject(song);
 }
-
 // Trong script.js
 let currentSlide = 0;
 const slideSize = 3; // số lượng bài hát mỗi trang
