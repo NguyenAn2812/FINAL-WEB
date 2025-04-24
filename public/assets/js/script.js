@@ -583,6 +583,24 @@ document.addEventListener('submit', function (e) {
             }
         });
     }
+    if (e.target.id === 'createPlaylistForm') {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+
+        fetch(`${BASE}/playlist/create`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                toggleCreatePlaylist(false);
+            } else {
+                alert(data.message || "Không thể tạo playlist");
+            }
+        });
+    }
     if (e.target.id === 'addToPlaylistForm') {
         e.preventDefault();
 
