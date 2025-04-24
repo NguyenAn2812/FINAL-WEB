@@ -191,16 +191,11 @@ function regeneratePlaylistFromDOM_Column() {
   
     domSongs.forEach(el => {
       newList.push({
-        id: parseInt(el.getAttribute('data-songcard')),
-        title: el.querySelector('p.font-semibold')?.innerText ?? '',
-        artist: el.querySelector('p.text-gray-400')?.innerText ?? '',
-        thumbnail: (() => {
-          const src = el.querySelector('img')?.src ?? '';
-          return src.includes('/uploads/songs/')
-            ? src.replace('/uploads/songs/', '/uploads/thumbnails/')
-            : src;
-        })(),
-        file: el.getAttribute('onclick')?.match(/'(.*?)'/)?.[1] ?? ''
+        id: parseInt(el.dataset.songcard),
+        title: el.dataset.title,
+        artist: el.dataset.artist,
+        file: el.dataset.file,
+        thumbnail: el.dataset.thumb
       });
     });
   
