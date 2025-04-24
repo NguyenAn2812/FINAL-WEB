@@ -114,6 +114,9 @@ function closeRegisterModal() {
 const audio = document.getElementById('global-audio');
 const playIcon = document.getElementById('play-icon');
 const controllerBar = document.getElementById('controller-bar');
+audio.addEventListener('ended', () => {
+    playNext();
+});
 let currentSongId = null;
 function playSong(file, title, artist, thumb, songId = null, showDisplay = true, playlistQueue = null) {
     const audio = document.getElementById('global-audio');
@@ -250,7 +253,6 @@ let currentPlaylist = [];
 
 function setCurrentPlaylist(songArray) {
     currentPlaylist = songArray;
-    console.log("Playlist set:", currentPlaylist);
 }
 
 function loadGlobalPlaylist() {
