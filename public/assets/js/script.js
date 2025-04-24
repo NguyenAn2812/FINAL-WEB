@@ -512,7 +512,7 @@ function playSongFromObject(song) {
 
     const audio = document.getElementById('global-audio');
     if (audio) {
-        audio.src = song.file;
+        audio.src = song.filename;
         audio.play();
         console.log("🎵 Phát bài:", song.title);
     }
