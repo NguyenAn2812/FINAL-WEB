@@ -41,9 +41,10 @@ class SongController
     
     public function upload()
     {
+        header('Content-Type: application/json');
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             http_response_code(405);
-            echo "Invalid method.";
+            echo json_encode(['success' => false, 'message' => 'Invalid method']);
             return;
         }
 
@@ -53,7 +54,7 @@ class SongController
         $thumbFile = $_FILES['thumbnail'] ?? null;
 
         if (!$musicFile || $musicFile['error'] !== UPLOAD_ERR_OK || !$thumbFile || $thumbFile['error'] !== UPLOAD_ERR_OK) {
-            echo "Upload failed. Please check the file.";
+            echo json_encode(['success' => false, 'message' => 'Upload failed. Please check the files.']);
             return;
         }
 
