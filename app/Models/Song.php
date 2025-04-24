@@ -43,6 +43,12 @@ class Song
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function getSongsByUser($userId)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM songs WHERE user_id = ? ORDER BY created_at DESC");
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function getRelatedSongs($excludeId, $limit = 6)
     {
