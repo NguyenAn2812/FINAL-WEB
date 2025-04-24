@@ -1,15 +1,10 @@
 <div class="relative">
 
-<div 
-    onclick='playSong(
-            "<?= $this->asset("/uploads/songs/{$song['filename']}") ?>",
-            "<?= addslashes($song['title']) ?>",
-            "<?= addslashes($song['artist'] ?? 'Unknown') ?>",
-            "<?= BASE_URL ?>/uploads/thumbnails/<?= htmlspecialchars($song['thumbnail']) ?>",
-            <?= $song['id'] ?>
-        )'
-    class="cursor-pointer bg-[#1e1e1e] rounded p-4 w-60 shadow mx-2 my-2 hover:bg-[#2a2a2a] transition">
-
+<div class="songcard" data-songcard="<?= $song['id'] ?>"
+     data-title="<?= htmlspecialchars($song['title']) ?>"
+     data-artist="<?= htmlspecialchars($song['artist']) ?>"
+     data-thumb="<?= htmlspecialchars($song['thumbnail']) ?>"
+     data-file="<?= htmlspecialchars($song['file']) ?>">
     <img src="<?= BASE_URL ?>/uploads/thumbnails/<?= htmlspecialchars($song['thumbnail']) ?>"
          class="w-full h-32 object-cover rounded mb-2"
          alt="<?= htmlspecialchars($song['title']) ?>">

@@ -42,7 +42,7 @@ class PlaylistController extends Controller
         $songId = $_POST['song_id'] ?? null;
 
         if (!$name || !$userId) {
-            echo json_encode(['success' => false, 'message' => 'Thiếu thông tin']);
+            echo json_encode(['success' => false, 'message' => 'Missing information']);
             return;
         }
 
@@ -59,7 +59,17 @@ class PlaylistController extends Controller
 
         echo json_encode(['success' => true, 'song_id' => $songId]);
     }
+    public function random()
+    {
+        $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
 
+        require_once 'app/models/Song.php';
+        $songModel = new Song();
+        $songs = $songModel->getRandomSongs($limit);
+
+        header('Content-Type: application/json');
+        echo json_encode($songs);
+    }
     public function addSongToPlaylist()
     {
         $playlistIds = $_POST['playlist_ids'] ?? [];
@@ -70,7 +80,7 @@ class PlaylistController extends Controller
         foreach ($playlistIds as $pid) {
             $success = $this->playlistModel->addSongToPlaylist($pid, $songId);
             if (!$success) {
-                error_log("❌ Failed to add song $songId to playlist $pid");
+                error_log("Failed to add song $songId to playlist $pid");
             }
         }
 

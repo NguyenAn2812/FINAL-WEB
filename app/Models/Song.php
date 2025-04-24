@@ -24,6 +24,13 @@ class Song
         ");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getRandomSongs($limit = 10)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM songs ORDER BY RAND() LIMIT :limit");
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function findWithArtist($id)
     {

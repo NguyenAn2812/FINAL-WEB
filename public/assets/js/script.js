@@ -1,6 +1,21 @@
 let isShuffling = false;
 let originalPlaylist = [];
-
+function loadRandomSongs(limit = 10) {
+    return fetch(`${BASE}/playlist/random?limit=${limit}`)
+      .then(res => res.json())
+      .then(songs => {
+        if (!Array.isArray(songs)) return [];
+  
+        // Shuffle
+        for (let i = songs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [songs[i], songs[j]] = [songs[j], songs[i]];
+        }
+  
+        return songs;
+      });
+  }
+  
 function loadComponent(name) {
     fetch(`${BASE}/component/${name}`)
         .then(response => {
@@ -29,13 +44,27 @@ function toggleDropdown() {
 }
 
 document.addEventListener('click', function (e) {
+    // Toggle avatar dropdown
     const menu = document.getElementById('dropdownMenu');
     const btn = document.getElementById('avatar-toggle');
-    if (!menu || !btn) return;
-    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+    if (menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) {
         menu.classList.add('hidden');
     }
-});
+  
+    // Play song from songcard
+    const el = e.target.closest('.songcard');
+    if (el) {
+        const song = {
+            id: parseInt(el.dataset.songcard),
+            title: el.dataset.title,
+            artist: el.dataset.artist,
+            thumbnail: el.dataset.thumb,
+            file: el.dataset.file
+        };
+        playSongFromObject(song);
+    }
+  });
+  
 function openLoginModal() {
     const modal = document.getElementById('loginModal');
     const content = document.getElementById('loginFormContent');
@@ -89,43 +118,34 @@ const controllerBar = document.getElementById('controller-bar');
 let currentSongId = null;
 function playSong(file, title, artist, thumb, songId = null, showDisplay = true, playlistQueue = null) {
     const audio = document.getElementById('global-audio');
-    const playIcon = document.getElementById('play-icon');
-    const controllerBar = document.getElementById('controller-bar');
-
     audio.pause();
     audio.currentTime = 0;
     audio.src = file;
     audio.load();
-
+  
     document.getElementById('now-playing-title').innerText = title;
     document.getElementById('now-playing-artist').innerText = artist;
-
-    let thumbUrl = thumb;
-    if (!thumb.startsWith('http') && !thumb.startsWith('/uploads/')) {
-        thumbUrl = BASE + '/uploads/thumbnails/' + thumb;
-    }
-    document.getElementById('now-playing-thumb').src = thumbUrl;
-
-    controllerBar.classList.remove('hidden');
+    document.getElementById('now-playing-thumb').src = thumb.startsWith('http') ? thumb : BASE + '/uploads/thumbnails/' + thumb;
+    document.getElementById('controller-bar').classList.remove('hidden');
+  
     currentSongId = Number(songId);
-    highlightNowPlaying();
-
+  
+    // Gán playlist nếu truyền vào
     if (playlistQueue && Array.isArray(playlistQueue)) {
-        currentPlaylist = [...playlistQueue]; // Gán danh sách queue
-        renderPlaylistSongsFromCurrentPlaylist(); // Render lại cột queue
+      currentPlaylist = [...playlistQueue];
+      renderPlaylistSongsFromCurrentPlaylist();
     }
-
+  
     if (showDisplay && currentSongId) {
-        loadSongDisplay(currentSongId);
+      loadSongDisplay(currentSongId);
     }
-
+  
     setTimeout(() => {
-        audio.play().catch(err => {
-            console.warn("Không thể phát:", err.message);
-        });
-        playIcon.classList.replace('mdi-play', 'mdi-pause');
+      audio.play().catch(err => console.warn("Không thể phát:", err.message));
+      document.getElementById('play-icon').classList.replace('mdi-play', 'mdi-pause');
     }, 200);
-}
+  }
+  
 
 function togglePlay() {
     if (audio.paused) {
@@ -288,64 +308,54 @@ function playPlaylist(playlistId) {
       .then(html => {
         const app = document.getElementById('app');
         if (app) app.innerHTML = html;
-
-        // 🔁 Tạo playlist chuẩn từ DOM
+  
         const domSongs = document.querySelectorAll('#playlist-songs-container [data-songcard]');
-        const list = [];
-        domSongs.forEach(el => {
-          list.push({
-            id: parseInt(el.getAttribute('data-songcard')),
-            title: el.querySelector('p.font-semibold')?.innerText ?? '',
-            artist: el.querySelector('p.text-gray-400')?.innerText ?? '',
-            thumbnail: (() => {
-              const src = el.querySelector('img')?.src ?? '';
-              return src.includes('/uploads/songs/')
-                ? src.replace('/uploads/songs/', '/uploads/thumbnails/')
-                : src;
-            })(),
-            file: el.getAttribute('onclick')?.match(/'(.*?)'/)?.[1] ?? ''
-          });
-        });
-
-        currentPlaylist = [...list];
+        const list = Array.from(domSongs).map(el => ({
+          id: parseInt(el.dataset.songcard),
+          title: el.querySelector('p.font-semibold')?.innerText ?? '',
+          artist: el.querySelector('p.text-gray-400')?.innerText ?? '',
+          thumbnail: el.querySelector('img')?.src ?? '',
+          file: el.getAttribute('onclick')?.match(/'(.*?)'/)?.[1] ?? ''
+        }));
+  
+        currentPlaylist = list;
         originalPlaylist = [...list];
         isShuffling = false;
-
-        const firstSong = currentPlaylist[0];
-        playSong(firstSong.file, firstSong.title, firstSong.artist, firstSong.thumbnail, firstSong.id, true, currentPlaylist);
+  
+        const firstSong = list[0];
+        playSong(firstSong.file, firstSong.title, firstSong.artist, firstSong.thumbnail, firstSong.id, true, list);
       });
-}
+  }
+  
 
+  
   
   
   function shufflePlaylist(playlistId) {
     fetch(`${BASE}/playlist/json?id=${playlistId}`)
       .then(res => res.json())
       .then(songs => {
-        if (!Array.isArray(songs) || songs.length === 0) {
-          console.warn("Không có bài hát trong playlist", playlistId);
-          return;
-        }
-
+        if (!Array.isArray(songs) || songs.length === 0) return;
+  
         currentPlaylistId = playlistId;
-
-        // Shuffle
+        isShuffling = true;
+  
         const shuffled = [...songs];
         for (let i = shuffled.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
         }
-
+  
         originalPlaylist = [...songs];
         currentPlaylist = shuffled;
-        isShuffling = true;
-
-        // Hiển thị cột queue
+  
         renderPlaylistSongsFromCurrentPlaylist();
+  
         const firstSong = shuffled[0];
         playSong(firstSong.file, firstSong.title, firstSong.artist, firstSong.thumbnail, firstSong.id, true, shuffled);
       });
-}
+  }
+  
 
     
   
@@ -357,19 +367,22 @@ function playPlaylist(playlistId) {
       .catch(err => alert("Không thể copy liên kết."));
   }
 
-  function playNext() {
+  async function playNext() {
     if (!currentPlaylist || currentPlaylist.length === 0) return;
   
     const index = currentPlaylist.findIndex(song => Number(song.id) === currentSongId);
   
     if (index !== -1 && index < currentPlaylist.length - 1) {
-      const nextSong = currentPlaylist[index + 1];
-      console.log("▶️ Next song:", nextSong);
-      playSongFromObject(nextSong);
+      playSongFromObject(currentPlaylist[index + 1]);
     } else {
-      console.log("⛔ No next song found or already at end.");
+      const fallback = await loadRandomSongs();
+      if (fallback.length > 0) {
+        currentPlaylist = fallback;
+        playSongFromObject(fallback[0]);
+      }
     }
   }
+  
   
   function playPrevious() {
     if (!currentPlaylist || currentPlaylist.length === 0) return;
