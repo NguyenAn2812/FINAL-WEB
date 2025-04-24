@@ -22,7 +22,7 @@
                 <button onclick="loadComponent('account')" class="w-full text-left px-4 py-2 hover:bg-[#2a2a2a]">
                     <i class="mdi mdi-account-edit mr-2"></i> Edit Account
                 </button>
-                <form action="<?= BASE_URL ?>/logout" method="GET">
+                <form id="logoutForm">
                     <button class="w-full text-left px-4 py-2 hover:bg-[#2a2a2a]">
                         <i class="mdi mdi-logout mr-2"></i> Logout
                     </button>
