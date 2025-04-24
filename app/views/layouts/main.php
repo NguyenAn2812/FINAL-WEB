@@ -10,6 +10,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="../../assets/images/logo.svg" />
     <link rel="stylesheet" href="../../assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 
 <body class="bg-[#121212] text-white">
