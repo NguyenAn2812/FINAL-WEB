@@ -4,6 +4,6 @@
          class="w-full h-40 object-cover">
     <div class="p-3">
         <p class="font-semibold truncate"><?= htmlspecialchars($playlist['name']) ?></p>
-        <p class="text-sm text-gray-400 truncate"><?= htmlspecialchars($playlist['user_id']) ?></p>
+        <p class="text-sm text-gray-400 truncate"><?= htmlspecialchars($playlist['creator']) ?></p>
     </div>
 </div>
