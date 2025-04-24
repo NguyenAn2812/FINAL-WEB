@@ -349,7 +349,6 @@ function shufflePlaylist(playlistId) {
                 return;
             }
 
-            // Shuffle bình thường
             currentPlaylistId = playlistId;
             isShuffling = true;
 
@@ -364,11 +363,10 @@ function shufflePlaylist(playlistId) {
 
             renderPlaylistSongsFromCurrentPlaylist();
 
-            const firstSong = shuffled[0];
-            playSong(firstSong.file, firstSong.title, firstSong.artist, firstSong.thumbnail, firstSong.id, true, shuffled);
+            const first = shuffled[0];
+            playSong(first.file, first.title, first.artist, first.thumbnail, first.id, true, shuffled);
         });
 }
-
 
 function sharePlaylist(playlistId) {
     const url = `${window.location.origin}${BASE}/component/playlistdisplay?id=${playlistId}`;

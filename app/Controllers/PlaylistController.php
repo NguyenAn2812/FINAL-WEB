@@ -59,6 +59,28 @@ class PlaylistController extends Controller
 
         echo json_encode(['success' => true, 'song_id' => $songId]);
     }
+    public function getSongsByPlaylistId()
+    {
+        $playlistId = $_GET['id'] ?? null;
+        if (!$playlistId) {
+            echo json_encode([]);
+            return;
+        }
+
+        $songs = $this->playlistModel->getSongs($playlistId);
+
+        header('Content-Type: application/json');
+        echo json_encode(array_map(function ($s) {
+            return [
+                'id' => $s['id'],
+                'title' => $s['title'],
+                'artist' => $s['artist'],
+                'thumbnail' => BASE_URL . '/uploads/thumbnails/' . $s['thumbnail'],
+                'file' => BASE_URL . '/uploads/songs/' . $s['filename'],
+            ];
+        }, $songs), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    }
+
     public function random()
     {
         $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
