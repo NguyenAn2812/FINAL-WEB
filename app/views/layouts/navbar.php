@@ -12,7 +12,7 @@
             </button>
 
             <button id="avatar-toggle" onclick="toggleDropdown()" class="flex items-center space-x-1 text-sm font-medium text-white hover:text-gray-300">
-                <img src="<?= BASE_URL . '/uploads/avatars/' . ($_SESSION['user']['avatar'] ?? 'uploads/avatars/default.png') ?>" class="w-8 h-8 rounded-full object-cover" alt="avatar">
+                <img src="<?= BASE_URL . '/' . ($_SESSION['user']['avatar'] ?? 'uploads/avatars/default.png') ?>" class="w-8 h-8 rounded-full object-cover" alt="avatar">
                 <span><?= htmlspecialchars($_SESSION['user']['username']) ?></span>
             </button>
 
