@@ -10,7 +10,7 @@
 </div>
 
 
-<div class="flex justify-center gap-4 mt-6" id="paginationControls">
+<div class="absolute top-2 right-2 gap-4 mt-6" id="paginationControls">
   <button id="prevBtn" onclick="prevSlide()" aria-label="Previous"
     class="w-9 h-9 flex items-center justify-center rounded-full bg-[#272727] hover:bg-[#3a3a3a] text-white transition disabled:opacity-40 disabled:cursor-not-allowed">
     <i class="mdi mdi-chevron-left text-xl"></i>
