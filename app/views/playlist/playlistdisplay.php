@@ -17,19 +17,13 @@
       <?php endif; ?>
     </div>
 
-    <!-- ✅ NÚT CHỨC NĂNG -->
     <div class="flex justify-center mt-6 gap-4">
       <!-- PLAY -->
-      <button onclick="playPlaylist(<?= $playlist['id'] ?>)" 
-              class="bg-green-600 hover:bg-green-700 px-4 py-1 rounded text-sm text-white">
-        ▶ Play
-      </button>
+      <button onclick="initPlaylistAndOpenSongDisplay(<?= $playlist['id'] ?>, false)">▶ Play</button>
 
       <!-- SHUFFLE -->
-      <button onclick="shufflePlaylist(<?= $playlist['id'] ?>)" 
-              class="bg-blue-600 hover:bg-blue-700 px-4 py-1 rounded text-sm text-white">
-        🔀 Shuffle
-      </button>
+      <button onclick="initPlaylistAndOpenSongDisplay(<?= $playlist['id'] ?>, true)">🔀 Shuffle</button>
+
 
       <!-- SHARE -->
       <button onclick="sharePlaylist(<?= $playlist['id'] ?>)" 
@@ -48,21 +42,16 @@
     <?php else: ?>
       <?php foreach ($songs as $song): ?>
         <div 
-            data-songcard="<?= $song['id'] ?>"
-            data-title="<?= htmlspecialchars($song['title']) ?>"
-            data-artist="<?= htmlspecialchars($song['artist'] ?? 'Unknown') ?>"
-            data-file="<?= BASE_URL ?>/uploads/songs/<?= $song['filename'] ?>"
-            data-thumb="<?= BASE_URL ?>/uploads/thumbnails/<?= $song['thumbnail'] ?>"
-
-            onclick="playSong(
-                '<?= BASE_URL ?>/uploads/songs/<?= $song['filename'] ?>',
-                '<?= addslashes($song['title']) ?>',
-                '<?= addslashes($song['artist'] ?? 'Unknown') ?>',
-                '<?= BASE_URL ?>/uploads/thumbnails/<?= htmlspecialchars($song['thumbnail']) ?>',
-                <?= $song['id'] ?>
-            )"
-            class="flex items-center gap-3 cursor-pointer hover:bg-[#2a2a2a] p-2 rounded transition"
-          >
+          data-songcard="<?= $song['id'] ?>"
+          onclick="playSong(
+              '<?= BASE_URL ?>/uploads/songs/<?= $song['filename'] ?>',
+              '<?= addslashes($song['title']) ?>',
+              '<?= addslashes($song['artist'] ?? 'Unknown') ?>',
+              '<?= BASE_URL ?>/uploads/thumbnails/<?= htmlspecialchars($song['thumbnail']) ?>',
+              <?= $song['id'] ?>
+          )"
+          class="flex items-center gap-3 cursor-pointer hover:bg-[#2a2a2a] p-2 rounded transition"
+        >
           <img
             src="<?= BASE_URL ?>/uploads/thumbnails/<?= htmlspecialchars($song['thumbnail']) ?>"
             alt="<?= htmlspecialchars($song['title']) ?>"

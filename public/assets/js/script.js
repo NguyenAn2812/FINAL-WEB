@@ -242,6 +242,31 @@ function loadGlobalPlaylist() {
             console.error("Failed to fetch global playlist:", err);
         });
 }
+function initPlaylistAndOpenSongDisplay(playlistId, isShuffle = false) {
+    fetch(`${BASE}/playlist/json?id=${playlistId}`)
+      .then(res => res.json())
+      .then(songs => {
+        if (!Array.isArray(songs) || songs.length === 0) {
+          console.warn("No songs in this playlist.");
+          return;
+        }
+  
+        let list = [...songs];
+        if (isShuffle) {
+          for (let i = list.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [list[i], list[j]] = [list[j], list[i]];
+          }
+        }
+  
+        currentPlaylist = list;
+        isShuffling = isShuffle;
+  
+        loadSongDisplay(list[0].id);
+        playSongFromObject(list[0]);
+      });
+  }
+  
 function loadPlaylistDisplay(playlistId) {
     fetch(`${BASE}/component/playlistdisplay?id=${playlistId}`)
         .then(res => res.text())
