@@ -99,6 +99,7 @@ function playSong(file, title, artist, thumb, songId = null, showDisplay = true)
     audio.currentTime = 0;
     audio.src = '';
     audio.src = file;
+    console.log("🎵 Audio source:", file);
     audio.load();
     document.getElementById('now-playing-title').innerText = title;
     document.getElementById('now-playing-artist').innerText = artist;
