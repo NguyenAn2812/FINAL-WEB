@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
+use Core\Controller;
 use App\Models\Song;
 use App\Models\Playlist;
 use League\Plates\Engine;
 
-class PlaylistController
+class PlaylistController extends Controller
 {
     protected $playlistModel;
     protected $songModel;
@@ -14,10 +15,10 @@ class PlaylistController
 
     public function __construct()
     {
+        parent::__construct();
         $this->playlistModel = new Playlist();
         $this->songModel = new Song();
-        $this->view = new Engine(__DIR__ . '/../views');
-        $this->view->registerFunction('asset', fn($p) => BASE_URL . '/' . ltrim($p, '/'));
+        
     }
     public function showAddSongToPlaylistForm($songId)
     {
