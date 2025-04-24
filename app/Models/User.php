@@ -27,6 +27,11 @@ class User
         $stmt->execute([$username]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function changeUsername($id, $username)
+    {
+        $stmt = $this->db->prepare("UPDATE users SET username = ? WHERE id = ?");
+        return $stmt->execute([$username, $id]);
+    }
 
     public function getAllUsers()
     {

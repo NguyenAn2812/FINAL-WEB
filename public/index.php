@@ -29,8 +29,7 @@ $auth = new AuthController();
 
 // ROUTES
 $router->get('/profile', fn() => (new \App\Controllers\UserController())->showProfile());
-$router->post('/user/change-avatar', fn() => (new \App\Controllers\UserController())->changeAvatar());
-$router->post('/user/change-password', fn() => (new \App\Controllers\UserController())->changePassword());
+$router->post('/user/update-profile', fn() => (new \App\Controllers\UserController())->updateProfile());
 
 // main page
 $router->get('/', fn() => print $view->render('layouts/main'));

@@ -606,6 +606,29 @@ document.addEventListener('submit', function (e) {
             })
             .catch(err => console.error("Logout failed:", err));
     }
+    if (e.target.id === 'editProfileForm') {
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+
+        fetch(`${BASE}/user/update-profile`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            const errorP = document.getElementById('editProfileError');
+            if (data.success) {
+                closeEditProfileModal();
+                reloadNavbar();     
+                loadComponent('profile'); 
+            } else {
+                errorP.textContent = data.message;
+                errorP.classList.remove('hidden');
+            }
+        });
+    }
 });
 function openEditProfileModal() {
     document.getElementById('editProfileModal').classList.remove('hidden');

@@ -35,12 +35,20 @@
 <div id="editProfileModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
     <div class="bg-[#181818] p-6 rounded shadow-lg w-full max-w-lg text-white">
         <h3 class="text-xl font-bold mb-4">Edit</h3>
-        <form id="editProfileForm">
+        <form id="editProfileForm" enctype="multipart/form-data">
             <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>"
-                   class="w-full p-2 rounded bg-[#1f1f1f] mb-3">
+                class="w-full p-2 rounded bg-[#1f1f1f] mb-3">
+
+            <input type="password" name="current_password" placeholder="Current Password"
+                class="w-full p-2 rounded bg-[#1f1f1f] mb-3">
 
             <input type="password" name="new_password" placeholder="New Password"
-                   class="w-full p-2 rounded bg-[#1f1f1f] mb-3">
+                class="w-full p-2 rounded bg-[#1f1f1f] mb-3">
+
+            <label class="block mb-3">
+                Upload New Avatar:
+                <input type="file" name="avatar" accept="image/*" class="block mt-1">
+            </label>
 
             <button class="bg-green-600 px-4 py-2 rounded hover:bg-green-500">
                 Lưu thay đổi
@@ -48,6 +56,9 @@
             <button type="button" onclick="closeEditProfileModal()" class="ml-4 text-gray-400 hover:text-white">
                 Hủy
             </button>
+
+            <p id="editProfileError" class="text-red-500 mt-3 hidden"></p>
         </form>
+
     </div>
 </div>

@@ -32,6 +32,42 @@ class UserController
             'songs' => $songs
         ]);
     }
+    public function updateProfile()
+    {
+        $id = $_SESSION['user']['id'];
+        $username = $_POST['username'] ?? '';
+        $current = $_POST['current_password'] ?? '';
+        $new = $_POST['new_password'] ?? '';
+
+        $userModel = new \App\Models\User();
+        $user = $userModel->findById($id);
+
+        if (!empty($new)) {
+            if (!password_verify($current, $user['password'])) {
+                echo json_encode(['success' => false, 'message' => 'Incorrect current password']);
+                return;
+            }
+            $userModel->changePassword($id, $new);
+        }
+
+        if ($username !== $user['username']) {
+            $userModel->changeUsername($id, $username);
+            $_SESSION['user']['username'] = $username;
+        }
+
+        if (!empty($_FILES['avatar']['name'])) {
+            $file = $_FILES['avatar'];
+            $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+            $filename = 'avatar_' . time() . '.' . $ext;
+            move_uploaded_file($file['tmp_name'], __DIR__ . '/../../public/uploads/avatar/' . $filename);
+
+            $userModel->updateAvatar($id, $filename);
+            $_SESSION['user']['avatar'] = $filename;
+        }
+
+        echo json_encode(['success' => true]);
+    }
+
 
     public function getAllUsers()
     {
