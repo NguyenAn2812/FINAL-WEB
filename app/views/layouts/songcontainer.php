@@ -1,7 +1,7 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-5 justify-items-center" id="songGrid">
-  
+<div id="songGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-5 justify-items-center transition-opacity duration-300 opacity-100">
+
   <?php foreach ($songs as $song): ?>
-    <div class="songcard-wrapper">
+    <div class="songcard-wrapper transition-opacity duration-300 opacity-100">
       <?= $this->insert('songs/songcard', ['song' => $song]) ?>
     </div>
   <?php endforeach; ?>

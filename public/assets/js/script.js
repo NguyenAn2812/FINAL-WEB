@@ -704,26 +704,32 @@ if (typeof paginateSongs === 'undefined') {
     const pageSize = 6;
 
     function paginateSongs() {
-        const cards = document.querySelectorAll('.songcard-wrapper');
+        const container = document.getElementById('songGrid');
+        const cards = container.querySelectorAll('.songcard-wrapper');
         const total = cards.length;
         const totalPages = Math.ceil(total / pageSize);
     
-        cards.forEach((card, index) => {
-            const start = (currentPage - 1) * pageSize;
-            const end = start + pageSize;
+        // ✅ Fade-out toàn bộ grid
+        container.classList.remove('opacity-100');
+        container.classList.add('opacity-0');
     
-            if (index >= start && index < end) {
-                card.style.display = 'block';
-                setTimeout(() => card.classList.add('opacity-100'), 20); // fade in
-            } else {
-                card.classList.remove('opacity-100'); // fade out
-                setTimeout(() => card.style.display = 'none', 300); // delay để fade-out trước khi ẩn
-            }
-        });
+        setTimeout(() => {
+            // Hiển thị card theo trang
+            cards.forEach((card, index) => {
+                const start = (currentPage - 1) * pageSize;
+                const end = start + pageSize;
+                card.style.display = (index >= start && index < end) ? 'block' : 'none';
+            });
+    
+            // ✅ Fade-in trở lại
+            container.classList.remove('opacity-0');
+            container.classList.add('opacity-100');
+        }, 300);
     
         document.getElementById('prevBtn').disabled = currentPage === 1;
         document.getElementById('nextBtn').disabled = currentPage === totalPages;
     }
+    
 
     function nextPage() {
         currentPage++;
