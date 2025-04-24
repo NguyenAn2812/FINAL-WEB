@@ -11,7 +11,6 @@ class PlaylistController extends Controller
 {
     protected $playlistModel;
     protected $songModel;
-    protected $view;
 
     public function __construct()
     {
