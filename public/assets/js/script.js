@@ -247,7 +247,7 @@ function loadSongDisplay(songId) {
     
 function openSongDisplayFromController() {
         if (!currentSongId) return;
-        loadSongDisplay(currentSongId);
+        loadComponent(`songdisplay?id=${song.id}`);
 }
 let currentPlaylist = [];
 
@@ -376,21 +376,64 @@ function sharePlaylist(playlistId) {
 }
 
 async function playNext() {
-    if (!currentPlaylist || currentPlaylist.length === 0) return;
+    if (!currentPlaylist || currentPlaylist.length === 0) {
+        // 👉 Nếu không có playlist hiện tại: tạo random list
+        const randomSongs = await loadRandomSongs(); // gọi API random
+        if (randomSongs.length === 0) {
+            alert("Không còn bài hát nào để phát!");
+            return;
+        }
+
+        currentPlaylist = randomSongs;
+        originalPlaylist = [...randomSongs];
+        isShuffling = true;
+
+        // Render songdisplay + listsongs UI
+        openSongDisplay(randomSongs[0]); // bài đầu tiên
+        renderPlaylistSongsFromList(randomSongs); 
+
+        currentSongId = randomSongs[0].id;
+        playSongFromObject(randomSongs[0]);
+        return;
+    }
 
     const index = currentPlaylist.findIndex(song => Number(song.id) === currentSongId);
-
     if (index !== -1 && index < currentPlaylist.length - 1) {
-        playSongFromObject(currentPlaylist[index + 1]);
+        // 👉 Phát bài tiếp theo trong list đã có
+        const next = currentPlaylist[index + 1];
+        currentSongId = next.id;
+        playSongFromObject(next);
     } else {
-        const fallback = await loadRandomSongs();
-        if (fallback.length > 0) {
-            currentPlaylist = fallback;
-            playSongFromObject(fallback[0]);
+        // 👉 Phát hết list: load thêm random và tiếp tục
+        const moreSongs = await loadRandomSongs();
+        if (moreSongs.length === 0) {
+            alert("Hết bài để phát tiếp.");
+            return;
         }
+
+        currentPlaylist = [...currentPlaylist, ...moreSongs];
+        originalPlaylist = [...currentPlaylist]; // cập nhật bản gốc nếu muốn shuffle
+        renderPlaylistSongsFromList(currentPlaylist);
+        const next = moreSongs[0];
+        currentSongId = next.id;
+        playSongFromObject(next);
     }
 }
-    
+
+function renderPlaylistSongsFromList(songs) {
+    const container = document.getElementById('playlist-songs-container');
+    if (!container) return;
+
+    container.innerHTML = songs.map(song => `
+        <div class="songcard" data-songcard="${song.id}"
+            onclick="playSongFromObject(${JSON.stringify(song)})">
+            <img src="${song.thumbnail}" class="w-full h-20 object-cover rounded" />
+            <p class="text-white text-sm font-semibold">${song.title}</p>
+            <p class="text-gray-400 text-xs">${song.artist}</p>
+        </div>
+    `).join('');
+}
+
     
 function playPrevious() {
     if (!currentPlaylist || currentPlaylist.length === 0) return;
