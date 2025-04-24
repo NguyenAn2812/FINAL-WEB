@@ -247,6 +247,19 @@ function loadPlaylistDisplay(playlistId) {
         })
         .catch(err => console.error("Unable to load playlist display:", err));
 }
+function playPlaylist(playlistId) {
+    fetch(`${BASE}/component/playlistdisplay?id=${playlistId}`)
+        .then(res => res.text())
+        .then(html => {
+            const app = document.getElementById('app');
+            if (app) {
+                app.innerHTML = html;
+            }
+        })
+        .catch(err => {
+            console.error("Failed to load playlist display:", err);
+        });
+}
 
 function playNext() {
     console.log("Next clicked");
