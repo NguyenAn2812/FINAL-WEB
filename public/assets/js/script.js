@@ -673,9 +673,9 @@ document.addEventListener('submit', function (e) {
     }
     if (e.target.id === 'uploadForm') {
         e.preventDefault();
-
+    
         const formData = new FormData(e.target);
-
+    
         fetch(`${BASE}/song/upload`, {
             method: 'POST',
             body: formData
@@ -686,14 +686,11 @@ document.addEventListener('submit', function (e) {
                 alert("🎵 Upload thành công!");
                 loadComponent('home');
             } else {
-                alert(data.message || "Đã xảy ra lỗi khi upload.");
+                alert(data.message || "Lỗi khi upload bài hát.");
             }
-        })
-        .catch(err => {
-            console.error("Upload failed:", err);
-            alert("Không thể upload bài hát.");
         });
     }
+    
 });
 function openEditProfileModal() {
     document.getElementById('editProfileModal').classList.remove('hidden');
