@@ -112,7 +112,7 @@ function playSong(file, title, artist, thumb, songId = null, showDisplay = true)
     if (document.getElementById('playlist-songs-container')) {
         regeneratePlaylistFromDOM_Column();
       }
-    currentSongId = songId;
+      currentSongId = Number(songId);
     highlightNowPlaying();
     setTimeout(() => {
         audio.play().catch(err => {
@@ -367,9 +367,14 @@ function playPlaylist(playlistId) {
   function playNext() {
     if (!currentPlaylist || currentPlaylist.length === 0) return;
   
-    const index = currentPlaylist.findIndex(song => song.id === currentSongId);
+    const index = currentPlaylist.findIndex(song => Number(song.id) === currentSongId);
+  
     if (index !== -1 && index < currentPlaylist.length - 1) {
-        playSongFromObject(currentPlaylist[index + 1]);
+      const nextSong = currentPlaylist[index + 1];
+      console.log("▶️ Next song:", nextSong);
+      playSongFromObject(nextSong);
+    } else {
+      console.log("⛔ No next song found or already at end.");
     }
   }
   
@@ -430,15 +435,14 @@ function playPlaylist(playlistId) {
     highlightNowPlaying(); // Đảm bảo bài đang phát được highlight lại
   }
   
-function playSongFromObject(song) {
-    playSong(
-        song.file,
-        song.title,
-        song.artist,
-        song.thumbnail,
-        song.id
-    );
-}
+  function playSongFromObject(song) {
+    if (!song || !song.file) {
+      console.warn("❌ playSongFromObject: dữ liệu không hợp lệ", song);
+      return;
+    }
+    playSong(song.file, song.title, song.artist, song.thumbnail, song.id);
+  }
+  
 function openPlaylistDisplay(playlistId) {
     if (!playlistId) return;
     fetch(`${BASE}/component/playlistdisplay?id=${playlistId}`)
