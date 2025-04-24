@@ -40,7 +40,7 @@
   </div>
 
   <!-- RIGHT: SONGS IN PLAYLIST -->
-  <div class="w-1/3 p-6 border-l border-[#303030] overflow-y-auto">
+  <div id="playlist-songs-container" class="w-1/3 p-6 border-l border-[#303030] overflow-y-auto">
     <h3 class="text-lg font-semibold mb-4">Songs in playlist</h3>
 
     <?php if (empty($songs)): ?>

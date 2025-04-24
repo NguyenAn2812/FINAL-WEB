@@ -104,6 +104,9 @@ function playSong(file, title, artist, thumb, songId = null, showDisplay = true)
     }
     document.getElementById('now-playing-thumb').src = thumbUrl;
     controllerBar.classList.remove('hidden');
+    if (document.getElementById('playlist-songs-container')) {
+        regeneratePlaylistFromDOM_Column();
+      }
     currentSongId = songId;
     highlightNowPlaying();
     setTimeout(() => {
@@ -177,26 +180,28 @@ function closeUploadModal() {
     const modal = document.getElementById('uploadModal');
     if (modal) modal.classList.add('hidden');
 }
-function regeneratePlaylistFromDOM() {
-    const domSongs = document.querySelectorAll('[data-songcard]');
+function regeneratePlaylistFromDOM_Column() {
+    const domSongs = document.querySelectorAll('#playlist-songs-container [data-songcard]');
     const newList = [];
-
+  
     domSongs.forEach(el => {
-        newList.push({
-            id: parseInt(el.getAttribute('data-songcard')),
-            title: el.querySelector('p.font-semibold')?.innerText ?? '',
-            artist: el.querySelector('p.text-gray-400')?.innerText ?? '',
-            thumbnail: (() => {
-                const imgSrc = el.querySelector('img')?.src ?? '';
-                const filename = imgSrc.split('/').pop();
-                return '/uploads/thumbnails/' + filename;
-              })(),
-            file: el.getAttribute('onclick')?.match(/'(.*?)'/)?.[1] ?? ''
-        });
+      newList.push({
+        id: parseInt(el.getAttribute('data-songcard')),
+        title: el.querySelector('p.font-semibold')?.innerText ?? '',
+        artist: el.querySelector('p.text-gray-400')?.innerText ?? '',
+        thumbnail: (() => {
+          const src = el.querySelector('img')?.src ?? '';
+          return src.includes('/uploads/songs/')
+            ? src.replace('/uploads/songs/', '/uploads/thumbnails/')
+            : src;
+        })(),
+        file: el.getAttribute('onclick')?.match(/'(.*?)'/)?.[1] ?? ''
+      });
     });
-
+  
     currentPlaylist = newList;
-}
+  }
+  
 function loadSongDisplay(songId) {
     fetch(`${BASE}/component/songdisplay?id=${songId}`)
       .then(res => res.text())
