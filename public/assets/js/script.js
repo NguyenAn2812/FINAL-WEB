@@ -607,5 +607,11 @@ document.addEventListener('submit', function (e) {
             .catch(err => console.error("Logout failed:", err));
     }
 });
+function openEditProfileModal() {
+    document.getElementById('editProfileModal').classList.remove('hidden');
+}
+function closeEditProfileModal() {
+    document.getElementById('editProfileModal').classList.add('hidden');
+}
     
     

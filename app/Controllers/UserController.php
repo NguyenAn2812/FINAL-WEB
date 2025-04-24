@@ -12,6 +12,26 @@ class UserController
     {
         $this->userModel = new User();
     }
+    public function showProfile()
+    {
+        $user = $_SESSION['user'] ?? null;
+        if (!$user) {
+            header('Location: /');
+            return;
+        }
+
+        $userModel = new \App\Models\User();
+        $songModel = new \App\Models\Song();
+
+        $fullUser = $userModel->findById($user['id']);
+        $songs = $songModel->getSongsByUser($user['id']);
+
+        $view = new \League\Plates\Engine(__DIR__ . '/../views/user');
+        echo $view->render('profile', [
+            'user' => $fullUser,
+            'songs' => $songs
+        ]);
+    }
 
     public function getAllUsers()
     {
