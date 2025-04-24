@@ -314,46 +314,33 @@ function playPlaylist(playlistId) {
   
   
   function shufflePlaylist(playlistId) {
-    fetch(`${BASE}/component/playlistdisplay?id=${playlistId}`)
-      .then(res => res.text())
-      .then(html => {
-        const app = document.getElementById('app');
-        if (app) app.innerHTML = html;
-  
-        // 🔁 Tạo danh sách gốc từ DOM
-        const domSongs = document.querySelectorAll('#playlist-songs-container [data-songcard]');
-        originalPlaylist = [];
-        domSongs.forEach(el => {
-          originalPlaylist.push({
-            id: parseInt(el.getAttribute('data-songcard')),
-            title: el.querySelector('p.font-semibold')?.innerText ?? '',
-            artist: el.querySelector('p.text-gray-400')?.innerText ?? '',
-            thumbnail: (() => {
-              const src = el.querySelector('img')?.src ?? '';
-              return src.includes('/uploads/songs/')
-                ? src.replace('/uploads/songs/', '/uploads/thumbnails/')
-                : src;
-            })(),
-            file: el.getAttribute('onclick')?.match(/'(.*?)'/)?.[1] ?? ''
-          });
-        });
-  
-        // 🔀 Tạo bản shuffle từ danh sách gốc
-        currentPlaylist = [...originalPlaylist];
-        for (let i = currentPlaylist.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [currentPlaylist[i], currentPlaylist[j]] = [currentPlaylist[j], currentPlaylist[i]];
+    fetch(`${BASE}/playlist/json?id=${playlistId}`)
+      .then(res => res.json())
+      .then(songs => {
+        if (!Array.isArray(songs) || songs.length === 0) {
+          console.warn("Không có bài hát trong playlist", playlistId);
+          return;
         }
-  
+
+        // Trộn danh sách
+        const shuffled = [...songs];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+
+        currentPlaylist = shuffled;
+        originalPlaylist = [...songs]; // Lưu bản gốc chưa trộn
         isShuffling = true;
-  
-        // ✅ Sau khi shuffle xong mới render lại
-        renderPlaylistSongsFromCurrentPlaylist();
-  
-        // ✅ Phát bài đầu tiên trong danh sách shuffle
+
+        // Tải giao diện hiển thị (nếu cần)
+        loadPlaylistDisplay(playlistId);
+
+        // Phát bài đầu tiên
         playSongFromObject(currentPlaylist[0]);
       });
-  }
+}
+
     
   
   
