@@ -95,15 +95,14 @@ function playSong(file, title, artist, thumb, songId = null, showDisplay = true)
     audio.src = file;
     document.getElementById('now-playing-title').innerText = title;
     document.getElementById('now-playing-artist').innerText = artist;
-    console.log("🎯 thumb trước xử lý:", thumb);
     let thumbUrl = thumb;
     if (!thumb.startsWith('http') && !thumb.startsWith('/uploads/')) {
         thumbUrl = BASE + '/uploads/thumbnails/' + thumb;
     }
-    console.log("✅ thumb cuối cùng:", thumbUrl);
     document.getElementById('now-playing-thumb').src = thumbUrl;
     controllerBar.classList.remove('hidden');
     currentSongId = songId;
+    highlightNowPlaying();
     setTimeout(() => {
         audio.play().catch(err => {
             console.warn("Unable to play audio:", err.message);
