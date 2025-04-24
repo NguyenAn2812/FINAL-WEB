@@ -1,6 +1,6 @@
 <h2 class="text-2xl font-semibold text-center mb-4">Login</h2>
 
-<form method="POST" action="<?= BASE_URL ?>/login" class="space-y-4">
+<form id="loginForm" method="POST" action="<?= BASE_URL ?>/login" class="space-y-4">
     <p id="loginError" class="text-red-500 mt-2 hidden"></p>
 
     <div>
