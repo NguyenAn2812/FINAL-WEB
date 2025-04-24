@@ -314,6 +314,7 @@ function playPlaylist(playlistId) {
   
         // 🔀 Tạo bản shuffle từ danh sách gốc
         currentPlaylist = [...originalPlaylist];
+        renderPlaylistSongsFromCurrentPlaylist();
         for (let i = currentPlaylist.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [currentPlaylist[i], currentPlaylist[j]] = [currentPlaylist[j], currentPlaylist[i]];
@@ -351,7 +352,7 @@ function playPlaylist(playlistId) {
     }
   }
   
-  
+
 
   function playPrevious() {
     if (!currentPlaylist || currentPlaylist.length === 0) return;
@@ -370,7 +371,35 @@ function playPlaylist(playlistId) {
     }
   }
   
-
+  function renderPlaylistSongsFromCurrentPlaylist() {
+    const container = document.getElementById('playlist-songs-container');
+    if (!container) return;
+  
+    container.innerHTML = ''; // Xoá toàn bộ danh sách cũ
+  
+    currentPlaylist.forEach(song => {
+      const songCard = document.createElement('div');
+      songCard.setAttribute('data-songcard', song.id);
+      songCard.className = 'flex items-center gap-3 cursor-pointer hover:bg-[#2a2a2a] p-2 rounded transition';
+  
+      songCard.innerHTML = `
+        <img src="${song.thumbnail}" class="w-14 h-14 rounded object-cover" alt="${song.title}">
+        <div>
+          <p class="font-semibold">${song.title}</p>
+          <p class="text-sm text-gray-400">${song.artist}</p>
+        </div>
+      `;
+  
+      songCard.onclick = () => {
+        playSong(song.file, song.title, song.artist, song.thumbnail, song.id);
+      };
+  
+      container.appendChild(songCard);
+    });
+  
+    highlightNowPlaying(); // Đảm bảo bài đang phát được highlight lại
+  }
+  
 function playSongFromObject(song) {
     playSong(
         song.file,
