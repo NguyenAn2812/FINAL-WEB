@@ -125,7 +125,14 @@ function playSong(file, title, artist, thumb, songId = null, showDisplay = true,
   
     document.getElementById('now-playing-title').innerText = title;
     document.getElementById('now-playing-artist').innerText = artist;
-    document.getElementById('now-playing-thumb').src = thumb.startsWith('http') ? thumb : BASE + '/uploads/thumbnails/' + thumb;
+    let thumbUrl = thumb;
+
+    if (!thumb.startsWith('http') && !thumb.startsWith(BASE + '/uploads/')) {
+        thumbUrl = BASE + '/uploads/thumbnails/' + thumb;
+    }
+
+    document.getElementById('now-playing-thumb').src = thumbUrl;
+
     document.getElementById('controller-bar').classList.remove('hidden');
   
     currentSongId = Number(songId);
