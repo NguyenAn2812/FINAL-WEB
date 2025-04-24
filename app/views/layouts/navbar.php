@@ -2,6 +2,7 @@
     <a href="#" onclick="loadComponent('home')" class="flex items-center space-x-2 text-white text-xl font-bold">
         <i class="mdi mdi-youtube text-red-600 text-5xl"></i>
         <span>Wetube music</span>
+
     </a>
 
     <div class="flex items-center space-x-4 relative" id="navbar-user">
