@@ -306,70 +306,69 @@ function loadPlaylistDisplay(playlistId) {
     .catch(err => console.error("Unable to load playlist display:", err));
 }
 function playPlaylist(playlistId) {
-    fetch(`${BASE}/component/playlistdisplay?id=${playlistId}`)
-    .then(res => res.text())
-    .then(html => {
-        const app = document.getElementById('app');
-        if (app) app.innerHTML = html;
+    fetch(`${BASE}/playlist/json?id=${playlistId}`)
+        .then(res => res.json())
+        .then(songs => {
+            if (!Array.isArray(songs) || songs.length === 0) {
+                const container = document.getElementById('playlist-songs-container');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="text-center text-gray-400 italic py-4">
+                            Playlist này chưa có bài hát nào.
+                        </div>`;
+                }
+                return;
+            }
 
-        const domSongs = document.querySelectorAll('#playlist-songs-container [data-songcard]');
-        if (!domSongs.length) {
-            alert("Playlist này không có bài hát nào.");
-            return;
-        }
+            currentPlaylistId = playlistId;
+            isShuffling = false;
+            originalPlaylist = [...songs];
+            currentPlaylist = [...songs];
 
-        const list = Array.from(domSongs).map(el => ({
-            id: parseInt(el.dataset.songcard),
-            title: el.querySelector('p.font-semibold')?.innerText ?? '',
-            artist: el.querySelector('p.text-gray-400')?.innerText ?? '',
-            thumbnail: el.querySelector('img')?.src ?? '',
-            file: el.getAttribute('onclick')?.match(/'(.*?)'/)?.[1] ?? ''
-        }));
+            renderPlaylistSongsFromCurrentPlaylist();
 
-        currentPlaylist = list;
-        originalPlaylist = [...list];
-        isShuffling = false;
-
-        const firstSong = list[0];
-        playSong(firstSong.file, firstSong.title, firstSong.artist, firstSong.thumbnail, firstSong.id, true, list);
-    });
+            const first = songs[0];
+            playSong(first.file, first.title, first.artist, first.thumbnail, first.id, true, songs);
+        });
 }
+
 
     
 function shufflePlaylist(playlistId) {
     fetch(`${BASE}/playlist/json?id=${playlistId}`)
-    .then(res => res.json())
-    .then(songs => {
-        if (!Array.isArray(songs) || songs.length === 0) {
-            const container = document.getElementById('playlist-songs-container');
-            if (container) {
-                container.innerHTML = `
-                    <div class="text-center text-gray-400 italic py-4">
-                        Playlist này chưa có bài hát nào để phát.
-                    </div>`;
+        .then(res => res.json())
+        .then(songs => {
+            if (!Array.isArray(songs) || songs.length === 0) {
+                const container = document.getElementById('playlist-songs-container');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="text-center text-gray-400 italic py-4">
+                            Playlist này chưa có bài hát nào để phát.
+                        </div>`;
+                }
+                return;
             }
-            return;
-        }
-        
 
-        currentPlaylistId = playlistId;
-        isShuffling = true;
+            // Shuffle bình thường
+            currentPlaylistId = playlistId;
+            isShuffling = true;
 
-        const shuffled = [...songs];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
+            const shuffled = [...songs];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
 
-        originalPlaylist = [...songs];
-        currentPlaylist = shuffled;
+            originalPlaylist = [...songs];
+            currentPlaylist = shuffled;
 
-        renderPlaylistSongsFromCurrentPlaylist();
+            renderPlaylistSongsFromCurrentPlaylist();
 
-        const firstSong = shuffled[0];
-        playSong(firstSong.file, firstSong.title, firstSong.artist, firstSong.thumbnail, firstSong.id, true, shuffled);
-    });
+            const firstSong = shuffled[0];
+            playSong(firstSong.file, firstSong.title, firstSong.artist, firstSong.thumbnail, firstSong.id, true, shuffled);
+        });
 }
+
 
 function sharePlaylist(playlistId) {
     const url = `${window.location.origin}${BASE}/component/playlistdisplay?id=${playlistId}`;
