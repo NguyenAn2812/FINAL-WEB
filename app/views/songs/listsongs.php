@@ -1,6 +1,6 @@
 <?php if (!isset($songs)) return; ?>
 
-<div class="flex flex-col gap-3" id= "playlist-songs-container">
+<div class="flex flex-col gap-3">
   <?php foreach ($songs as $song): ?>
     <div 
       class="songcard flex items-center gap-3 cursor-pointer hover:bg-[#2a2a2a] p-2 rounded transition"
