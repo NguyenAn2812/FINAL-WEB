@@ -1,42 +1,52 @@
-<form id="login-form" action="<?= BASE_URL ?>/admin/login" method="POST" class="bg-[#1e1e1e] p-6 rounded-lg shadow-lg w-full max-w-md mx-auto mt-10">
-    <h2 class="text-2xl font-bold text-center mb-6">Admin Login</h2>
+<?php
+$action = BASE_URL . '/admin/login';
+?>
 
-    <div class="mb-4">
-        <label for="username" class="block text-sm font-medium text-gray-300 mb-2">Username</label>
-        <input type="text" id="username" name="username" required
-            class="w-full p-2 rounded bg-[#2a2a2a] border border-gray-600 focus:outline-none focus:border-blue-500 text-white">
+<!-- Popup Login Admin -->
+<div id="admin-login-popup" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+    <div class="bg-[#181818] text-white p-8 rounded-2xl shadow-xl w-96 relative">
+        
+        <h2 class="text-2xl font-bold text-center mb-6">Admin Login</h2>
+
+        <form id="admin-login-form" method="POST" action="<?= $action ?>" class="flex flex-col space-y-4">
+            <input type="text" name="username" placeholder="Username" required 
+                   class="px-4 py-2 rounded bg-[#282828] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+
+            <input type="password" name="password" placeholder="Password" required 
+                   class="px-4 py-2 rounded bg-[#282828] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+
+            <button type="submit" 
+                    class="bg-red-500 hover:bg-red-600 transition-all text-white font-bold py-2 rounded mt-2">
+                Login
+            </button>
+
+            <p id="admin-login-error" class="text-red-400 text-sm text-center hidden mt-2"></p>
+        </form>
     </div>
+</div>
 
-    <div class="mb-6">
-        <label for="password" class="block text-sm font-medium text-gray-300 mb-2">Password</label>
-        <input type="password" id="password" name="password" required
-            class="w-full p-2 rounded bg-[#2a2a2a] border border-gray-600 focus:outline-none focus:border-blue-500 text-white">
-    </div>
-
-    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded">
-        Login
-    </button>
-</form>
-
+<!-- Script xử lý login bằng fetch AJAX -->
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('login-form');
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(form);
-        const response = await fetch(form.action, {
-            method: 'POST',
-            body: formData
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-            window.location.href = "<?= BASE_URL ?>/admin/dashboard";
-        } else {
-            alert(result.message);
-        }
+document.getElementById('admin-login-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const formData = new FormData(form);
+    
+    const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData
     });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+        document.getElementById('admin-login-popup').classList.add('hidden');
+
+    } else {
+        const errorElement = document.getElementById('admin-login-error');
+        errorElement.textContent = result.message || 'Login failed';
+        errorElement.classList.remove('hidden');
+    }
 });
 </script>
