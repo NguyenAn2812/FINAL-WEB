@@ -24,6 +24,11 @@ class Song
         ");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function all(){
+        $sql = "SELECT * FROM songs";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
     public function getRandomSongs($limit = 10)
     {
         $stmt = $this->db->prepare("
