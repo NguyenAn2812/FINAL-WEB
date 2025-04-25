@@ -263,8 +263,7 @@ async function openSongDisplayFromController() {
     }
 
     const playlistContainer = document.getElementById('playlist-songs-container');
-    const audio = document.getElementById('global-audio');
-    const hasSongLoaded = audio && audio.src && audio.src.trim() !== '';
+    const hasSongLoaded = typeof currentSongId === 'number' && currentSongId > 0;
 
     if (!window.isSongDisplayOpen) {
         console.log("🔁 songdisplay chưa mở → loadComponent");
@@ -287,9 +286,6 @@ async function openSongDisplayFromController() {
 
     highlightNowPlaying(currentSongId);
 }
-
-
-
 
 
 let currentPlaylist = [];
