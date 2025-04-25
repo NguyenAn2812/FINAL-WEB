@@ -1,7 +1,7 @@
 <div id="controller-bar" class="fixed bottom-0 left-0 right-0 bg-[#181818] border-t border-[#303030] p-3 flex items-center justify-between z-50 hidden">
-    <div class="flex items-center space-x-4" onclick="openSongDisplayFromController()">
+    <div class="flex items-center space-x-4">
         
-        <img id="now-playing-thumb" src="" class="w-12 h-12 rounded object-cover" alt="">
+        <img id="now-playing-thumb" src="" onclick="openSongDisplayFromController()" class="w-12 h-12 rounded object-cover" alt="">
         <div>
             <p id="now-playing-title" class="font-semibold">Haven't chosen a song yet</p>
             <p id="now-playing-artist" class="text-sm text-gray-400"></p>
