@@ -20,14 +20,19 @@ function loadComponent(name) {
         container.innerHTML = html;
         
 
-        const isValidSong = typeof currentSongId === 'number' && currentSongId > 0;
+        const audio = document.getElementById('global-audio');
+        const hasAudioFile = audio && typeof audio.src === 'string' && audio.src.trim() !== '';
+        const hasSongId = typeof currentSongId === 'number' && currentSongId > 0;
         const isValidPlaylist = Array.isArray(currentPlaylist) && currentPlaylist.length > 0;
+        const currentSongInPlaylist = isValidPlaylist && currentPlaylist.some(song => Number(song.id) === Number(currentSongId));
 
-        if (!name.startsWith("songdisplay") && (!isValidSong || !isValidPlaylist)) {
+        const stillInPlayContext = hasAudioFile && hasSongId && isValidPlaylist && currentSongInPlaylist;
+
+        if (!name.startsWith("songdisplay") && !stillInPlayContext) {
             window.isSongDisplayOpen = false;
-            console.log("🧼 Reset isSongDisplayOpen = false vì đã chuyển sang component khác:", name);
+            console.log("🧼 Reset isSongDisplayOpen = false vì không còn phát bài nào:", name);
         } else {
-            console.log("✅ Giữ nguyên isSongDisplayOpen vì đang phát nhạc:", name);
+            console.log("✅ Giữ nguyên isSongDisplayOpen vì đang phát:", name);
         }
         setTimeout(() => {
             resetThumbnailClickListener();
