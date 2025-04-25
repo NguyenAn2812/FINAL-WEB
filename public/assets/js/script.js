@@ -41,14 +41,13 @@ document.addEventListener('click', function (e) {
     }
 
     const el = e.target.closest('.songcard');
-    if (el) {
-        const song = {
-                id: parseInt(el.dataset.songcard),
-                title: el.dataset.title,
-                artist: el.dataset.artist,
-                thumbnail: el.dataset.thumb,
-                file: el.dataset.file
-        };
+    if (!el) return;
+
+    const songId = Number(el.dataset.songcard);
+    const song = currentPlaylist.find(s => Number(s.id) === songId);
+
+    if (song) {
+        currentSongId = song.id;
         playSongFromObject(song);
     }
 });
@@ -424,7 +423,7 @@ async function loadNextSongsFromPlaylist() {
 function renderPlaylistSongsFromList(songs) {
     const container = document.getElementById('playlist-songs-container');
     if (!container) return;
-
+    console.log("📃 currentPlaylist:", currentPlaylist.map(s => s.title));
     container.innerHTML = songs.map(song => `
         <div class="songcard ${song.id === currentSongId ? 'border border-blue-500' : ''}"
              data-songcard="${song.id}"
