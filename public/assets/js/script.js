@@ -260,6 +260,7 @@ async function openSongDisplayFromController() {
     }
 
     controllerOpenLock = true;
+    console.trace();  
     console.log("🎯 TRIGGER openSongDisplayFromController");
 
     if (!currentSongId) {
