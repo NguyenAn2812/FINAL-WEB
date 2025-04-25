@@ -10,7 +10,11 @@
             <button onclick="openUploadModal()" class="px-3 py-2 rounded-full font-medium border border-white text-white hover:bg-white hover:text-black transition">
                 Upload
             </button>
-
+            <?php if ($_SESSION['user']['role'] === 'Admin'): ?>
+                <a href="<?= BASE_URL ?>/admin" class="px-3 py-2 rounded-full font-medium border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black transition">
+                    Admin
+                </a>
+            <?php endif; ?>
             <button id="avatar-toggle" onclick="toggleDropdown()" class="flex items-center space-x-1 text-sm font-medium text-white hover:text-gray-300">
                 <img src="<?= BASE_URL . '/uploads/avatars/' . ($_SESSION['user']['avatar'] ?? 'default.png') ?>" class="w-8 h-8 rounded-full object-cover" alt="avatar">
                 <span><?= htmlspecialchars($_SESSION['user']['username']) ?></span>

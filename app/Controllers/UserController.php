@@ -103,18 +103,7 @@ class UserController
     {
         return password_verify($plain, $hashed);
     }
-    public function showMusicianContainer()
-    {
-        $userModel = new \App\Models\User();
-        $musicians = $userModel->getMusicians();
-
-        $view = new \League\Plates\Engine(__DIR__ . '/../views/layouts'); 
-        $view->registerFunction('asset', function ($p) {
-            return BASE_URL . $p;
-        });
-
-        echo $view->render('musiciancontainer', ['musicians' => $musicians]);
-    }
+    
 
 
 }

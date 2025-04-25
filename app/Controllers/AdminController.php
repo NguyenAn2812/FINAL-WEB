@@ -18,7 +18,7 @@ class AdminController
 
     private function isAdmin()
     {
-        return isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
+        return $_SESSION['user']['role']=='Admin';
     }
 
     public function dashboard()

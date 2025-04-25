@@ -24,7 +24,7 @@ $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
 // BASE_URL
-define('BASE_URL', rtrim($_ENV['APP_URL'] ?? '/', '/'));
+define('BASE_URL','/FINAL-WEB/public');
 
 // View engine
 $view = new Engine(__DIR__ . '/../app/views');
