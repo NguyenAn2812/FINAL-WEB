@@ -14,15 +14,21 @@
   <div id="playlist-songs-container" class="w-1/3 p-6 border-l border-[#303030] overflow-y-auto">
     <h3 class="text-lg font-semibold mb-4">Danh sách bài hát</h3>
 
-    <script>
-        if (!window.currentPlaylist || window.currentPlaylist.length === 0) {
-            document.write(`<?php ob_start(); $this->insert('songs/listsongs', ['songs' => $songs]); echo addslashes(ob_get_clean()); ?>`);
-            console.log("📥 Render listsongs từ PHP vì chưa có JS playlist");
-        } else {
-            console.log("✅ currentPlaylist đã có → KHÔNG render listsongs từ PHP");
-        }
-    </script>
+    <div id="php-listsong-container">
+        <?php $this->insert('songs/listsongs', ['songs' => $songs]); ?>
+    </div>
 </div>
+
+<script>
+  if (window.currentPlaylist && window.currentPlaylist.length > 0) {
+    const container = document.getElementById('php-listsong-container');
+    if (container) container.innerHTML = ''; // ❌ Xoá danh sách từ PHP nếu đã có JS playlist
+    console.log("✅ currentPlaylist đã có → KHÔNG dùng danh sách từ PHP");
+  } else {
+    console.log("📥 Chưa có currentPlaylist → dùng danh sách render từ PHP");
+  }
+</script>
+
 
 
 </div>
