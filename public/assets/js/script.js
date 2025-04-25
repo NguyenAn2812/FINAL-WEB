@@ -252,20 +252,16 @@ async function openSongDisplayFromController() {
         return;
     }
 
-    const app = document.getElementById('app');
-
-    // ⚠️ Kiểm tra nếu songdisplay đang hiển thị (thông qua playlist-songs-container)
-    const playlistContainer = document.getElementById('playlist-songs-container');
-
-    if (!playlistContainer) {
-        // ✅ CHỈ khi chưa có thì mới load lại component
+    // Kiểm tra biến global chắc chắn nhất
+    if (!window.isSongDisplayOpen) {
         await loadComponent(`songdisplay?id=${currentSongId}`);
         renderPlaylistSongsFromList(currentPlaylist);
+        window.isSongDisplayOpen = true; // đánh dấu đã mở
     }
 
-    // Luôn luôn highlight bài đang phát
     highlightNowPlaying(currentSongId);
 }
+
 let currentPlaylist = [];
 
 function setCurrentPlaylist(songArray) {
