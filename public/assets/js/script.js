@@ -319,17 +319,6 @@ function setCurrentPlaylist(songs) {
     window.currentPlaylist = songs;
 }
 
-async function loadGlobalPlaylist() {
-    const res = await fetch(`${BASE}/playlist/json`);
-    const data = await res.json();
-
-    if (Array.isArray(data) && data.length > 0) {
-        console.log("📥 Gán currentPlaylist từ API playlist/json");
-        setCurrentPlaylist(data);
-    } else {
-        console.warn("⛔ Dữ liệu playlist json rỗng hoặc không hợp lệ – không gán currentPlaylist");
-    }
-}
 
 function initPlaylistAndOpenSongDisplay(playlistId, isShuffle = false) {
     fetch(`${BASE}/playlist/json?id=${playlistId}`)
@@ -651,7 +640,6 @@ function scrollPlaylist(playListDisplayId, direction) {
 }
 document.addEventListener('DOMContentLoaded', () => {
     loadComponent('home');
-    loadGlobalPlaylist();
     const thumb = document.getElementById('now-playing-thumb');
     if (thumb) {
         thumb.replaceWith(thumb.cloneNode(true));
