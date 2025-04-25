@@ -31,8 +31,10 @@ class SongController
             return;
         }
 
-        $related = $this->songModel->getRelatedSongs($id); 
-
+        $related = $this->songModel->getRelatedSongs($id);
+        if (!is_array($related) || count($related) === 0) {
+            $related = $this->songModel->getRandomSongs(6);
+        }
         echo $this->view->render('songs/songdisplay', [
             'song' => $song,
             'songs' => $related

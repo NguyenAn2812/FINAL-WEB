@@ -282,27 +282,24 @@ async function openSongDisplayFromController() {
     window.isSongDisplayOpen = true;
 
     // ✅ Chỉ render danh sách nếu chưa có
-    const shouldRenderList =
-    !document.getElementById('playlist-songs-container') ||
-    !Array.isArray(currentPlaylist) ||
-    currentPlaylist.length === 0;
+    const shouldRenderList = !document.getElementById('playlist-songs-container') || !Array.isArray(currentPlaylist) || currentPlaylist.length === 0;
 
-console.log("🔍 Kiểm tra trước render: ", {
-  currentPlaylist,
-  isArray: Array.isArray(currentPlaylist),
-  length: currentPlaylist?.length,
-  shouldRenderList
-});
+    console.log("🔍 Kiểm tra trước render: ", {
+        currentPlaylist,
+        isArray: Array.isArray(currentPlaylist),
+        length: currentPlaylist?.length,
+        shouldRenderList
+    });
 
-if (shouldRenderList) {
-    console.log("🟢 Chưa có danh sách → renderPlaylistSongsFromList");
-    renderPlaylistSongsFromList(currentPlaylist);
-} else {
-    console.log("✅ Giữ nguyên danh sách → KHÔNG render lại");
-}
+    if (shouldRenderList) {
+        console.log("🟢 Chưa có danh sách → renderPlaylistSongsFromList");
+        renderPlaylistSongsFromList(currentPlaylist);
+    } else {
+        console.log("✅ Giữ nguyên danh sách → KHÔNG render lại");
+    }
 
 
-    highlightNowPlaying(currentSongId);
+        highlightNowPlaying(currentSongId);
 }
 
 
