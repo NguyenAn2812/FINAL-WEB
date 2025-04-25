@@ -21,7 +21,7 @@ function loadComponent(name) {
 
             if (!name.startsWith("songdisplay")) {
                 window.isSongDisplayOpen = false;
-                console.log("🧼 Reset isSongDisplayOpen = false vì đã chuyển sang component khác:", name);
+                console.log("Reset isSongDisplayOpen = false vì đã chuyển sang component khác:", name);
             }
     })
     .catch(err => {
@@ -263,14 +263,24 @@ async function openSongDisplayFromController() {
         console.log("🔁 songdisplay chưa mở → loadComponent");
 
         await loadComponent(`songdisplay?id=${currentSongId}`);
+
         window.isSongDisplayOpen = true;
 
-        console.log("✅ Lần đầu mở → render danh sách cố định");
-        renderPlaylistSongsFromList(currentPlaylist);
+        // Sau khi load xong DOM, kiểm tra lại container
+        const container = document.getElementById('playlist-songs-container');
+
+        if (!container || container.innerHTML.trim() === '') {
+            console.log("🟢 Lần đầu mở → render danh sách cố định");
+            renderPlaylistSongsFromList(currentPlaylist);
+        } else {
+            console.log("✅ listsong đã có sẵn, KHÔNG render lại");
+        }
+
     } else {
         console.log("✅ songdisplay đã mở → không reload");
 
-        if (!playlistContainer) {
+        const container = document.getElementById('playlist-songs-container');
+        if (!container) {
             console.log("🛠️ Reload ONLY listsong vì KHÔNG tồn tại DOM");
             renderPlaylistSongsFromList(currentPlaylist);
         } else {
