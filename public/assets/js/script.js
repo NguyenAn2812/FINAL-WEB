@@ -311,10 +311,20 @@ function setCurrentPlaylist(songs) {
         return;
     }
 
+    const sanitized = songs.map(s => ({
+        ...s,
+        file: s.file?.startsWith('http') ? s.file : `${BASE}/uploads/songs/${s.filename || s.file}`,
+        thumbnail: s.thumbnail?.startsWith('http') || s.thumbnail?.startsWith('/')
+            ? s.thumbnail
+            : `${BASE}/uploads/thumbnails/${s.thumbnail}`
+    }));
+
     console.warn("⚠️ setCurrentPlaylist() được gọi → ghi đè currentPlaylist!");
-    console.log("🧪 Dữ liệu nhận vào:", songs);
-    window.currentPlaylist = songs;
+    console.log("🧪 Dữ liệu nhận vào (sau chuẩn hóa):", sanitized);
+
+    window.currentPlaylist = sanitized;
 }
+
 
 
 function initPlaylistAndOpenSongDisplay(playlistId, isShuffle = false) {
