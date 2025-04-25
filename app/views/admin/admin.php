@@ -9,63 +9,78 @@
 <body class="bg-dark text-white">
 
 <div class="container py-5">
-    <h1 class="mb-4">Admin Dashboard</h1>
+    <h1 class="mb-5 text-center fw-bold">Admin Dashboard</h1>
 
-    <h2>Users</h2>
-    <table class="table table-dark table-striped">
-        <thead>
-            <tr>
-                <th>ID</th><th>Username</th><th>Email</th><th>Role</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($users as $user): ?>
-            <tr>
-                <td><?= htmlspecialchars($user['id']) ?></td>
-                <td><?= htmlspecialchars($user['username']) ?></td>
-                <td><?= htmlspecialchars($user['email']) ?></td>
-                <td><?= htmlspecialchars($user['role'] ?? 'user') ?></td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    <!-- Users Table -->
+    <section class="mb-5">
+        <h2 class="mb-3">Users</h2>
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle">
+                <thead class="table-light text-dark">
+                    <tr>
+                        <th>ID</th><th>Username</th><th>Email</th><th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($users as $user): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($user['id']) ?></td>
+                        <td><?= htmlspecialchars($user['username']) ?></td>
+                        <td><?= htmlspecialchars($user['email']) ?></td>
+                        <td><?= htmlspecialchars($user['role'] ?? 'user') ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-    <h2 class="mt-5">Songs</h2>
-    <table class="table table-dark table-striped">
-        <thead>
-            <tr>
-                <th>ID</th><th>Title</th><th>Artist</th><th>Filename</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($songs as $song): ?>
-            <tr>
-                <td><?= htmlspecialchars($song['id']) ?></td>
-                <td><?= htmlspecialchars($song['title']) ?></td>
-                <td><?= htmlspecialchars($song['artist']) ?></td>
-                <td><?= htmlspecialchars($song['file']) ?></td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    <!-- Songs Table -->
+    <section class="mb-5">
+        <h2 class="mb-3">Songs</h2>
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle">
+                <thead class="table-light text-dark">
+                    <tr>
+                        <th>ID</th><th>Title</th><th>Artist</th><th>Filename</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($songs as $song): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($song['id']) ?></td>
+                        <td><?= htmlspecialchars($song['title']) ?></td>
+                        <td><?= htmlspecialchars($song['artist']) ?></td>
+                        <td><?= htmlspecialchars($song['file']) ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-    <h2 class="mt-5">Playlists</h2>
-    <table class="table table-dark table-striped">
-        <thead>
-            <tr>
-                <th>ID</th><th>Name</th><th>User ID</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($playlists as $playlist): ?>
-            <tr>
-                <td><?= htmlspecialchars($playlist['id']) ?></td>
-                <td><?= htmlspecialchars($playlist['name']) ?></td>
-                <td><?= htmlspecialchars($playlist['user_id']) ?></td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    <!-- Playlists Table -->
+    <section>
+        <h2 class="mb-3">Playlists</h2>
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle">
+                <thead class="table-light text-dark">
+                    <tr>
+                        <th>ID</th><th>Name</th><th>User ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($playlists as $playlist): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($playlist['id']) ?></td>
+                        <td><?= htmlspecialchars($playlist['name']) ?></td>
+                        <td><?= htmlspecialchars($playlist['user_id']) ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
 </div>
 

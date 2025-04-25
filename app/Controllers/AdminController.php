@@ -12,7 +12,7 @@ class AdminController
 
     public function __construct()
     {
-        $this->view = new Engine(__DIR__ . '/../views/auth'); // Tạm dùng lại auth view để render popup login
+        $this->view = new Engine(__DIR__ . '/../views'); // Tạm dùng lại auth view để render popup login
     }
 
     private function isAdmin()
@@ -23,13 +23,13 @@ class AdminController
     public function dashboard()
     {
         if (!$this->isAdmin()) {
-            echo $this->view->render('login', ['admin_mode' => true]);
+            echo $this->view->render('admin/login', ['admin_mode' => true]);
             return;
         }
 
         // Sau này bạn tạo view admin/dashboard.php
         $adminView = new Engine(__DIR__ . '/../views/admin');
-        echo $adminView->render('dashboard');
+        echo $adminView->render('admin');
     }
 
     public function login()
@@ -38,7 +38,6 @@ class AdminController
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            // Ở đây hardcode tài khoản admin
             if ($username === 'admin' && $password === 'yourpassword') {
                 $_SESSION['admin_logged_in'] = true;
                 echo json_encode(['success' => true]);
@@ -52,7 +51,7 @@ class AdminController
             return;
         }
 
-        echo $this->view->render('login', ['admin_mode' => true]);
+        echo $this->view->render('admin/login', ['admin_mode' => true]);
     }
 
     public function logout()
