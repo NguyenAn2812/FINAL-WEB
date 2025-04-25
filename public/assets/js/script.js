@@ -253,8 +253,8 @@ async function openSongDisplayFromController() {
     }
 
     const app = document.getElementById('app');
-
-    if (!app.querySelector('#playlist-songs-container')) {
+    const playlistContainer = document.getElementById('playlist-songs-container');
+    if (!playlistContainer) {
         await loadComponent(`songdisplay?id=${currentSongId}`);
         
         renderPlaylistSongsFromList(currentPlaylist);
