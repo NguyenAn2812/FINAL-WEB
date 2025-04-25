@@ -1,8 +1,6 @@
 <?php
-if (!isset($songs) || !is_array($songs) || count($songs) === 0) {
-    echo "<script>console.warn('⛔ $songs không phải array hoặc trống – không render listsongs.php');</script>";
-    return;
-}
+$songs = $this->songModel->getRelatedSongs($id);
+if (!is_array($songs)) $songs = [];
 ?>
 
 

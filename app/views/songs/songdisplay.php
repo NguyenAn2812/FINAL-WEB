@@ -33,11 +33,17 @@
 
 </div>
 <script>
-if (!window.currentPlaylist || window.currentPlaylist.length === 0) {
-    console.log("📥 Gán currentPlaylist từ PHP (songdisplay)");
-    window.currentPlaylist = <?= json_encode($songs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
-} else {
-    console.log("✅ currentPlaylist đã tồn tại, KHÔNG ghi đè");
-}
+  if (!window.currentPlaylist || window.currentPlaylist.length === 0) {
+    const fromPHP = <?= json_encode($songs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+    if (Array.isArray(fromPHP) && fromPHP.length > 0) {
+      console.log("📥 Gán currentPlaylist từ PHP (songdisplay)");
+      window.currentPlaylist = fromPHP;
+    } else {
+      console.log("⛔ Không gán currentPlaylist vì từ PHP truyền về rỗng");
+    }
+  } else {
+    console.log("✅ currentPlaylist đã tồn tại → KHÔNG ghi đè");
+  }
 </script>
+
 
