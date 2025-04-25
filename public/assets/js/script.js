@@ -314,20 +314,18 @@ function setCurrentPlaylist(songs) {
     console.trace(); // ✅ In ra ai gọi hàm này!
     window.currentPlaylist = songs;
 }
-function loadGlobalPlaylist() {
-    fetch(`${BASE}/playlist/json`)
-    .then(res => res.json())
-    .then(data => {
-        if (Array.isArray(data)) {
-                setCurrentPlaylist(data);
-        } else {
-                console.warn("Invalid playlist data");
-        }
-    })
-    .catch(err => {
-        console.error("Failed to fetch global playlist:", err);
-    });
+async function loadGlobalPlaylist() {
+    const res = await fetch(`${BASE}/playlist/json`);
+    const data = await res.json();
+
+    if (Array.isArray(data) && data.length > 0) {
+        console.log("📥 Gán currentPlaylist từ API playlist/json");
+        setCurrentPlaylist(data);
+    } else {
+        console.warn("⛔ Dữ liệu playlist json rỗng hoặc không hợp lệ – không gán currentPlaylist");
+    }
 }
+
 function initPlaylistAndOpenSongDisplay(playlistId, isShuffle = false) {
     fetch(`${BASE}/playlist/json?id=${playlistId}`)
     .then(res => res.json())
