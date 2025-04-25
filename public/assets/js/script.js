@@ -252,23 +252,24 @@ async function openSongDisplayFromController() {
         return;
     }
 
-    const app = document.getElementById('app');
+    const playlistContainer = document.getElementById('playlist-songs-container');
 
     if (!window.isSongDisplayOpen) {
-        // 🟢 Lần đầu → load songdisplay và render danh sách
+        console.log("🔁 songdisplay chưa mở → loadComponent");
+
         await loadComponent(`songdisplay?id=${currentSongId}`);
         window.isSongDisplayOpen = true;
 
+        console.log("✅ Lần đầu mở → render danh sách cố định");
         renderPlaylistSongsFromList(currentPlaylist);
     } else {
         console.log("✅ songdisplay đã mở → không reload");
 
-        // 🟡 Nếu songdisplay đã mở nhưng danh sách bị mất → chỉ load lại danh sách
-        const playlistContainer = document.getElementById('playlist-songs-container');
-        if (!playlistContainer || playlistContainer.innerHTML.trim() === '') {
-            console.log("🛠️ Reload ONLY listsong");
-
+        if (!playlistContainer) {
+            console.log("🛠️ Reload ONLY listsong vì KHÔNG tồn tại DOM");
             renderPlaylistSongsFromList(currentPlaylist);
+        } else {
+            console.log("✅ listsong đã có sẵn, KHÔNG reload");
         }
     }
 
