@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 // Autoload
 require_once __DIR__ . '/../vendor/autoload.php';
-
+require_once '../app/Controllers/AdminController.php';
 use Dotenv\Dotenv;
 use League\Plates\Engine;
 use Bramus\Router\Router;
@@ -68,7 +68,7 @@ $router->get('/playlist/random', function () {
 });
 
 if (isset($_GET['url']) && $_GET['url'] === 'admin') {
-    require_once '../app/controllers/AdminController.php';
+    
     $controller = new App\Controllers\AdminController();
     $controller->index();
     exit;
