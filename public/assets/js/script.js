@@ -257,20 +257,14 @@ function loadSongDisplay(songId) {
 let controllerOpenLock = false;
 
 async function openSongDisplayFromController() {
-    if (controllerOpenLock) {
-        console.warn("🔁 Bỏ qua lần click do đang xử lý...");
+    if (!currentSongId) {
+        console.warn("⚠️ No song selected to open songdisplay.");
         return;
     }
 
-    controllerOpenLock = true;
-    
-    console.log("🎯 TRIGGER openSongDisplayFromController");
-    console.trace();  
-    if (!currentSongId) {
-        alert("Please select a song first.");
-        controllerOpenLock = false;
-        return;
-    }
+    const playlistContainer = document.getElementById('playlist-songs-container');
+    const audio = document.getElementById('global-audio');
+    const isPlaying = audio && !audio.paused;
 
     if (!window.isSongDisplayOpen) {
         console.log("🔁 songdisplay chưa mở → loadComponent");
@@ -279,23 +273,25 @@ async function openSongDisplayFromController() {
         window.isSongDisplayOpen = true;
 
         const container = document.getElementById('playlist-songs-container');
+
         if (!container) {
-            console.log("🟢 Lần đầu mở → render danh sách cố định");
+            console.log("🟢 Không có container → Render listsong từ currentPlaylist");
+            renderPlaylistSongsFromList(currentPlaylist);
+        } else if (!currentPlaylist || currentPlaylist.length === 0) {
+            console.log("🟢 Không có currentPlaylist → Render listsong lần đầu");
+            renderPlaylistSongsFromList(currentPlaylist);
+        } else if (!isPlaying) {
+            console.log("🟢 Không có nhạc đang phát → Render listsong lần đầu");
             renderPlaylistSongsFromList(currentPlaylist);
         } else {
-            console.log("✅ listsong đã có sẵn, KHÔNG reload");
+            console.log("✅ Đang phát nhạc → KHÔNG render lại listsong");
         }
     } else {
-        console.log("✅ songdisplay đã mở → không reload");
+        console.log("✅ songdisplay đã mở → KHÔNG reload");
     }
 
     highlightNowPlaying(currentSongId);
-
-    setTimeout(() => {
-        controllerOpenLock = false;
-    }, 300); // reset sau 300ms
 }
-
 
 
 
