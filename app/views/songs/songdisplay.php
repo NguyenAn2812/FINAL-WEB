@@ -16,3 +16,6 @@
     <?php $this->insert('songs/listsongs', ['songs' => $songs]); ?>
   </div>
 </div>
+<script>
+window.currentPlaylist = <?= json_encode($songs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+</script>

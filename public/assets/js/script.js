@@ -44,24 +44,12 @@ document.addEventListener('click', function (e) {
     if (!el) return;
 
     const songId = Number(el.dataset.songcard);
-    let song;
+    const song = currentPlaylist.find(s => Number(s.id) === songId);
 
-    if (Array.isArray(currentPlaylist)) {
-        song = currentPlaylist.find(s => Number(s.id) === songId);
+    if (song) {
+        currentSongId = song.id;
+        playSongFromObject(song);
     }
-
-    if (!song) {
-        song = {
-            id: songId,
-            title: el.dataset.title,
-            artist: el.dataset.artist,
-            file: el.dataset.file,
-            thumbnail: el.dataset.thumb
-        };
-    }
-
-    currentSongId = song.id;
-    playSongFromObject(song);
 });
     
 function openLoginModal() {
