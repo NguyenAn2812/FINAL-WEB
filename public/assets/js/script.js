@@ -247,8 +247,11 @@ function loadSongDisplay(songId) {
 }
     
 function openSongDisplayFromController() {
-        if (!currentSongId) return;
-        loadSongDisplay(currentSongId);
+    if (!currentSongId) {
+        alert("Please select a song first.");
+        return;
+    }
+    highlightNowPlaying(currentSongId);
 }
 let currentPlaylist = [];
 
@@ -385,7 +388,7 @@ async function playNext() {
         originalPlaylist = [...randomSongs];
         isShuffling = true;
 
-        await loadComponent(`songdisplay?id=${randomSongs[0].id}`);
+        // await loadComponent(`songdisplay?id=${randomSongs[0].id}`);
         currentSongId = randomSongs[0].id;
         renderPlaylistSongsFromList(currentPlaylist);
         playSongFromObject(randomSongs[0]);
