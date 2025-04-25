@@ -67,7 +67,7 @@ $router->mount('/admin', function () use ($router, $auth, $view) {
         $admin->index();
         $adminContent = ob_get_clean();
 
-        echo $view->render('layouts/main', [
+        echo $view->render('layouts/admin_main', [
             'content' => $adminContent
         ]);
     });
