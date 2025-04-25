@@ -59,6 +59,21 @@ class Song
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function deleteById($id)
+    {
+        // Xóa file nhạc nếu có
+        $song = $this->findById($id);
+        if ($song && isset($song['file'])) {
+            $filePath = __DIR__ . '/../uploads/songs/' . $song['file'];
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+
+        $stmt = $this->db->prepare("DELETE FROM songs WHERE id = ?");
+        $stmt->execute([$id]);
+    }
+
     public function getSongsByUser($userId)
     {
         $stmt = $this->db->prepare("

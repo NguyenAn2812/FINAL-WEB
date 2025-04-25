@@ -110,6 +110,7 @@ class AdminController
     }
 
 
+
     public function deleteUser($id)
     {
         (new User())->deleteById($id);

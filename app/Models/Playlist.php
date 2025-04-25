@@ -74,7 +74,11 @@ class Playlist
         $stmt->execute([$artistName]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
+    public function deleteById($id)
+    {
+        $stmt = $this->db->prepare("DELETE FROM playlists WHERE id = ?");
+        $stmt->execute([$id]);
+    }
     public function getSongsByUserId($userId)
     {
         $stmt = $this->db->prepare("

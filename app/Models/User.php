@@ -75,9 +75,18 @@ class User
 
     public function deleteById($id)
     {
+        $user = $this->findById($id);
+        if ($user && isset($user['avatar'])) {
+            $avatarPath = __DIR__ . '/../uploads/avatar/' . $user['avatar'];
+            if (file_exists($avatarPath)) {
+                unlink($avatarPath);
+            }
+        }
+
         $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
         $stmt->execute([$id]);
     }
+
 
     public function updateRole($id, $role)
     {
