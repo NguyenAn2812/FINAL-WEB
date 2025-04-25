@@ -18,6 +18,11 @@ function loadComponent(name) {
             return;
         }
         container.innerHTML = html;
+
+            if (!name.startsWith("songdisplay")) {
+                window.isSongDisplayOpen = false;
+                console.log("🧼 Reset isSongDisplayOpen = false vì đã chuyển sang component khác:", name);
+            }
     })
     .catch(err => {
         const container = document.getElementById('app');
