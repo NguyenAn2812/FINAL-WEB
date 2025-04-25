@@ -90,13 +90,31 @@
             // Render rows
             data.forEach(item => {
                 let row = '<tr>';
-                keys.forEach(k => row += `<td class="px-2 py-1">${item[k]}</td>`);
+                keys.forEach(k => {
+                    if(k !== 'password') {
+                        row += `<td class="px-2 py-1">${item[k]}</td>`; // Ẩn password
+                    }
+                });
+
                 if (type === 'users') {
                     row += `<td class="px-2 py-1">
                         <button onclick="setMusician(${item.id})" class="text-blue-400 hover:underline">Set Musician</button>
                         <button onclick="deleteUser(${item.id})" class="text-red-400 hover:underline ml-2">Delete</button>
                     </td>`;
                 }
+
+                if (type === 'songs') {
+                    row += `<td class="px-2 py-1">
+                        <button onclick="deleteSong(${item.id})" class="text-red-400 hover:underline">Delete</button>
+                    </td>`;
+                }
+
+                if (type === 'playlists') {
+                    row += `<td class="px-2 py-1">
+                        <button onclick="deletePlaylist(${item.id})" class="text-red-400 hover:underline">Delete</button>
+                    </td>`;
+                }
+                
                 row += '</tr>';
                 table.innerHTML += row;
             });
@@ -112,6 +130,20 @@
         function setMusician(id) {
             fetch(`${BASE}/set-musician/${id}`, { method: 'POST' })
                 .then(() => openPopup('users'));
+        }
+
+        function deleteSong(id) {
+            if (confirm('Are you sure you want to delete this song?')) {
+                fetch(`${BASE}/delete-song/${id}`, { method: 'POST' })
+                    .then(() => openPopup('songs'));
+            }
+        }
+
+        function deletePlaylist(id) {
+            if (confirm('Are you sure you want to delete this playlist?')) {
+                fetch(`${BASE}/delete-playlist/${id}`, { method: 'POST' })
+                    .then(() => openPopup('playlists'));
+            }
         }
     </script>
 

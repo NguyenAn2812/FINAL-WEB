@@ -96,6 +96,20 @@ class AdminController
     }
 
     // ==== ACTIONS ====
+
+    public function deleteSong($id)
+    {
+        (new Song())->deleteById($id);
+        echo json_encode(['success' => true]);
+    }
+
+    public function deletePlaylist($id)
+    {
+        (new Playlist())->deleteById($id);
+        echo json_encode(['success' => true]);
+    }
+
+
     public function deleteUser($id)
     {
         (new User())->deleteById($id);

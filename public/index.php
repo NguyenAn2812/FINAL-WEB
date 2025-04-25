@@ -91,6 +91,9 @@ $router->get('/admin/data/songs', fn() => (new AdminController())->getSongs());
 $router->get('/admin/data/playlists', fn() => (new AdminController())->getPlaylists());
 $router->post('/admin/delete-user/(\d+)', fn($id) => (new AdminController())->deleteUser($id));
 $router->post('/admin/set-musician/(\d+)', fn($id) => (new AdminController())->setMusician($id));
+$router->post('/admin/delete-song/(\d+)', fn($id) => (new AdminController())->deleteSong($id));
+$router->post('/admin/delete-playlist/(\d+)', fn($id) => (new AdminController())->deletePlaylist($id));
+
 
 
 
