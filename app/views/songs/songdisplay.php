@@ -18,12 +18,13 @@
 
 </div>
 <script>
-  window.isSongDisplayOpen = true;
   
+  window.isSongDisplayOpen = true;
+
   if (!window.currentPlaylist || !Array.isArray(window.currentPlaylist) || window.currentPlaylist.length === 0) {
     console.log("📥 Gán currentPlaylist từ PHP (lần đầu)");
     window.currentPlaylist = <?= json_encode($songs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
-  } else {
+} else {
     console.log("✅ currentPlaylist đã tồn tại, KHÔNG ghi đè");
-  }
+}
 </script>
