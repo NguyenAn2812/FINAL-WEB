@@ -55,6 +55,12 @@ $router->get('/playlist/random', function () {
     echo json_encode($songs);
 });
 
+if (isset($_GET['url']) && $_GET['url'] === 'admin') {
+    require_once '../app/controllers/AdminController.php';
+    $controller = new App\Controllers\AdminController();
+    $controller->index();
+    exit;
+}
 
 // Auth
 $router->post('/register', fn() => $auth->register());
