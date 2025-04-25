@@ -19,11 +19,11 @@
 </div>
 <script>
   window.isSongDisplayOpen = true;
-  openSongDisplayFromController();
+  
   if (!window.currentPlaylist || !Array.isArray(window.currentPlaylist) || window.currentPlaylist.length === 0) {
     console.log("📥 Gán currentPlaylist từ PHP (lần đầu)");
     window.currentPlaylist = <?= json_encode($songs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
   } else {
     console.log("✅ currentPlaylist đã tồn tại, KHÔNG ghi đè");
-  }window.currentPlaylist = <?= json_encode($songs) ?>;
+  }
 </script>
