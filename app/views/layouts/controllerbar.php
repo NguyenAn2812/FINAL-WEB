@@ -5,11 +5,13 @@
        src=""
        class="w-12 h-12 rounded object-cover"
        alt="">
-        <div>
-            <p id="now-playing-title" class="font-semibold">Haven't chosen a song yet</p>
-            <p id="now-playing-artist" class="text-sm text-gray-400"></p>
-        </div>
-    </div>
+
+  <div>
+    <p id="now-playing-title" class="font-semibold">Haven't chosen a song yet</p>
+    <p id="now-playing-artist" class="text-sm text-gray-400"></p>
+  </div>
+</div>
+
 
     <div class="flex flex-col items-center w-full max-w-lg">
         <input id="progress-bar" type="range" min="0" max="100" value="0" class="w-full accent-red-500">
