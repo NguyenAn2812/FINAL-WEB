@@ -12,9 +12,10 @@
 
   <!-- RIGHT: DANH SÁCH PHÁT -->
   <div id="playlist-songs-container" class="w-1/3 p-6 border-l border-[#303030] overflow-y-auto">
-    <h3 class="text-lg font-semibold mb-4">Playlist</h3>
+    <h3 class="text-lg font-semibold mb-4">Danh sách bài hát</h3>
     <?php $this->insert('songs/listsongs', ['songs' => $songs]); ?>
-  </div>
+</div>
+
 </div>
 <script>
   window.isSongDisplayOpen = true;
