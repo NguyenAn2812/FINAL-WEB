@@ -25,9 +25,10 @@
 
 <script>
 (function () {
-  if (!window.currentPlaylist || !Array.isArray(window.currentPlaylist) || window.currentPlaylist.length === 0) {
+  const isValid = window.currentPlaylist && Array.isArray(window.currentPlaylist) && window.currentPlaylist.length > 0;
+  if (!isValid) {
     console.log("📥 Gán currentPlaylist từ PHP (listsongs.php)");
-    window.currentPlaylist = <?= json_encode(array_map(function ($s) {
+    setCurrentPlaylist(<?= json_encode(array_map(function ($s) {
         return [
             'id' => $s['id'],
             'title' => $s['title'],
@@ -35,9 +36,9 @@
             'thumbnail' => BASE_URL . '/uploads/thumbnails/' . $s['thumbnail'],
             'file' => BASE_URL . '/uploads/songs/' . $s['filename']
         ];
-    }, $songs), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
+    }, $songs), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>);
   } else {
-    console.log("✅ currentPlaylist đã tồn tại → không gán lại từ PHP");
+    console.log("✅ currentPlaylist đã tồn tại → KHÔNG gán lại từ PHP (listsongs)");
   }
 })();
 </script>

@@ -1,3 +1,8 @@
+console.log("🎬 Hiện tại: ", {
+    currentSongId,
+    currentPlaylist,
+    playlistLength: currentPlaylist?.length
+  });
 let isShuffling = false;
 let originalPlaylist = [];
 async function loadRandomSongs(limit = 6) {
@@ -281,15 +286,25 @@ async function openSongDisplayFromController() {
     window.isSongDisplayOpen = true;
 
     // ✅ Chỉ render danh sách nếu chưa có
-    const container = document.getElementById('playlist-songs-container');
-    const shouldRenderList = !container || !Array.isArray(currentPlaylist) || currentPlaylist.length === 0;
+    const shouldRenderList =
+    !document.getElementById('playlist-songs-container') ||
+    !Array.isArray(currentPlaylist) ||
+    currentPlaylist.length === 0;
 
-    if (shouldRenderList) {
-        console.log("🟢 Chưa có danh sách → renderPlaylistSongsFromList");
-        renderPlaylistSongsFromList(currentPlaylist);
-    } else {
-        console.log("✅ Giữ nguyên danh sách hiện tại → KHÔNG render lại");
-    }
+console.log("🔍 Kiểm tra trước render: ", {
+  currentPlaylist,
+  isArray: Array.isArray(currentPlaylist),
+  length: currentPlaylist?.length,
+  shouldRenderList
+});
+
+if (shouldRenderList) {
+    console.log("🟢 Chưa có danh sách → renderPlaylistSongsFromList");
+    renderPlaylistSongsFromList(currentPlaylist);
+} else {
+    console.log("✅ Giữ nguyên danh sách → KHÔNG render lại");
+}
+
 
     highlightNowPlaying(currentSongId);
 }
@@ -297,10 +312,10 @@ async function openSongDisplayFromController() {
 
 let currentPlaylist = [];
 
-function setCurrentPlaylist(songArray) {
-    console.warn("⚠️ setCurrentPlaylist() được gọi → ghi đè danh sách!");
-
-    currentPlaylist = songArray;
+function setCurrentPlaylist(songs) {
+    console.warn("⚠️ setCurrentPlaylist() được gọi → ghi đè currentPlaylist!");
+    window.currentPlaylist = songs;
+    console.log("🎵 Gán currentPlaylist: ", songs);
 }
 
 function loadGlobalPlaylist() {
