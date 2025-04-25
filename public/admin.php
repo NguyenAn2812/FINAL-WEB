@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Debug bật lỗi
+// Hiển thị lỗi debug
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -11,44 +11,78 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 use League\Plates\Engine;
+use Bramus\Router\Router;
 use App\Controllers\AuthController;
 use App\Controllers\AdminController;
 
-// Load biến môi trường từ .env
+// Load biến môi trường
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
-// Define BASE_URL
+// BASE_URL
 define('BASE_URL', rtrim($_ENV['APP_URL'] ?? '/', '/'));
 
-// Setup view Engine
+// View engine
 $view = new Engine(__DIR__ . '/../app/views');
 $view->registerFunction('asset', fn($path) => BASE_URL . '/' . ltrim($path, '/'));
 
-// ========================
-// Xử lý đăng nhập admin
-// ========================
+// Router riêng cho admin
+$router = new Router();
+$auth = new AuthController();
 
-// Nếu chưa đăng nhập hoặc không phải admin
-if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'admin') {
-    $auth = new AuthController();
+// Admin routes
+$router->mount('/admin', function () use ($router, $auth, $view) {
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        ob_start();
-        $auth->login();
-        $response = json_decode(ob_get_clean(), true);
+    // Trang login
+    $router->match('GET|POST', '/login', function () use ($auth, $view) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            ob_start();
+            $auth->login();
+            $response = json_decode(ob_get_clean(), true);
 
-        if ($response && $response['success'] && ($_SESSION['user']['role'] ?? '') === 'admin') {
-            (new AdminController())->index();
+            if ($response && $response['success'] && ($_SESSION['user']['role'] ?? '') === 'admin') {
+                header('Location: ' . BASE_URL . '/admin/dashboard');
+                exit;
+            } else {
+                echo $view->render('layouts/main', [
+                    'content' => $auth->login(),
+                    'error' => $response['message'] ?? null
+                ]);
+            }
         } else {
-            echo "<div class='text-danger text-center p-3'>".htmlspecialchars($response['message'] ?? 'Access denied')."</div>";
-            echo $auth->login(); // render lại form login
+            echo $view->render('layouts/main', [
+                'content' => $auth->login()
+            ]);
         }
-    } else {
-        echo $auth->login(); // render form login
-    }
-    exit;
-}
+    });
 
-// Đã đăng nhập và đúng role admin
-(new AdminController())->index();
+    // Trang dashboard
+    $router->get('/dashboard', function () use ($view) {
+        if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'admin') {
+            header('Location: ' . BASE_URL . '/admin/login');
+            exit;
+        }
+        $admin = new AdminController();
+        ob_start();
+        $admin->index();
+        $adminContent = ob_get_clean();
+
+        echo $view->render('layouts/main', [
+            'content' => $adminContent
+        ]);
+    });
+
+    // Đăng xuất
+    $router->get('/logout', function () {
+        session_destroy();
+        header('Location: ' . BASE_URL . '/admin/login');
+        exit;
+    });
+
+});
+
+// 404 fallback cho admin
+$router->set404(fn() => http_response_code(404) && print "Admin page not found.");
+
+// Chạy router
+$router->run();
