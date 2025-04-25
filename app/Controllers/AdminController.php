@@ -23,14 +23,22 @@ class AdminController
     public function dashboard()
     {
         if (!$this->isAdmin()) {
-            echo $this->view->render('admin/login', ['admin_mode' => true]);
+            echo $this->view->render('admin/admin', ['showLogin' => true]); // truyền biến để hiển thị popup
             return;
         }
 
-        // Sau này bạn tạo view admin/dashboard.php
-        $adminView = new Engine(__DIR__ . '/../views/admin');
-        echo $adminView->render('admin');
+        $userModel = new User();
+        $songModel = new Song();
+        $playlistModel = new \App\Models\Playlist();
+
+        echo $this->view->render('admin/admin', [
+            'users' => $userModel->all(),
+            'songs' => $songModel->all(),
+            'playlists' => $playlistModel->all(),
+            'showLogin' => false
+        ]);
     }
+
 
     public function login()
     {

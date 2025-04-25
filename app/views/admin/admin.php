@@ -3,86 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
-    <link href="<?= BASE_URL ?>/assets/css/style.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-dark text-white">
+<body class="bg-[#121212] text-white">
 
-<div class="container py-5">
-    <h1 class="mb-5 text-center fw-bold">Admin Dashboard</h1>
+    <!-- DASHBOARD NỘI DUNG CHÍNH -->
+    <div class="p-8">
+        <h1 class="text-3xl font-bold mb-6">Welcome to Admin Dashboard</h1>
 
-    <!-- Users Table -->
-    <section class="mb-5">
-        <h2 class="mb-3">Users</h2>
-        <div class="table-responsive">
-            <table class="table table-dark table-hover align-middle">
-                <thead class="table-light text-dark">
-                    <tr>
-                        <th>ID</th><th>Username</th><th>Email</th><th>Role</th>
-                    </tr>
-                </thead>
+        <!-- Bảng người dùng -->
+        <h2 class="text-xl font-semibold mt-6 mb-2">Users</h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-sm bg-[#1f1f1f]">
+                <thead><tr class="bg-[#2c2c2c] text-left text-gray-400">
+                    <th class="p-2">ID</th><th class="p-2">Username</th><th class="p-2">Email</th><th class="p-2">Role</th>
+                </tr></thead>
                 <tbody>
-                    <?php foreach ($users as $user): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($user['id']) ?></td>
-                        <td><?= htmlspecialchars($user['username']) ?></td>
-                        <td><?= htmlspecialchars($user['email']) ?></td>
-                        <td><?= htmlspecialchars($user['role'] ?? 'user') ?></td>
+                    <?php foreach ($users ?? [] as $u): ?>
+                    <tr class="border-b border-gray-700 hover:bg-[#2a2a2a]">
+                        <td class="p-2"><?= $u['id'] ?></td>
+                        <td class="p-2"><?= $u['username'] ?></td>
+                        <td class="p-2"><?= $u['email'] ?></td>
+                        <td class="p-2"><?= $u['role'] ?></td>
                     </tr>
-                    <?php endforeach; ?>
+                    <?php endforeach ?>
                 </tbody>
             </table>
         </div>
-    </section>
 
-    <!-- Songs Table -->
-    <section class="mb-5">
-        <h2 class="mb-3">Songs</h2>
-        <div class="table-responsive">
-            <table class="table table-dark table-hover align-middle">
-                <thead class="table-light text-dark">
-                    <tr>
-                        <th>ID</th><th>Title</th><th>Artist</th><th>Filename</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($songs as $song): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($song['id']) ?></td>
-                        <td><?= htmlspecialchars($song['title']) ?></td>
-                        <td><?= htmlspecialchars($song['artist']) ?></td>
-                        <td><?= htmlspecialchars($song['file']) ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+        <!-- Bạn có thể thêm bảng songs / playlists ở đây -->
+    </div>
+
+    <!-- LOGIN POPUP -->
+    <?php if ($showLogin ?? false): ?>
+    <div id="login-popup" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+        <div class="bg-[#1f1f1f] p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h2 class="text-2xl font-bold text-center mb-4">Admin Login</h2>
+            <form id="loginForm" action="<?= BASE_URL ?>/admin/login" method="POST" class="space-y-4">
+                <p id="loginError" class="text-red-400 text-center hidden"></p>
+
+                <input type="text" name="username" placeholder="Username"
+                       class="w-full p-2 rounded bg-[#2a2a2a] border border-gray-700 text-white" required>
+
+                <input type="password" name="password" placeholder="Password"
+                       class="w-full p-2 rounded bg-[#2a2a2a] border border-gray-700 text-white" required>
+
+                <button type="submit"
+                        class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                    Login
+                </button>
+            </form>
         </div>
-    </section>
+    </div>
 
-    <!-- Playlists Table -->
-    <section>
-        <h2 class="mb-3">Playlists</h2>
-        <div class="table-responsive">
-            <table class="table table-dark table-hover align-middle">
-                <thead class="table-light text-dark">
-                    <tr>
-                        <th>ID</th><th>Name</th><th>User ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($playlists as $playlist): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($playlist['id']) ?></td>
-                        <td><?= htmlspecialchars($playlist['name']) ?></td>
-                        <td><?= htmlspecialchars($playlist['user_id']) ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </section>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = new FormData(form);
+            const res = await fetch(form.action, { method: 'POST', body: data });
+            const result = await res.json();
 
-</div>
+            if (result.success) {
+                document.getElementById('login-popup').classList.add('hidden');
+                location.reload(); // Hoặc bỏ dòng này nếu bạn đã load sẵn data
+            } else {
+                const err = document.getElementById('loginError');
+                err.textContent = result.message || "Login failed!";
+                err.classList.remove('hidden');
+            }
+        });
+    </script>
+    <?php endif; ?>
 
 </body>
 </html>
