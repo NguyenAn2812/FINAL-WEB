@@ -64,8 +64,16 @@ class AuthController
                 'avatar' => $user['avatar'] ?? null,
                 'role' => $user['role'] ?? 'user'
             ];
+            $redirectUrl = BASE_URL . (
+                isset($user['role']) && $user['role'] === 'admin'
+                ? '/admin'
+                : '/home'
+            );
 
-            echo json_encode(['success' => true]);
+            echo json_encode([
+                'success' => true,
+                'redirect' => $redirectUrl
+            ]);
             return;
         }
 
