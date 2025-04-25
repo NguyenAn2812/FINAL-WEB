@@ -29,7 +29,7 @@ $view->registerFunction('asset', fn($path) => BASE_URL . '/' . ltrim($path, '/')
 // Router riêng cho admin
 $router = new Router();
 $auth = new AuthController();
-
+$router->setBasePath('/admin.php');
 // Admin routes
 $router->mount('/admin', function () use ($router, $auth, $view) {
 
