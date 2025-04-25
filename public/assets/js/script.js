@@ -256,6 +256,7 @@ async function openSongDisplayFromController() {
         alert("Please select a song first.");
         return;
     }
+    console.log("🎯 TRIGGER openSongDisplayFromController");
 
     const playlistContainer = document.getElementById('playlist-songs-container');
 
