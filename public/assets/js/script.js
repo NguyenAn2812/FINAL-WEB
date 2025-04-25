@@ -563,7 +563,7 @@ function renderPlaylistSongsFromCurrentPlaylist() {
 
 function playSongFromObject(song) {
     if (!song || (!song.file && !song.filename)) {
-        console.warn("⛔ Không đủ dữ liệu để phát bài:", song);
+        console.warn("Không đủ dữ liệu để phát bài:", song);
         return;
     }
 
@@ -652,22 +652,22 @@ document.addEventListener('DOMContentLoaded', () => {
         thumb.replaceWith(thumb.cloneNode(true));
         const newThumb = document.getElementById('now-playing-thumb');
         newThumb.addEventListener('click', openSongDisplayFromController);
-        console.log("✅ Listener gắn 1 lần duy nhất cho now-playing-thumb");
+        console.log("Listener gắn 1 lần duy nhất cho now-playing-thumb");
     }
 });
 function resetThumbnailClickListener() {
     const oldThumb = document.getElementById('now-playing-thumb');
     if (!oldThumb) return;
 
-    const newThumb = oldThumb.cloneNode(true); // remove all previous listeners
-    oldThumb.replaceWith(newThumb); // replace element to clear listeners
+    const newThumb = oldThumb.cloneNode(true);
+    oldThumb.replaceWith(newThumb);
 
     newThumb.addEventListener('click', (e) => {
-        e.stopImmediatePropagation(); // block any extension or leftover
+        e.stopImmediatePropagation();
         openSongDisplayFromController();
     });
 
-    console.log("✅ Thumbnail listener reset hoàn toàn.");
+    console.log("Thumbnail listener reset hoàn toàn.");
 }
 
 function openAddToPlaylistModal(e, songId) {
@@ -875,9 +875,8 @@ function handleSongCardClick(el) {
     playSongFromObject(song);
 }
 
-// Trong script.js
 let currentSlide = 0;
-const slideSize = 3; // số lượng bài hát mỗi trang
+const slideSize = 3;
 
 function updateSlide() {
     const slider = document.getElementById('songSlider');
@@ -906,4 +905,3 @@ function prevSlide() {
 }
 
 document.addEventListener('DOMContentLoaded', updateSlide);
-

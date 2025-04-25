@@ -365,13 +365,11 @@
                 return;
             }
 
-            // Render header
             const keys = Object.keys(data[0]).filter(k => k !== 'password');
             header.innerHTML = keys.map(k => 
                 `<th class="px-4 py-3 text-left font-medium">${k.charAt(0).toUpperCase() + k.slice(1)}</th>`
             ).join('') + '<th class="px-4 py-3 text-right">Actions</th>';
 
-            // Render rows
             data.forEach(item => {
                 let row = '<tr class="hover:bg-[#2a2a2a] transition-colors">';
                 
