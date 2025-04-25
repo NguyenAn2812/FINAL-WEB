@@ -57,7 +57,11 @@ class Playlist
         return $stmt->execute([$playlistId, $songId]);
     }
 
-
+    public function all(){
+        $sql = "SELECT * FROM playlists";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
     public function getSongsByArtist($artistName)
     {
         $stmt = $this->db->prepare("
