@@ -13,8 +13,17 @@
   <!-- RIGHT: DANH SÁCH PHÁT -->
   <div id="playlist-songs-container" class="w-1/3 p-6 border-l border-[#303030] overflow-y-auto">
     <h3 class="text-lg font-semibold mb-4">Danh sách bài hát</h3>
-    <?php $this->insert('songs/listsongs', ['songs' => $songs]); ?>
+
+    <script>
+        if (!window.currentPlaylist || window.currentPlaylist.length === 0) {
+            document.write(`<?php ob_start(); $this->insert('songs/listsongs', ['songs' => $songs]); echo addslashes(ob_get_clean()); ?>`);
+            console.log("📥 Render listsongs từ PHP vì chưa có JS playlist");
+        } else {
+            console.log("✅ currentPlaylist đã có → KHÔNG render listsongs từ PHP");
+        }
+    </script>
 </div>
+
 
 </div>
 <script>
