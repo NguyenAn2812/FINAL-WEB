@@ -252,15 +252,14 @@ async function openSongDisplayFromController() {
         return;
     }
 
-    // Kiểm tra biến global chắc chắn nhất
     if (!window.isSongDisplayOpen) {
         await loadComponent(`songdisplay?id=${currentSongId}`);
         renderPlaylistSongsFromList(currentPlaylist);
-        window.isSongDisplayOpen = true; // đánh dấu đã mở
     }
 
     highlightNowPlaying(currentSongId);
 }
+
 
 let currentPlaylist = [];
 
