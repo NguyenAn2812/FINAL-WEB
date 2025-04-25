@@ -298,6 +298,8 @@ async function openSongDisplayFromController() {
 let currentPlaylist = [];
 
 function setCurrentPlaylist(songArray) {
+    console.warn("⚠️ setCurrentPlaylist() được gọi → ghi đè danh sách!");
+
     currentPlaylist = songArray;
 }
 
