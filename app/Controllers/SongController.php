@@ -31,12 +31,14 @@ class SongController
             return;
         }
 
-        $related = $this->songModel->getRelatedSongs($id);
+        $related = $this->songModel->getRelatedSongs($id); 
+
         echo $this->view->render('songs/songdisplay', [
             'song' => $song,
             'songs' => $related
         ]);
     }
+
 
     
     public function upload()
