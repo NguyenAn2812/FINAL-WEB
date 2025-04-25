@@ -1,4 +1,4 @@
-<?php if (!isset($songs)) return; ?>
+<?php if (!isset($songs) || count($songs) === 0) return; ?>
 
 <div class="flex flex-col gap-3">
   <?php foreach ($songs as $song): ?>
