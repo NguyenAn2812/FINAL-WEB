@@ -24,13 +24,18 @@
 </div>
 
 <script>
-setCurrentPlaylist(<?= json_encode(array_map(function ($s) {
-    return [
-        'id' => $s['id'],
-        'title' => $s['title'],
-        'artist' => $s['artist'],
-        'thumbnail' => BASE_URL . '/uploads/thumbnails/' . $s['thumbnail'],
-        'file' => BASE_URL . '/uploads/songs/' . $s['filename']
-    ];
-}, $songs), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>);
+if (!window.currentPlaylist || window.currentPlaylist.length === 0) {
+    console.log("📥 Gán currentPlaylist từ PHP (listsongs.php)");
+    setCurrentPlaylist(<?= json_encode(array_map(function ($s) {
+        return [
+            'id' => $s['id'],
+            'title' => $s['title'],
+            'artist' => $s['artist'],
+            'thumbnail' => BASE_URL . '/uploads/thumbnails/' . $s['thumbnail'],
+            'file' => BASE_URL . '/uploads/songs/' . $s['filename']
+        ];
+    }, $songs), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>);
+} else {
+    console.log("✅ currentPlaylist đã có → KHÔNG set lại từ PHP");
+}
 </script>

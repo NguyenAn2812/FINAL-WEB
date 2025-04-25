@@ -22,7 +22,7 @@
 <script>
   if (window.currentPlaylist && window.currentPlaylist.length > 0) {
     const container = document.getElementById('php-listsong-container');
-    if (container) container.innerHTML = ''; // ❌ Xoá danh sách từ PHP nếu đã có JS playlist
+    if (container) container.innerHTML = ''; 
     console.log("✅ currentPlaylist đã có → KHÔNG dùng danh sách từ PHP");
   } else {
     console.log("📥 Chưa có currentPlaylist → dùng danh sách render từ PHP");
