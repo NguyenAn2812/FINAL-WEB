@@ -29,6 +29,13 @@ if (!isset($songs) || !is_array($songs) || count($songs) === 0) {
   <?php endforeach; ?>
 </div>
 
+<?php
+if (!isset($songs) || !is_array($songs) || count($songs) === 0) {
+    echo "<script>console.warn('⛔ Không render listsongs.php – \$songs không hợp lệ');</script>";
+    return;
+}
+?>
+
 <script>
 (function () {
   const phpPlaylist = <?= json_encode(array_map(function ($s) {
@@ -45,10 +52,10 @@ if (!isset($songs) || !is_array($songs) || count($songs) === 0) {
   const isPHPValid = Array.isArray(phpPlaylist) && phpPlaylist.length > 0;
 
   if (!isJSValid && isPHPValid) {
-    console.log("📥 Gán currentPlaylist từ PHP (listsongs.php)");
+    console.warn("📥 setCurrentPlaylist() được gọi từ listsongs.php");
     setCurrentPlaylist(phpPlaylist);
   } else {
-    console.log("✅ KHÔNG gán currentPlaylist từ PHP (listsongs.php) vì đã có danh sách hoặc PHP rỗng");
+    console.log("✅ KHÔNG gọi setCurrentPlaylist – đã có hoặc PHP không hợp lệ");
   }
 })();
 </script>

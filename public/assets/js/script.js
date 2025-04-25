@@ -310,8 +310,8 @@ let currentPlaylist = [];
 
 function setCurrentPlaylist(songs) {
     console.warn("⚠️ setCurrentPlaylist() được gọi → ghi đè currentPlaylist!");
+    console.log("🧪 Dữ liệu nhận vào:", songs);
     window.currentPlaylist = songs;
-    console.log("🎵 Gán currentPlaylist: ", songs);
 }
 
 function loadGlobalPlaylist() {
