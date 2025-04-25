@@ -18,6 +18,9 @@ function loadComponent(name) {
             return;
         }
         container.innerHTML = html;
+        setTimeout(() => {
+            resetThumbnailClickListener();
+        }, 0);
 
             if (!name.startsWith("songdisplay")) {
                 window.isSongDisplayOpen = false;
@@ -646,6 +649,21 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("✅ Listener gắn 1 lần duy nhất cho now-playing-thumb");
     }
 });
+function resetThumbnailClickListener() {
+    const oldThumb = document.getElementById('now-playing-thumb');
+    if (!oldThumb) return;
+
+    const newThumb = oldThumb.cloneNode(true); // remove all previous listeners
+    oldThumb.replaceWith(newThumb); // replace element to clear listeners
+
+    newThumb.addEventListener('click', (e) => {
+        e.stopImmediatePropagation(); // block any extension or leftover
+        openSongDisplayFromController();
+    });
+
+    console.log("✅ Thumbnail listener reset hoàn toàn.");
+}
+
 function openAddToPlaylistModal(e, songId) {
     e.stopPropagation();
     fetch(`${BASE}/playlist/addform?song_id=${songId}`)
