@@ -19,4 +19,6 @@
 </div>
 <script>
   window.isSongDisplayOpen = true;
+  openSongDisplayFromController();
+
 </script>
