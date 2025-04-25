@@ -67,4 +67,33 @@ class User
         $stmt = $this->db->prepare("UPDATE users SET password = ? WHERE id = ?");
         return $stmt->execute([$hashed, $id]);
     }
+    public function countAll()
+    {
+        $sql = "SELECT COUNT(*) as total FROM users";
+        return $this->db->query($sql)->fetch(\PDO::FETCH_ASSOC)['total'] ?? 0;
+    }
+
+    public function deleteById($id)
+    {
+        $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
+        $stmt->execute([$id]);
+    }
+
+    public function updateRole($id, $role)
+    {
+        $stmt = $this->db->prepare("UPDATE users SET role = ? WHERE id = ?");
+        $stmt->execute([$role, $id]);
+    }
+    public function getTopUploader()
+    {
+        $sql = "
+            SELECT users.username, COUNT(songs.id) as count 
+            FROM users 
+            JOIN songs ON users.id = songs.user_id 
+            GROUP BY users.id 
+            ORDER BY count DESC 
+            LIMIT 1
+        ";
+        return $this->db->query($sql)->fetch(\PDO::FETCH_ASSOC);
+    }
 }

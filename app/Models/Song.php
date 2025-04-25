@@ -43,7 +43,11 @@ class Song
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
+    public function countAll()
+    {
+        $sql = "SELECT COUNT(*) as total FROM songs";
+        return $this->db->query($sql)->fetch(\PDO::FETCH_ASSOC)['total'] ?? 0;
+    }
     public function findWithArtist($id)
     {
         $stmt = $this->db->prepare("

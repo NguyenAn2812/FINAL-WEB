@@ -86,6 +86,14 @@ $router->get('/admin/users', fn() => (new AdminController())->listUsers());
 // Admin quản lý songs
 $router->get('/admin/songs', fn() => (new AdminController())->listSongs());
 
+$router->get('/admin/data/users', fn() => (new AdminController())->getUsers());
+$router->get('/admin/data/songs', fn() => (new AdminController())->getSongs());
+$router->get('/admin/data/playlists', fn() => (new AdminController())->getPlaylists());
+$router->post('/admin/delete-user/(\d+)', fn($id) => (new AdminController())->deleteUser($id));
+$router->post('/admin/set-musician/(\d+)', fn($id) => (new AdminController())->setMusician($id));
+
+
+
 // ========== 404 fallback ==========
 $router->set404(fn() => http_response_code(404) && print "Page not found.");
 

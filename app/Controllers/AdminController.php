@@ -5,6 +5,7 @@ namespace App\Controllers;
 use League\Plates\Engine;
 use App\Models\User;
 use App\Models\Song;
+use App\Models\Playlist;
 
 class AdminController
 {
@@ -12,7 +13,7 @@ class AdminController
 
     public function __construct()
     {
-        $this->view = new Engine(__DIR__ . '/../views'); // Tạm dùng lại auth view để render popup login
+        $this->view = new Engine(__DIR__ . '/../views/admin');
     }
 
     private function isAdmin()
@@ -23,22 +24,23 @@ class AdminController
     public function dashboard()
     {
         if (!$this->isAdmin()) {
-            echo $this->view->render('admin/admin', ['showLogin' => true]); // truyền biến để hiển thị popup
+            echo $this->view->render('login', ['admin_mode' => true]);
             return;
         }
 
         $userModel = new User();
         $songModel = new Song();
-        $playlistModel = new \App\Models\Playlist();
 
-        echo $this->view->render('admin/admin', [
-            'users' => $userModel->all(),
-            'songs' => $songModel->all(),
-            'playlists' => $playlistModel->all(),
-            'showLogin' => false
+        $totalUsers = $userModel->countAll();
+        $totalSongs = $songModel->countAll();
+        $topArtist = $userModel->getTopUploader();
+
+        echo $this->view->render('dashboard', [
+            'totalUsers' => $totalUsers,
+            'totalSongs' => $totalSongs,
+            'topArtistSongCount' => $topArtist['count'] ?? 0,
         ]);
     }
-
 
     public function login()
     {
@@ -46,11 +48,10 @@ class AdminController
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            $user = (new \App\Controllers\UserController())->findByUsername($username);
+            $user = (new User())->findByUsername($username);
 
             if ($user && ($user['role'] ?? '') === 'Admin' && password_verify($password, $user['password'])) {
                 $_SESSION['admin_logged_in'] = true;
-                $_SESSION['user'] = $user; 
                 echo json_encode(['success' => true]);
                 return;
             }
@@ -59,11 +60,10 @@ class AdminController
                 'success' => false,
                 'message' => 'Incorrect admin credentials'
             ]);
-
             return;
         }
 
-        echo $this->view->render('admin/login', ['admin_mode' => true]);
+        echo $this->view->render('login', ['admin_mode' => true]);
     }
 
     public function logout()
@@ -73,31 +73,38 @@ class AdminController
         exit;
     }
 
-    public function listUsers()
+    // ==== API JSON DATA ====
+    public function getUsers()
     {
-        if (!$this->isAdmin()) {
-            header('Location: ' . BASE_URL . '/admin');
-            exit;
-        }
-
-        $userModel = new User();
-        $users = $userModel->all(); // Giả sử bạn đã có method all() trong User model
-
-        $adminView = new Engine(__DIR__ . '/../views/admin');
-        echo $adminView->render('users', ['users' => $users]);
+        $users = (new User())->all();
+        header('Content-Type: application/json');
+        echo json_encode($users);
     }
 
-    public function listSongs()
+    public function getSongs()
     {
-        if (!$this->isAdmin()) {
-            header('Location: ' . BASE_URL . '/admin');
-            exit;
-        }
+        $songs = (new Song())->all();
+        header('Content-Type: application/json');
+        echo json_encode($songs);
+    }
 
-        $songModel = new Song();
-        $songs = $songModel->all(); // Giả sử bạn đã có method all() trong Song model
+    public function getPlaylists()
+    {
+        $playlists = (new Playlist())->all();
+        header('Content-Type: application/json');
+        echo json_encode($playlists);
+    }
 
-        $adminView = new Engine(__DIR__ . '/../views/admin');
-        echo $adminView->render('songs', ['songs' => $songs]);
+    // ==== ACTIONS ====
+    public function deleteUser($id)
+    {
+        (new User())->deleteById($id);
+        echo json_encode(['success' => true]);
+    }
+
+    public function setMusician($id)
+    {
+        (new User())->updateRole($id, 'musician');
+        echo json_encode(['success' => true]);
     }
 }
