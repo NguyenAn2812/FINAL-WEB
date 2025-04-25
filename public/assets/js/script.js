@@ -7,47 +7,44 @@ async function loadRandomSongs(limit = 6) {
     
 function loadComponent(name) {
     fetch(`${BASE}/component/${name}`)
-    .then(response => {
-        if (!response.ok) throw new Error("Component not found");
-        return response.text();
-    })
-    .then(html => {
-        const container = document.getElementById('app');
-        if (!container) {
-            console.error("Element #app not found in DOM.");
-            return;
-        }
-        container.innerHTML = html;
-        
+        .then(response => {
+            if (!response.ok) throw new Error("Component not found");
+            return response.text();
+        })
+        .then(html => {
+            const container = document.getElementById('app');
+            if (!container) {
+                console.error("Element #app not found in DOM.");
+                return;
+            }
 
-        const audio = document.getElementById('global-audio');
-        const hasAudioFile = audio ;
-        const hasSongId = typeof currentSongId === 'number' && currentSongId > 0;
-        const isValidPlaylist = Array.isArray(currentPlaylist) && currentPlaylist.length > 0;
-        const currentSongInPlaylist = isValidPlaylist && currentPlaylist.some(song => Number(song.id) === Number(currentSongId));
+            container.innerHTML = html;
 
-        const stillInPlayContext = hasAudioFile && hasSongId && isValidPlaylist && currentSongInPlaylist;
+            // ✅ Kiểm tra nếu web đang phát âm thanh → KHÔNG reset
+            const audio = document.getElementById('global-audio');
+            const isAudioPlaying = audio && !audio.paused && !audio.ended && audio.currentTime > 0;
 
-        if (!name.startsWith("songdisplay") && !stillInPlayContext) {
-            window.isSongDisplayOpen = false;
-            console.log("🧼 Reset isSongDisplayOpen = false vì không còn phát bài nào:", name);
-        } else {
-            console.log("✅ Giữ nguyên isSongDisplayOpen vì đang phát:", name);
-        }
-        setTimeout(() => {
-            resetThumbnailClickListener();
-        }, 0);
-        
-    })
-    .catch(err => {
-        const container = document.getElementById('app');
-        if (container) {
-            container.innerHTML = `<p class="text-red-500">Error: ${err.message}</p>`;
-        } else {
-            console.error(`Component load failed: ${err.message}`);
-        }
-    });
+            if (!name.startsWith("songdisplay") && !isAudioPlaying) {
+                window.isSongDisplayOpen = false;
+                console.log("🧼 Reset isSongDisplayOpen = false vì không còn phát âm thanh:", name);
+            } else {
+                console.log("✅ Giữ nguyên isSongDisplayOpen vì đang phát âm thanh:", name);
+            }
+
+            setTimeout(() => {
+                resetThumbnailClickListener();
+            }, 0);
+        })
+        .catch(err => {
+            const container = document.getElementById('app');
+            if (container) {
+                container.innerHTML = `<p class="text-red-500">Error: ${err.message}</p>`;
+            } else {
+                console.error(`Component load failed: ${err.message}`);
+            }
+        });
 }
+
 function toggleDropdown() {
     document.getElementById('dropdownMenu').classList.toggle('hidden');
 }
