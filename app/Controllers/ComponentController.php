@@ -27,25 +27,14 @@ class ComponentController
                 (new \App\Controllers\UserController())->showProfile();
                 break;
             case 'login':
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        ob_start(); // Bắt đầu output buffer để giữ json
-        (new \App\Controllers\AuthController())->login();
-        $response = ob_get_clean();
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    (new \App\Controllers\AuthController())->login();
+                    return;
+                }
+                $view = $this->makeView(__DIR__ . '/../views/auth');
+                echo $view->render('login');
+                break;
 
-        // Giải mã JSON và kiểm tra redirect
-        $data = json_decode($response, true);
-        if ($data && isset($data['redirect'])) {
-            header("Location: " . $data['redirect']);
-            exit;
-        }
-
-        echo $response;
-        return;
-    }
-
-    $view = $this->makeView(__DIR__ . '/../views/auth');
-    echo $view->render('login');
-    break;
             case 'register':
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     (new \App\Controllers\AuthController())->register();
@@ -74,6 +63,7 @@ class ComponentController
             case 'home':
                 (new \App\Controllers\SongController())->showSongContainer();
                 (new \App\Controllers\PlaylistController())->showPlaylistContainer();
+                (new \App\Controllers\UserController())->showMusicianContainer();
                 break;
             case 'playlistdisplay':
                 $id = $_GET['id'] ?? null;

@@ -105,4 +105,11 @@ class User
         ";
         return $this->db->query($sql)->fetch(\PDO::FETCH_ASSOC);
     }
+    public function getMusicians()
+    {
+        $sql = "SELECT * FROM users WHERE role = 'musician'";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
 }
