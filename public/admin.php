@@ -8,7 +8,7 @@ session_start();
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
-
+define('BASE_URL', $_ENV['APP_URL'] ?? '/FINAL-WEB/public');
 require_once dirname(__DIR__) . '/config.php';
 require_once dirname(__DIR__) . '/core/App.php';
 require_once dirname(__DIR__) . '/core/Database.php';
