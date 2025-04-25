@@ -640,8 +640,10 @@ document.addEventListener('DOMContentLoaded', () => {
     loadGlobalPlaylist();
     const thumb = document.getElementById('now-playing-thumb');
     if (thumb) {
-        thumb.addEventListener('click', openSongDisplayFromController);
-        console.log("✅ Đã gắn listener cho now-playing-thumb");
+        thumb.replaceWith(thumb.cloneNode(true));
+        const newThumb = document.getElementById('now-playing-thumb');
+        newThumb.addEventListener('click', openSongDisplayFromController);
+        console.log("✅ Listener gắn 1 lần duy nhất cho now-playing-thumb");
     }
 });
 function openAddToPlaylistModal(e, songId) {
