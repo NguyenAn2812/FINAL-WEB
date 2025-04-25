@@ -1,4 +1,10 @@
-<?php if (!isset($songs) || count($songs) === 0) return; ?>
+<?php
+if (!isset($songs) || !is_array($songs) || count($songs) === 0) {
+    echo "<script>console.warn('⛔ $songs không phải array hoặc trống – không render listsongs.php');</script>";
+    return;
+}
+?>
+
 
 <div class="flex flex-col gap-3">
   <?php foreach ($songs as $song): ?>
