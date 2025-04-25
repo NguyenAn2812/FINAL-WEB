@@ -4,20 +4,41 @@ namespace App\Controllers;
 
 use App\Models\User;
 use App\Models\Song;
-use App\Models\Playlist;
 
-class AdminController
+class AdminController extends Controller
 {
-    public function index()
+    public function dashboard()
     {
-        $userModel = new User();
-        $songModel = new Song();
-        $playlistModel = new Playlist();
+        if (!$this->isAdmin()) {
+            $this->view('auth/login', ['admin_mode' => true]);
+            return;
+        }
+        $this->view('admin/dashboard');
+    }
 
-        $users = $userModel->getAllUsers();
-        $songs = $songModel->getAllSongs();
-        $playlists = $playlistModel->getAllPlaylists();
+    public function login()
+    {
+        $username = $_POST['username'] ?? '';
+        $password = $_POST['password'] ?? '';
 
-        require_once '../app/views/admin/admin.php';
+        if ($username === 'admin' && $password === 'yourpassword') {
+            $_SESSION['admin_logged_in'] = true;
+            header('Location: ' . BASE_URL . '/admin');
+            exit;
+        }
+
+        $_SESSION['error'] = 'Incorrect admin credentials!';
+        header('Location: ' . BASE_URL . '/admin');
+    }
+
+    public function logout()
+    {
+        unset($_SESSION['admin_logged_in']);
+        header('Location: ' . BASE_URL . '/admin');
+    }
+
+    private function isAdmin()
+    {
+        return isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
     }
 }

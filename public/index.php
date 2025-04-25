@@ -40,6 +40,18 @@ $router->get('/component/(\w+)', fn($name) => (new ComponentController())->load(
 // Songs controller
 $router->post('/song/upload', fn() => (new SongController())->upload());
 
+//admin
+$router->mount('/admin', function() use ($router) {
+    $router->get('/', 'AdminController@dashboard');
+    $router->get('/login', 'AdminController@showLogin');
+    $router->post('/login', 'AdminController@login');
+    $router->get('/logout', 'AdminController@logout');
+
+    // Thêm các route admin khác
+    $router->get('/users', 'AdminController@listUsers');
+    $router->get('/songs', 'AdminController@listSongs');
+});
+
 // API Playlist
 $router->get('/playlist/list', fn() => (new PlaylistController())->listContainer());
 $router->get('/playlist/view/(\d+)', fn($id) => (new PlaylistController())->display($id));
