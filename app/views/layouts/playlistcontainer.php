@@ -1,6 +1,6 @@
 <h2 class="text-3xl font-bold text-white mb-2">Playlist</h2>
 
-<div class="relative px-4 overflow-hidden w-full">
+<div class="relative px-4 w-full">
 
 <?php foreach ($playlists as $playlist): ?>
   <?= $this->insert('playlist/playlistcard', [
