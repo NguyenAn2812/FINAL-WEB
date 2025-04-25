@@ -1,8 +1,4 @@
-console.log("🎬 Hiện tại: ", {
-    currentSongId,
-    currentPlaylist,
-    playlistLength: currentPlaylist?.length
-  });
+
 let isShuffling = false;
 let originalPlaylist = [];
 async function loadRandomSongs(limit = 6) {
