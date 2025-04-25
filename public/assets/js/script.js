@@ -260,9 +260,9 @@ async function openSongDisplayFromController() {
     }
 
     controllerOpenLock = true;
-    console.trace();  
+    
     console.log("🎯 TRIGGER openSongDisplayFromController");
-
+    console.trace();  
     if (!currentSongId) {
         alert("Please select a song first.");
         controllerOpenLock = false;
@@ -638,6 +638,11 @@ function scrollPlaylist(playListDisplayId, direction) {
 document.addEventListener('DOMContentLoaded', () => {
     loadComponent('home');
     loadGlobalPlaylist();
+    const thumb = document.getElementById('now-playing-thumb');
+    if (thumb) {
+        thumb.addEventListener('click', openSongDisplayFromController);
+        console.log("✅ Đã gắn listener cho now-playing-thumb");
+    }
 });
 function openAddToPlaylistModal(e, songId) {
     e.stopPropagation();
