@@ -64,23 +64,12 @@ class AuthController
                 'avatar' => $user['avatar'] ?? null,
                 'role' => $user['role'] ?? 'user'
             ];
-            $redirectUrl = BASE_URL . (
-                isset($user['role']) && $user['role'] === 'admin'
-                ? '/admin'
-                : '/home'
-            );
 
-            echo json_encode([
-                'success' => true,
-                'redirect' => $redirectUrl
-            ]);
+            echo json_encode(['success' => true]);
             return;
         }
-
-        echo $this->view->render('login');
+        return $this->view->render('login');
     }
-
-
     public function logout()
     {
         session_destroy();
