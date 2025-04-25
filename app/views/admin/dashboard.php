@@ -467,6 +467,9 @@
                 "Are you sure you want to delete this song? This action cannot be undone.",
                 () => {
                     fetch(`${BASE}/delete-song/${id}`, { method: 'POST' })
+                        console.log(BASE)
+                        console.log(id)
+                        
                         .then(() => openPopup('songs'))
                         .catch(error => {
                             console.error('Error deleting song:', error);

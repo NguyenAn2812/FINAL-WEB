@@ -1,6 +1,6 @@
 <?php
 if (!isset($songs) || !is_array($songs) || count($songs) === 0) {
-    echo "<script>console.warn('⛔ $songs không phải array hoặc trống – không render listsongs.php');</script>";
+    echo "Khong co bai hat nao";
     return;
 }
 ?>

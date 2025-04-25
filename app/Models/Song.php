@@ -61,7 +61,6 @@ class Song
     }
     public function deleteById($id)
     {
-        // Xóa file nhạc nếu có
         $song = $this->findById($id);
         if ($song && isset($song['file'])) {
             $filePath = __DIR__ . '/../uploads/songs/' . $song['file'];
@@ -69,7 +68,6 @@ class Song
                 unlink($filePath);
             }
         }
-
         $stmt = $this->db->prepare("DELETE FROM songs WHERE id = ?");
         $stmt->execute([$id]);
     }
