@@ -32,6 +32,12 @@ class User
         $stmt = $this->db->prepare("UPDATE users SET username = ? WHERE id = ?");
         return $stmt->execute([$username, $id]);
     }
+    public function all()
+    {
+        $sql = "SELECT * FROM users";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 
     public function getAllUsers()
     {
