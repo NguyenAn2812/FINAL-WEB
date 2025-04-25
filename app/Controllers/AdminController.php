@@ -99,7 +99,9 @@ class AdminController
 
     public function deleteSong($id)
     {
-        (new Song())->deleteById($id);
+        $this->songModel->deleteById($id);
+
+        header('Content-Type: application/json');
         echo json_encode(['success' => true]);
     }
 
