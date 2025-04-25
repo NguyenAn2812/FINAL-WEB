@@ -85,4 +85,5 @@ $router->mount('/admin', function () use ($router, $auth, $view) {
 $router->set404(fn() => http_response_code(404) && print "Admin page not found.");
 
 // Chạy router
-$router->run();
+$router->run($_GET['url'] ?? null);
+
