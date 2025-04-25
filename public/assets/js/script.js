@@ -246,11 +246,20 @@ function loadSongDisplay(songId) {
     });
 }
     
-function openSongDisplayFromController() {
+async function openSongDisplayFromController() {
     if (!currentSongId) {
         alert("Please select a song first.");
         return;
     }
+
+    const app = document.getElementById('app');
+
+    if (!app.querySelector('#playlist-songs-container')) {
+        await loadComponent(`songdisplay?id=${currentSongId}`);
+        
+        renderPlaylistSongsFromList(currentPlaylist);
+    }
+
     highlightNowPlaying(currentSongId);
 }
 let currentPlaylist = [];
