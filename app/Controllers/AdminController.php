@@ -46,8 +46,11 @@ class AdminController
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            if ($username === 'admin' && $password === 'yourpassword') {
+            $user = (new \App\Controllers\UserController())->findByUsername($username);
+
+            if ($user && ($user['role'] ?? '') === 'Admin' && password_verify($password, $user['password'])) {
                 $_SESSION['admin_logged_in'] = true;
+                $_SESSION['user'] = $user; 
                 echo json_encode(['success' => true]);
                 return;
             }
@@ -56,6 +59,7 @@ class AdminController
                 'success' => false,
                 'message' => 'Incorrect admin credentials'
             ]);
+
             return;
         }
 
