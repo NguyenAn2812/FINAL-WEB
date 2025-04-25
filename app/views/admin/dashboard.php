@@ -215,24 +215,6 @@
                 <button onclick="closePopup('<?= $type ?>')" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors flex items-center gap-2">
                     <i class="fas fa-arrow-left"></i> Back
                 </button>
-                
-                <?php if ($type === 'users'): ?>
-                <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-white transition-colors flex items-center gap-2">
-                    <i class="fas fa-plus"></i> Add User
-                </button>
-                <?php endif; ?>
-                
-                <?php if ($type === 'songs'): ?>
-                <button class="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg text-white transition-colors flex items-center gap-2">
-                    <i class="fas fa-plus"></i> Add Song
-                </button>
-                <?php endif; ?>
-                
-                <?php if ($type === 'playlists'): ?>
-                <button class="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-white transition-colors flex items-center gap-2">
-                    <i class="fas fa-plus"></i> Add Playlist
-                </button>
-                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -413,7 +395,6 @@
                     }
                 });
 
-                // Action buttons
                 if (type === 'users') {
                     row += `<td class="px-4 py-3 text-right space-x-2">
                         <button onclick="setMusician(${item.id})" 
