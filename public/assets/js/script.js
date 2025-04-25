@@ -21,7 +21,7 @@ function loadComponent(name) {
         
 
         const audio = document.getElementById('global-audio');
-        const hasAudioFile = audio && typeof audio.src === 'string' && audio.src.trim() !== '';
+        const hasAudioFile = audio ;
         const hasSongId = typeof currentSongId === 'number' && currentSongId > 0;
         const isValidPlaylist = Array.isArray(currentPlaylist) && currentPlaylist.length > 0;
         const currentSongInPlaylist = isValidPlaylist && currentPlaylist.some(song => Number(song.id) === Number(currentSongId));
