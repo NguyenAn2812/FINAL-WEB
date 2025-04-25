@@ -365,7 +365,6 @@ function sharePlaylist(playlistId) {
 }
 
 async function playNext() {
-    // Trường hợp chưa có danh sách (không nằm trong playlist)
     if (!currentPlaylist || currentPlaylist.length === 0) {
         const randomSongs = await loadRandomSongs();
         if (!randomSongs || randomSongs.length === 0) return;
@@ -375,33 +374,31 @@ async function playNext() {
         isShuffling = true;
 
         await loadComponent(`songdisplay?id=${randomSongs[0].id}`);
-        renderPlaylistSongsFromList(currentPlaylist);
         currentSongId = randomSongs[0].id;
+        renderPlaylistSongsFromList(currentPlaylist);
         playSongFromObject(randomSongs[0]);
         return;
     }
 
-    // Tìm bài hiện tại trong playlist
     const index = currentPlaylist.findIndex(song => Number(song.id) === Number(currentSongId));
 
     if (index === -1 || index >= currentPlaylist.length - 1) {
-        // Hết playlist hiện tại → load thêm bài
         const moreSongs = isShuffling ? await loadRandomSongs() : await loadNextSongsFromPlaylist();
         if (!moreSongs || moreSongs.length === 0) return;
 
         currentPlaylist.push(...moreSongs);
-        renderPlaylistSongsFromList(currentPlaylist);
         const next = moreSongs[0];
         currentSongId = next.id;
+        renderPlaylistSongsFromList(currentPlaylist);
         playSongFromObject(next);
     } else {
         const next = currentPlaylist[index + 1];
         currentSongId = next.id;
-        await loadComponent(`songdisplay?id=${next.id}`);
-        renderPlaylistSongsFromList(currentPlaylist);
-        playSongFromObject(next);
+
+        playSongFromObject(next); // chỉ cập nhật controller + highlight
     }
 }
+
 function shuffleArray(arr) {
     const shuffled = [...arr];
     for (let i = shuffled.length - 1; i > 0; i--) {
