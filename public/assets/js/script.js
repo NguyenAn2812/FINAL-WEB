@@ -309,11 +309,16 @@ if (shouldRenderList) {
 let currentPlaylist = [];
 
 function setCurrentPlaylist(songs) {
+    if (!Array.isArray(songs) || songs.length === 0) {
+        console.warn("⛔ setCurrentPlaylist bị chặn vì mảng rỗng hoặc sai kiểu");
+        return;
+    }
+
     console.warn("⚠️ setCurrentPlaylist() được gọi → ghi đè currentPlaylist!");
     console.log("🧪 Dữ liệu nhận vào:", songs);
-    console.trace(); // ✅ In ra ai gọi hàm này!
     window.currentPlaylist = songs;
 }
+
 async function loadGlobalPlaylist() {
     const res = await fetch(`${BASE}/playlist/json`);
     const data = await res.json();
