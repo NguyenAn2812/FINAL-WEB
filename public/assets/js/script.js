@@ -311,9 +311,9 @@ let currentPlaylist = [];
 function setCurrentPlaylist(songs) {
     console.warn("⚠️ setCurrentPlaylist() được gọi → ghi đè currentPlaylist!");
     console.log("🧪 Dữ liệu nhận vào:", songs);
+    console.trace(); // ✅ In ra ai gọi hàm này!
     window.currentPlaylist = songs;
 }
-
 function loadGlobalPlaylist() {
     fetch(`${BASE}/playlist/json`)
     .then(res => res.json())
