@@ -18,14 +18,18 @@ function loadComponent(name) {
             return;
         }
         container.innerHTML = html;
-        setTimeout(() => {
-            resetThumbnailClickListener();
-        }, 0);
+        
 
-        if (name !== 'songdisplay' && !name.startsWith('playlist') && !name.startsWith('home') && !name.startsWith('component')) {
+        const hasSong = typeof currentSongId === 'number' && currentSongId > 0;
+        const hasPlaylist = Array.isArray(currentPlaylist) && currentPlaylist.length > 0;
+
+        if (!name.startsWith("songdisplay") && (!hasSong || !hasPlaylist)) {
             window.isSongDisplayOpen = false;
             console.log("🧼 Reset isSongDisplayOpen = false vì đã chuyển sang component khác:", name);
         }
+        setTimeout(() => {
+            resetThumbnailClickListener();
+        }, 0);
         
     })
     .catch(err => {
