@@ -12,8 +12,8 @@ $dotenv->load();
 require_once dirname(__DIR__) . '/config.php';
 require_once dirname(__DIR__) . '/core/App.php';
 require_once dirname(__DIR__) . '/core/Database.php';
-require_once dirname(__DIR__) . '/app/controllers/AuthController.php';
-require_once dirname(__DIR__) . '/app/controllers/AdminController.php';
+require_once dirname(__DIR__) . '/app/Controllers/AuthController.php';
+require_once dirname(__DIR__) . '/app/Controllers/AdminController.php';
 
 
 use App\Controllers\AuthController;
