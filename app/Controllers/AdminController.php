@@ -41,4 +41,24 @@ class AdminController extends Controller
     {
         return isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
     }
+
+    public function listUsers()
+    {
+        if (!$this->isAdmin()) {
+            header('Location: ' . BASE_URL . '/admin/login');
+            exit;
+        }
+        $users = User::all();
+        $this->view('admin/users', ['users' => $users]);
+    }
+
+    public function listSongs()
+    {
+        if (!$this->isAdmin()) {
+            header('Location: ' . BASE_URL . '/admin/login');
+            exit;
+        }
+        $songs = Song::all();
+        $this->view('admin/songs', ['songs' => $songs]);
+    }
 }
