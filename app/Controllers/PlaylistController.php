@@ -80,11 +80,7 @@ class PlaylistController extends Controller
             ];
         }, $songs), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
-    public function all(){
-        $sql = "SELECT * FROM playlists";
-        $stmt = $this->db->query($sql);
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    }
+    
     public function getRandomSongs() {
         $limit = $_GET['limit'] ?? 6;
         $songs = $this->songModel->getRandomSongs($limit);
