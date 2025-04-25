@@ -44,12 +44,25 @@ document.addEventListener('click', function (e) {
     if (!el) return;
 
     const songId = Number(el.dataset.songcard);
-    const song = currentPlaylist.find(s => Number(s.id) === songId);
+    let song;
 
-    if (song) {
-        currentSongId = song.id;
-        playSongFromObject(song);
+    // Ưu tiên tìm trong currentPlaylist
+    if (Array.isArray(currentPlaylist)) {
+        song = currentPlaylist.find(s => Number(s.id) === songId);
     }
+
+    if (!song) {
+        song = {
+            id: songId,
+            title: el.dataset.title,
+            artist: el.dataset.artist,
+            file: el.dataset.file,
+            thumbnail: el.dataset.thumb
+        };
+    }
+
+    currentSongId = song.id;
+    playSongFromObject(song);
 });
     
 function openLoginModal() {
@@ -486,11 +499,6 @@ function renderPlaylistSongsFromCurrentPlaylist() {
                 <p class="text-sm text-gray-400">${song.artist}</p>
             </div>
         `;
-
-        songCard.onclick = () => {
-            playSong(song.file, song.title, song.artist, song.thumbnail, song.id);
-        };
-
         container.appendChild(songCard);
     });
     highlightNowPlaying(); 
