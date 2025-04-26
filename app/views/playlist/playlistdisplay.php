@@ -15,19 +15,14 @@
 
       <!-- BUTTONS -->
       <div class="flex justify-center gap-3 mt-4">
-        <button onclick="shufflePlaylist(<?= $playlist['id'] ?>)"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">
-          🔀 Shuffle
-        </button>
-
         <button onclick="playPlaylist(<?= $playlist['id'] ?>)"
                 class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow">
           ▶️ Play
         </button>
-
-        <button onclick="sharePlaylist(<?= $playlist['id'] ?>)"
-                class="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-lg shadow">
-          📤 Share
+        
+        <button onclick="shufflePlaylist(<?= $playlist['id'] ?>)"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">
+          🔀 Shuffle
         </button>
       </div>
     </div>
