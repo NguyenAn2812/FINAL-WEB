@@ -6,10 +6,12 @@
 
     <textarea name="description" placeholder="description" rows="3"
         class="w-full p-2 rounded bg-[#0f0f0f] border border-[#303030] text-white"></textarea>
-
+    
+    <label class="block text-white text-sm font-semibold">Chọn file nhạc (audio):</label>
     <input type="file" name="file" accept="audio/*" required
         class="w-full text-sm bg-[#0f0f0f] border border-[#303030] rounded p-2 text-white" />
 
+    <label class="block text-white text-sm font-semibold">Chọn ảnh bìa (thumbnail):</label>
     <input type="file" name="thumbnail" accept="image/*" required
         class="w-full text-sm bg-[#0f0f0f] border border-[#303030] rounded p-2 text-white" />
 

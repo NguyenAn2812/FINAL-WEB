@@ -55,6 +55,11 @@
     </style>
 </head>
 <body class="bg-[#121212] text-white min-h-screen p-6 font-sans">
+    <div class="fixed top-4 right-4 z-50">
+        <a href="<?= BASE_URL ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out">
+            <i class="fas fa-home mr-2"></i> Trang chủ
+        </a>
+    </div>
     <div class="max-w-7xl mx-auto">
         <h1 class="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Admin Dashboard</h1>
 
