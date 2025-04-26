@@ -22,10 +22,12 @@ CREATE TABLE songs (
 CREATE TABLE playlists (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
+    thumbnail VARCHAR(255),
     user_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
 CREATE TABLE playlist_songs (
     playlist_id INT NOT NULL,
     song_id INT NOT NULL,

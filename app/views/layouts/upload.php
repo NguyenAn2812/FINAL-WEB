@@ -4,7 +4,7 @@
     <input type="text" name="title" placeholder="Title" required
         class="w-full p-2 rounded bg-[#0f0f0f] border border-[#303030] text-white" />
 
-    <textarea name="description" placeholder="description" rows="3"
+    <textarea name="description" placeholder="Description" rows="3"
         class="w-full p-2 rounded bg-[#0f0f0f] border border-[#303030] text-white"></textarea>
     
     <label class="block text-white text-sm font-semibold">Chọn file nhạc (audio):</label>
